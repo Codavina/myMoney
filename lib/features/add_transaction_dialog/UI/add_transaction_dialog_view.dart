@@ -1,0 +1,124 @@
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+import '../../../core/utils/amount_formatter.dart';
+import '../../categorie_details/data/operation_model.dart';
+import '../widgets/operation_selector.dart';
+import '../widgets/transaction_category.dart';
+import '../widgets/transaction_text_form_field.dart';
+
+class AddTransactionDialogView extends StatefulWidget {
+  const AddTransactionDialogView({super.key});
+
+  @override
+  State<AddTransactionDialogView> createState() =>
+      _AddTransactionDialogViewState();
+}
+
+class _AddTransactionDialogViewState extends State<AddTransactionDialogView> {
+
+  final GlobalKey<FormState> _formKey = GlobalKey();
+
+  final TextEditingController _amountController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _dateController = TextEditingController();
+
+  List<bool> selected = [true, false];
+  bool isDeposit = false;
+
+  @override
+  void dispose() {
+    _amountController.dispose();
+    _descriptionController.dispose();
+    _dateController.dispose();
+    super.dispose();
+  }
+
+  void _pickDate() async {
+    final date = await showDatePicker(
+      context: context,
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2050),
+    );
+
+    if (date == null) return;
+    _dateController.text = DateFormat.yMMMd().format(date);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Add Transaction'),
+      content: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              const TransactionCategory(),
+              const SizedBox(height: 16),
+              CustomTextField(
+                labelText: 'Amount',
+                controller: _amountController,
+                keyboardType: const TextInputType.numberWithOptions(
+                  decimal: true,
+                ),
+                inputFormatters: [AmountFormatter()],
+              ),
+              const SizedBox(height: 12),
+              CustomTextField(
+                labelText: 'Description',
+                controller: _descriptionController,
+              ),
+              const SizedBox(height: 12),
+              CustomTextField(
+                labelText: 'Date',
+                controller: _dateController,
+                keyboardType: TextInputType.datetime,
+                onTap: _pickDate,
+              ),
+              const SizedBox(height: 12),
+              OperationSelector(
+                isDeposit: isDeposit,
+                onChanged: (value) {
+                  setState(() {
+                    isDeposit = value;
+                  });
+                },
+              ),
+              const SizedBox(height: 12),
+            ],
+          ),
+        ),
+      ),
+
+      actions: [
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: const Text('Cancel', style: TextStyle(color: Colors.black)),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            if (_formKey.currentState!.validate()) {
+
+              final operation = OperationModel(
+                amount: _amountController.text,
+                description: _descriptionController.text,
+                date: _dateController.text,
+                isDeposit: isDeposit,
+              );
+
+              Navigator.pop(context, operation);
+            }
+          },
+          child: const Text('Save'),
+        ),
+      ],
+    );
+  }
+}
