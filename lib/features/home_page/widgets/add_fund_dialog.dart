@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_money/core/utils/app_validator.dart';
-import '../../categories_details_page/UI/add_transaction_dialog/widgets/custom_text_form_field.dart';
-import '../../categories_details_page/data/category_model.dart';
+import '../../funds_details_page/UI/add_transaction_dialog/widgets/custom_text_form_field.dart';
+import '../../funds_details_page/data/category_model.dart';
 
 class AddCategoryDialog extends StatefulWidget {
   const AddCategoryDialog({super.key});

@@ -7,8 +7,8 @@ import '../widgets/operations_table.dart';
 import 'add_transaction_dialog/UI/add_transaction_dialog_view.dart';
 
 
-class CategoryDetails extends StatefulWidget {
-  const CategoryDetails({
+class FundDetails extends StatefulWidget {
+  const FundDetails({
     super.key,
     required this.category,
   });
@@ -16,10 +16,10 @@ class CategoryDetails extends StatefulWidget {
   final CategoryModel category;
 
   @override
-  State<CategoryDetails> createState() => _CategoryDetailsState();
+  State<FundDetails> createState() => _FundDetailsState();
 }
 
-class _CategoryDetailsState extends State<CategoryDetails> {
+class _FundDetailsState extends State<FundDetails> {
   final List<OperationModel> operations = [];
 
   double get balance {

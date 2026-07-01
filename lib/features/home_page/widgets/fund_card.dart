@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../../core/utils/app_formatter.dart';
-import '../../categories_details_page/data/category_model.dart';
+import '../../funds_details_page/data/category_model.dart';
 
-class CategoryCard extends StatelessWidget {
-  const CategoryCard({super.key, required this.category,required this.onPressed});
+class FundCard extends StatelessWidget {
+  const FundCard({super.key, required this.category,required this.onPressed});
 
   final CategoryModel category;
   final void Function()? onPressed;

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:my_money/features/home_page/widgets/category_card.dart';
-import '../widgets/add_category_dialog.dart';
-import '../../categories_details_page/UI/category_details_page.dart';
-import '../../categories_details_page/data/category_model.dart';
+import 'package:my_money/features/home_page/widgets/fund_card.dart';
+import '../../funds_details_page/UI/fund_details_page.dart';
+import '../../funds_details_page/data/category_model.dart';
+import '../widgets/add_fund_dialog.dart';
+
 
 
 class HomePage extends StatefulWidget {
@@ -43,13 +44,13 @@ class _HomePageState extends State<HomePage> {
               Column(
                 children: List.generate(
                   categories.length,
-                  (int index) => CategoryCard(category: categories[index],
+                  (int index) => FundCard(category: categories[index],
                   onPressed: ()async{
                     await Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            CategoryDetails(category: categories[index]),
+                            FundDetails(category: categories[index]),
                       ),
                     );
                     setState(() {});
