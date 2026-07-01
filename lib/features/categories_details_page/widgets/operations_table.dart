@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_money/features/categorie_details/widgets/table_header.dart';
+import 'package:my_money/features/categories_details_page/widgets/table_header.dart';
 import '../data/operation_model.dart';
 import 'empty_operations.dart';
 import 'operations_list.dart';

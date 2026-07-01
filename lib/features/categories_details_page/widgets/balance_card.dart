@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 
-class FinalBalanceCard extends StatelessWidget {
-  const FinalBalanceCard({
+class BalanceCard extends StatelessWidget {
+  const BalanceCard({
     super.key,
     required this.amount,
   });

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_money/features/categorie_details/data/category_model.dart';
 import '../../../core/utils/app_formatter.dart';
+import '../../categories_details_page/data/category_model.dart';
 
 class CategoryCard extends StatelessWidget {
   const CategoryCard({super.key, required this.category,required this.onPressed});

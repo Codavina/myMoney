@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:my_money/core/utils/app_formatter.dart';
-import 'package:my_money/features/categorie_details/widgets/final_balance_card.dart';
-import '../../add_transaction_dialog/UI/add_transaction_dialog_view.dart';
 import '../data/category_model.dart';
 import '../data/operation_model.dart';
+import '../widgets/balance_card.dart';
 import '../widgets/operations_table.dart';
+import 'add_transaction_dialog/UI/add_transaction_dialog_view.dart';
 
 
 class CategoryDetails extends StatefulWidget {
@@ -60,7 +60,7 @@ class _CategoryDetailsState extends State<CategoryDetails> {
           child: Column(
             children: [
 
-               FinalBalanceCard(
+               BalanceCard(
                 amount: AppFormatter.money.format(balance),
               ),
 

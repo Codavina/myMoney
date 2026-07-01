@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:my_money/core/utils/app_formatter.dart';
 import 'package:my_money/core/utils/app_validator.dart';
-import '../../../core/utils/amount_formatter.dart';
-import '../../categorie_details/data/operation_model.dart';
+import '../../../../../core/utils/amount_formatter.dart';
+import '../../../data/operation_model.dart';
 import '../widgets/operation_selector.dart';
-import '../widgets/transaction_category.dart';
 import '../widgets/custom_text_form_field.dart';
 
 class AddTransactionDialogView extends StatefulWidget {
@@ -63,7 +62,7 @@ class _AddTransactionDialogViewState extends State<AddTransactionDialogView> {
           key: _formKey,
           child: Column(
             children: [
-              const TransactionCategory(),
+          //  const TransactionCategory(),
               const SizedBox(height: 16),
               CustomTextFormField(
                 labelText: 'Amount',

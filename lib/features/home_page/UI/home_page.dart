@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:my_money/features/categorie_details/UI/add_category_dialog.dart';
-import 'package:my_money/features/categorie_details/data/category_model.dart';
 import 'package:my_money/features/home_page/widgets/category_card.dart';
-
-import '../../categorie_details/UI/category_details.dart';
+import '../widgets/add_category_dialog.dart';
+import '../../categories_details_page/UI/category_details_page.dart';
+import '../../categories_details_page/data/category_model.dart';
 
 
 class HomePage extends StatefulWidget {
