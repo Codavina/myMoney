@@ -1,28 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:my_money/features/categorie_details/widgets/table_header.dart';
 import '../data/operation_model.dart';
+import 'empty_operations.dart';
+import 'operations_list.dart';
 
 class OperationsTable extends StatelessWidget {
-  const OperationsTable({super.key, required this.operations});
+  const OperationsTable({
+    super.key,
+    required this.operations,
+  });
 
-  final OperationModel operations;
+  final List<OperationModel> operations;
 
   @override
   Widget build(BuildContext context) {
-
-
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: const BorderRadius.all(Radius.circular(12)),
-        side: BorderSide(color: Colors.grey.shade400, width: 1),
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: Colors.grey.shade300,
+          width: .8,
+        ),
       ),
-      child: const Column(
+      clipBehavior: Clip.antiAlias,
+      child: Column(
         children: [
-          TableHeader(),
 
-          Divider(height: 1),
+          const TableHeader(),
 
-       //   TableContent(operations: operations),
+          const Divider(height: 1),
+
+          Expanded(
+            child: operations.isEmpty
+                ? const EmptyOperations()
+                : OperationsList(
+              operations: operations,
+            ),
+          ),
+
         ],
       ),
     );

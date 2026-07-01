@@ -1,7 +1,7 @@
 class OperationModel {
    String date;
    String description;
-   String amount;
+   double amount;
    bool isDeposit;
 
 

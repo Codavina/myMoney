@@ -1,31 +1,49 @@
 import 'package:flutter/material.dart';
 
 class TableHeader extends StatelessWidget {
-  const TableHeader({
-    super.key,
 
-  });
+  const TableHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
+
     final text = Theme.of(context).textTheme;
-    return Container(
-      height: 52,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 16,
+        vertical: 12,
+      ),
       child: Row(
         children: [
-          Expanded(flex: 3, child: Text('Date', style: text.titleSmall)),
+
           Expanded(
-            flex: 4,
-            child: Text('Opération', style: text.titleSmall),
-          ),
-          Expanded(
-            flex: 4,
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: Text('Montant', style: text.titleSmall),
+            flex: 2,
+            child: Text(
+              "Date",
+              style: text.labelLarge,
             ),
           ),
+
+          Expanded(
+            flex: 5,
+            child: Text(
+              "Description",
+              style: text.labelLarge,
+            ),
+          ),
+
+          Expanded(
+            flex: 3,
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                "Amount",
+                style: text.labelLarge,
+              ),
+            ),
+          ),
+
         ],
       ),
     );

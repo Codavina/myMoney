@@ -23,7 +23,7 @@ class _AddTransactionDialogViewState extends State<AddTransactionDialogView> {
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
 
-  DateTime? _selectedDate;
+  //DateTime? _selectedDate;
   List<bool> selected = [true, false];
   bool isDeposit = false;
 
@@ -43,7 +43,7 @@ class _AddTransactionDialogViewState extends State<AddTransactionDialogView> {
     );
 
     if (date == null) return;
-    _selectedDate = date;
+   // _selectedDate = date;
     _dateController.text = DateFormat('dd.MM.yy').format(date);
   }
 
@@ -109,7 +109,7 @@ class _AddTransactionDialogViewState extends State<AddTransactionDialogView> {
             if (_formKey.currentState!.validate()) {
 
               final operation = OperationModel(
-                amount: _amountController.text,
+                amount: double.parse(_amountController.text),
                 description: _descriptionController.text,
                 date: _dateController.text,
                 isDeposit: isDeposit,
