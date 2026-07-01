@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:my_money/features/categorie_details/widgets/table_content.dart';
 import 'package:my_money/features/categorie_details/widgets/table_header.dart';
 import '../data/operation_model.dart';
 
@@ -17,11 +16,11 @@ class OperationsTable extends StatelessWidget {
         borderRadius: const BorderRadius.all(Radius.circular(12)),
         side: BorderSide(color: Colors.grey.shade400, width: 1),
       ),
-      child: Column(
+      child: const Column(
         children: [
-          const TableHeader(),
+          TableHeader(),
 
-          const Divider(height: 1),
+          Divider(height: 1),
 
        //   TableContent(operations: operations),
         ],

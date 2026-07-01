@@ -23,6 +23,7 @@ class _AddTransactionDialogViewState extends State<AddTransactionDialogView> {
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
 
+  DateTime? _selectedDate;
   List<bool> selected = [true, false];
   bool isDeposit = false;
 
@@ -42,7 +43,8 @@ class _AddTransactionDialogViewState extends State<AddTransactionDialogView> {
     );
 
     if (date == null) return;
-    _dateController.text = DateFormat.yMMMd().format(date);
+    _selectedDate = date;
+    _dateController.text = DateFormat('dd.MM.yy').format(date);
   }
 
   @override

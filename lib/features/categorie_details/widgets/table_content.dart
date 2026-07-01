@@ -43,8 +43,8 @@ class TableContent extends StatelessWidget {
                   flex: 4,
                   child: Align(
                     alignment: Alignment.centerRight,
-                    child: Text(
-                      operation.amount,
+                    child: Text(operation.isDeposit?
+                     '+${ operation.amount}':'-${ operation.amount}',
                       style: text.bodyMedium?.copyWith(
                         color: operation.isDeposit
                             ? Colors.green
