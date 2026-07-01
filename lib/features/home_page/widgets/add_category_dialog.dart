@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_money/core/utils/app_validator.dart';
 import '../../categories_details_page/UI/add_transaction_dialog/widgets/custom_text_form_field.dart';
 import '../../categories_details_page/data/category_model.dart';
 
@@ -35,7 +36,8 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
           child: Column(
             children: [
               const SizedBox(height: 12),
-              CustomTextFormField(labelText: 'title', controller: _titleController),
+              CustomTextFormField(labelText: 'title', controller: _titleController
+              ,validator: AppValidators.title,),
               const SizedBox(height: 12),
               DropdownButtonFormField<String>(
                 initialValue: selectedCurrency,

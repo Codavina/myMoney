@@ -20,6 +20,23 @@ class AppValidators {
     return null;
   }
 
+  static String? title(String? value) {
+    final text = value?.trim() ?? '';
+
+    if (text.isEmpty) {
+      return 'Please enter a title.';
+    }
+
+    if (text.length < 3) {
+      return 'Title must contain at least 3 characters.';
+    }
+
+    if (text.length > 50) {
+      return 'Title cannot exceed 50 characters.';
+    }
+
+    return null;
+  }
   /// Amount
   static String? amount(String? value) {
     final text = value?.trim() ?? '';
