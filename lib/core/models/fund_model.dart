@@ -1,5 +1,5 @@
 class FundModel {
-  final int fundId;
+  final int? fundId;
   final String title;
   final double balance;
   final int currencyId;
@@ -7,7 +7,7 @@ class FundModel {
   final String createdAt;
 
  const FundModel({
-    required this.fundId,
+     this.fundId,
     required this.title,
     required this.balance,
     required this.currencyId,

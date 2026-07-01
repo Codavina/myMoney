@@ -2,6 +2,8 @@ class CurrencyModel {
   final int? currencyId;
   final String currencyCode;
 
+
+  ///constructor
   const CurrencyModel({this.currencyId, required this.currencyCode});
 
   // Convert Dart object → Map (used when saving to SQLite)

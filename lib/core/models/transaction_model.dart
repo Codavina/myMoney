@@ -1,5 +1,5 @@
 class TransactionModel {
-  final int transactionId;
+  final int? transactionId;
   final int fundId;
   final double amount;
   final int transactionType;
@@ -8,7 +8,7 @@ class TransactionModel {
   final String createdAt;
 
   const TransactionModel({
-    required this.transactionId,
+     this.transactionId,
     required this.fundId,
     required this.amount,
     required this.transactionType,
