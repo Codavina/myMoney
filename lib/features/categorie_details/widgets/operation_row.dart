@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:my_money/core/utils/app_helper.dart';
 
 import '../data/operation_model.dart';
 
@@ -16,10 +16,6 @@ class OperationRow extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final text = Theme.of(context).textTheme;
-
-    final formatter =
-    NumberFormat('#,##0.00');
-
     final sign =
     operation.isDeposit ? '+' : '-';
 
@@ -58,6 +54,7 @@ class OperationRow extends StatelessWidget {
                   child: Text(
                     operation.description,
                     overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
                   ),
                 ),
 
@@ -74,7 +71,7 @@ class OperationRow extends StatelessWidget {
 
               child: Text(
 
-                '$sign${formatter.format(operation.amount)}',
+                '$sign ${AppFormatter.money.format(operation.amount)}',
 
                 style: text.bodyMedium?.copyWith(
 

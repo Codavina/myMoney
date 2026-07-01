@@ -25,4 +25,10 @@ class AmountFormatter extends TextInputFormatter {
 
     return newValue;
   }
+
+  static double parseAmount(String text) {
+    return double.parse(
+      text.trim().replaceAll(',', '.'),
+    );
+  }
 }

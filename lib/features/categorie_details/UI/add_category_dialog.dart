@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_money/features/categorie_details/data/category_model.dart';
-import '../../add_transaction_dialog/widgets/transaction_text_form_field.dart';
+import '../../add_transaction_dialog/widgets/custom_text_form_field.dart';
 
 class AddCategoryDialog extends StatefulWidget {
   const AddCategoryDialog({super.key});
@@ -35,7 +35,7 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
           child: Column(
             children: [
               const SizedBox(height: 12),
-              CustomTextField(labelText: 'title', controller: _titleController),
+              CustomTextFormField(labelText: 'title', controller: _titleController),
               const SizedBox(height: 12),
               DropdownButtonFormField<String>(
                 initialValue: selectedCurrency,
