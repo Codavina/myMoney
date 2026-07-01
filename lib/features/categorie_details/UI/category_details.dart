@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:my_money/core/utils/app_formatter.dart';
 import 'package:my_money/features/categorie_details/widgets/final_balance_card.dart';
 import '../../add_transaction_dialog/UI/add_transaction_dialog_view.dart';
+import '../data/category_model.dart';
 import '../data/operation_model.dart';
 import '../widgets/operations_table.dart';
 
@@ -8,10 +10,10 @@ import '../widgets/operations_table.dart';
 class CategoryDetails extends StatefulWidget {
   const CategoryDetails({
     super.key,
-    required this.categoryTitle,
+    required this.category,
   });
 
-  final String categoryTitle;
+  final CategoryModel category;
 
   @override
   State<CategoryDetails> createState() => _CategoryDetailsState();
@@ -19,6 +21,17 @@ class CategoryDetails extends StatefulWidget {
 
 class _CategoryDetailsState extends State<CategoryDetails> {
   final List<OperationModel> operations = [];
+
+  double get balance {
+    return operations.fold(
+      0,
+          (total, operation) {
+        return operation.isDeposit
+            ? total + operation.amount
+            : total - operation.amount;
+      },
+    );
+  }
 
   Future<void> _addTransaction() async {
     final operation = await showDialog<OperationModel>(
@@ -30,14 +43,16 @@ class _CategoryDetailsState extends State<CategoryDetails> {
 
     setState(() {
       operations.add(operation);
+
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.categoryTitle),
+        title: Text(widget.category.title),
       ),
       body: SafeArea(
         child: Padding(
@@ -45,8 +60,8 @@ class _CategoryDetailsState extends State<CategoryDetails> {
           child: Column(
             children: [
 
-              const FinalBalanceCard(
-                amount: '6.700.000,00 DA',
+               FinalBalanceCard(
+                amount: AppFormatter.money.format(balance),
               ),
 
               const SizedBox(height: 16),

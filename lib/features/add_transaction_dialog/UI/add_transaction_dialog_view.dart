@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:my_money/core/utils/app_formatter.dart';
 import 'package:my_money/core/utils/app_validator.dart';
 import '../../../core/utils/amount_formatter.dart';
 import '../../categorie_details/data/operation_model.dart';
@@ -26,6 +26,12 @@ class _AddTransactionDialogViewState extends State<AddTransactionDialogView> {
   List<bool> selected = [true, false];
   bool isDeposit = true;
 
+
+  @override
+  void initState() {
+       super.initState();
+    _dateController.text = AppFormatter.date.format(DateTime.now());
+  }
   @override
   void dispose() {
     _amountController.dispose();
@@ -37,13 +43,14 @@ class _AddTransactionDialogViewState extends State<AddTransactionDialogView> {
   void _pickDate() async {
     final date = await showDatePicker(
       context: context,
+      initialDate: DateTime.now(),
       firstDate: DateTime(2020),
       lastDate: DateTime(2050),
     );
 
     if (date == null) return;
     // _selectedDate = date;
-    _dateController.text = DateFormat('dd.MM.yy').format(date);
+    _dateController.text = AppFormatter.date.format(date);
   }
 
   @override
@@ -78,7 +85,7 @@ class _AddTransactionDialogViewState extends State<AddTransactionDialogView> {
                 labelText: 'Date',
                 controller: _dateController,
                 keyboardType: TextInputType.datetime,
-                validator: AppValidators.date,
+
                 onTap: _pickDate,
               ),
               const SizedBox(height: 12),

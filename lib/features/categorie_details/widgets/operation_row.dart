@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_money/core/utils/app_helper.dart';
+import 'package:my_money/core/utils/app_formatter.dart';
 
 import '../data/operation_model.dart';
 
@@ -23,7 +23,7 @@ class OperationRow extends StatelessWidget {
 
       padding: const EdgeInsets.symmetric(
         horizontal: 16,
-        vertical: 14,
+        vertical: 12,
       ),
 
       child: Row(
@@ -36,29 +36,11 @@ class OperationRow extends StatelessWidget {
           ),
 
           Expanded(
-            flex: 5,
-            child: Row(
-
-              children: [
-
-                Icon(
-                  operation.isDeposit
-                      ? Icons.arrow_upward
-                      : Icons.arrow_downward,
-                  size: 18,
-                ),
-
-                const SizedBox(width: 8),
-
-                Expanded(
-                  child: Text(
-                    operation.description,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                  ),
-                ),
-
-              ],
+            flex: 4,
+            child: Text(
+              operation.description,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 2,
             ),
           ),
 
@@ -75,7 +57,8 @@ class OperationRow extends StatelessWidget {
 
                 style: text.bodyMedium?.copyWith(
 
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 12,
 
                   color: operation.isDeposit
                       ? Colors.green.shade700

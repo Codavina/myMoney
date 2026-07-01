@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:my_money/features/categorie_details/UI/category_details.dart';
 import 'package:my_money/features/categorie_details/data/category_model.dart';
-
-
-import '../../../core/utils/app_helper.dart';
+import '../../../core/utils/app_formatter.dart';
 
 class CategoryCard extends StatelessWidget {
-  const CategoryCard({super.key, required this.category});
+  const CategoryCard({super.key, required this.category,required this.onPressed});
 
   final CategoryModel category;
+  final void Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -32,15 +30,7 @@ class CategoryCard extends StatelessWidget {
             ),
           ),
           trailing: IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      CategoryDetails(categoryTitle: category.title),
-                ),
-              );
-            },
+            onPressed: onPressed,
             icon: const Icon(Icons.arrow_forward_ios, size: 36),
           ),
         ),

@@ -3,6 +3,8 @@ import 'package:my_money/features/categorie_details/UI/add_category_dialog.dart'
 import 'package:my_money/features/categorie_details/data/category_model.dart';
 import 'package:my_money/features/home_page/widgets/category_card.dart';
 
+import '../../categorie_details/UI/category_details.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -42,7 +44,19 @@ class _HomePageState extends State<HomePage> {
               Column(
                 children: List.generate(
                   categories.length,
-                  (int index) => CategoryCard(category: categories[index]),
+                  (int index) => CategoryCard(category: categories[index],
+                  onPressed: ()async{
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            CategoryDetails(category: categories[index]),
+                      ),
+                    );
+                    setState(() {});
+                  },
+
+                  ),
                 ),
               ),
             ],
