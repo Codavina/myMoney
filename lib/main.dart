@@ -4,7 +4,7 @@ import 'package:device_preview/device_preview.dart';
 import 'core/database/app_database.dart';
 import 'core/theme/app_theme.dart';
 import 'debug_screen.dart';
-import 'features/home_page/UI/home_page.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
