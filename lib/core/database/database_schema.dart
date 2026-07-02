@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseSchema {
@@ -15,7 +17,7 @@ class DatabaseSchema {
     ///Create Triggers
     await _createTriggers(db);
 
-
+    log('=========== create method called from DatabaseSchema class =============');
   }
 
   // ===========================
@@ -30,6 +32,8 @@ class DatabaseSchema {
           CHECK(length(currency_code) BETWEEN 3 AND 10)
       );
     ''');
+
+    log('=========== Currencies Table created =============');
   }
 
   static Future<void> _createFundsTable(Database db) async {
@@ -58,6 +62,8 @@ class DatabaseSchema {
           ON DELETE RESTRICT
       );
     ''');
+
+    log('=========== Funds Table created =============');
   }
 
   static Future<void> _createTransactionsTable(Database db) async {
@@ -86,6 +92,7 @@ class DatabaseSchema {
           ON DELETE RESTRICT
       );
     ''');
+    log('=========== Transactions Table created =============');
   }
 
   // ===========================
@@ -102,6 +109,8 @@ class DatabaseSchema {
       CREATE INDEX IX_Transactions_Date
       ON Transactions(transaction_date);
     ''');
+
+    log('=========== Indexes created =============');
   }
 
   // ===========================
@@ -126,7 +135,7 @@ class DatabaseSchema {
       WHERE fund_id = NEW.fund_id;
     END;
   ''');
-
+    log('=========== TRIGGER trg_InsertTransaction created =============');
     // ==========================================================
     // 2. Restore Fund Balance After Delete Transaction
     // ==========================================================
@@ -143,7 +152,7 @@ class DatabaseSchema {
       WHERE fund_id = OLD.fund_id;
     END;
   ''');
-
+    log('=========== TRIGGER trg_DeleteTransaction created =============');
     // ==========================================================
     // 3. Prevent Withdraw If Balance Is Insufficient
     // ==========================================================
@@ -162,6 +171,6 @@ class DatabaseSchema {
       END;
     END;
   ''');
-
+    log('=========== TRIGGER trg_CheckBalanceBeforeInsert created =============');
   }
 }

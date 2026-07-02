@@ -9,7 +9,7 @@ class FundModel {
   const FundModel({
     this.fundId,
     required this.title,
-    required this.balance,
+     this.balance=0,
     required this.currencyId,
     required this.isArchived,
     required this.createdAt,

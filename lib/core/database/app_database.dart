@@ -38,7 +38,7 @@ class AppDatabase {
   // Create tables when database is first created
   Future<void> _createDB(Database db, int version) async {
     await DatabaseSchema.create(db);
-    log("On Create ==========================");
+    log("On Create (database created) ==========================");
   }
 
 
@@ -47,12 +47,12 @@ class AppDatabase {
 // Used here to enable foreign key constraints in SQLite.
   Future<void> _configureDB(Database db) async {
     await db.execute('PRAGMA foreign_keys = ON');
-    log("On Configure ==========================");
+    log("On Configure (foreign_keys configured) ==========================");
   }
 
   // Handles database schema changes when upgrading to a newer version.
 // Add migration logic here to preserve existing user data.
   Future<void> _upgradeDB(Database db,int oldVersion,int newVersion,) async {
-    log("On Upgrade ==========================");
+    log("On Upgrade (empty upgrade) ==========================");
   }
 }
