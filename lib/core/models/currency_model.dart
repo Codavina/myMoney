@@ -2,14 +2,16 @@ class CurrencyModel {
   final int? currencyId;
   final String currencyCode;
 
-
   ///constructor
   const CurrencyModel({this.currencyId, required this.currencyCode});
 
   // Convert Dart object → Map (used when saving to SQLite)
   // SQLite only understands Map<String, dynamic>, not Dart objects
   Map<String, dynamic> toMap() {
-    return {'currencyId': currencyId, 'currencyCode': currencyCode};
+    return {
+      if (currencyId != null) 'currency_id': currencyId,
+      'currency_code': currencyCode,
+    };
   }
 
   // Convert Map (from SQLite) → Dart object
@@ -17,16 +19,13 @@ class CurrencyModel {
   //Just like reading data from API
   factory CurrencyModel.fromMap(Map<String, dynamic> map) {
     return CurrencyModel(
-      currencyId: map['currencyId'] as int?,
-      currencyCode: map['currencyCode'] as String,
+      currencyId: map['currency_id'] as int?,
+      currencyCode: map['currency_code'] as String,
     );
   }
 
   /// Returns a copy of this object with the given fields replaced.
-  CurrencyModel copyWith({
-    int? currencyId,
-    String? currencyCode,
-  }) {
+  CurrencyModel copyWith({int? currencyId, String? currencyCode}) {
     return CurrencyModel(
       currencyId: currencyId ?? this.currencyId,
       currencyCode: currencyCode ?? this.currencyCode,
@@ -38,8 +37,8 @@ class CurrencyModel {
   @override
   String toString() {
     return 'CurrencyModel('
-        'currencyId: $currencyId, '
-        'currencyCode: $currencyCode'
+        'currency_id: $currencyId, '
+        'currency_code: $currencyCode'
         ')';
   }
 }

@@ -75,7 +75,7 @@ class DatabaseSchema {
 
         transaction_date TEXT NOT NULL,
 
-        description TEXT,
+        description TEXT NOT NULL,
 
         created_at TEXT NOT NULL
           DEFAULT CURRENT_TIMESTAMP,
