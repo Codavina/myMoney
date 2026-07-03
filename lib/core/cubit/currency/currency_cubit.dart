@@ -34,4 +34,32 @@ class CurrencyCubit extends Cubit<CurrencyState> {
       emit(CurrencyError(e.toString()));
     }
   }
+
+
+  Future<void> update(CurrencyModel currency)async{
+    emit(CurrencyLoading());
+
+    try {
+      await _repository.update(currency);
+      final currencies =await _repository.getAll();
+
+      emit(CurrencyLoaded(currencies));
+    } catch (e) {
+      emit(CurrencyError(e.toString()));
+    }
+  }
+
+  Future<void> delete(int id)async{
+    emit(CurrencyLoading());
+    try{
+      await _repository.delete(id);
+      final currencies = await _repository.getAll();
+      emit(CurrencyLoaded(currencies));
+
+    }catch (e){
+      emit(CurrencyError(e.toString()));
+    }
+  }
+
+
 }
