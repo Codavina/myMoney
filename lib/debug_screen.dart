@@ -72,13 +72,13 @@ Future<void>addTrans()async{
           ),
           onPressed: (){
 
-            addTrans();
+            add();
 
           // getById();
            //update();
            //delete();
          //  load();
-           loadFunds();
+          // loadFunds();
           }, child: const Text('Run Currency Crud Operations')),),
     );
   }
