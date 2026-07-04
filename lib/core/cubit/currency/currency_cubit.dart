@@ -14,7 +14,6 @@ class CurrencyCubit extends Cubit<CurrencyState> {
 
     try {
       final currencies = await _repository.getAll();
-
       emit(CurrencyLoaded(currencies));
     } catch (e) {
       emit(CurrencyError(e.toString()));
@@ -35,13 +34,12 @@ class CurrencyCubit extends Cubit<CurrencyState> {
     }
   }
 
-
-  Future<void> update(CurrencyModel currency)async{
+  Future<void> update(CurrencyModel currency) async {
     emit(CurrencyLoading());
 
     try {
       await _repository.update(currency);
-      final currencies =await _repository.getAll();
+      final currencies = await _repository.getAll();
 
       emit(CurrencyLoaded(currencies));
     } catch (e) {
@@ -49,17 +47,14 @@ class CurrencyCubit extends Cubit<CurrencyState> {
     }
   }
 
-  Future<void> delete(int id)async{
+  Future<void> delete(int id) async {
     emit(CurrencyLoading());
-    try{
+    try {
       await _repository.delete(id);
       final currencies = await _repository.getAll();
       emit(CurrencyLoaded(currencies));
-
-    }catch (e){
+    } catch (e) {
       emit(CurrencyError(e.toString()));
     }
   }
-
-
 }

@@ -5,15 +5,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/core/cubit/currency/currency_cubit.dart';
 import 'package:my_money/core/cubit/fund/fund_cubit.dart';
 import 'package:my_money/core/cubit/transaction/transaction_cubit.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'core/database/app_database.dart';
 import 'core/repositories/currency_repository.dart';
 import 'core/repositories/fund_repository.dart';
 import 'core/repositories/transaction_repository.dart';
 import 'core/theme/app_theme.dart';
-import 'debug_screen.dart';
+import 'features/currency_screen/currency_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+
+  //sqflite_common_ffi package for run app on windows
+  sqfliteFfiInit();
+  databaseFactory = databaseFactoryFfi;
+
   await AppDatabase.instance.database;
 
   // Create shared repository instances.
@@ -66,7 +73,7 @@ class MyMoneyApp extends StatelessWidget {
         theme: AppTheme.light,
         darkTheme: AppTheme.dark,
         themeMode: ThemeMode.system,
-        home: const DebugScreen(),
+        home: const CurrencyScreen(),
       ),
     );
   }

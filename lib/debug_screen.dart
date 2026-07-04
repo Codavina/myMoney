@@ -37,7 +37,7 @@ class _DebugScreenState extends State<DebugScreen> {
   }
 
   Future<void> add() async {
-    final result = await fundRepo.insert(FundModel(title: 'title', currencyId: 2, isArchived: false, createdAt: DateTime.now()));
+    final result = await currencyRepo.insert(const CurrencyModel(currencyCode: 'DZD'));
     log(result.toString());
     load();
   }
