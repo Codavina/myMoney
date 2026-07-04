@@ -57,4 +57,6 @@ class FundRepository {
 
     return db.delete('Funds', where: 'fund_id=?', whereArgs: [id]);
   }
+
+
 }
