@@ -1,11 +1,10 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/core/cubit/currency/currency_cubit.dart';
 import 'package:my_money/core/cubit/currency/currency_state.dart';
 import 'package:my_money/features/currency_screen/widgets/currency_listview.dart';
-
+import 'package:my_money/features/currency_screen/widgets/currency_loaded_widget.dart';
 import '../../core/constants/app_assets.dart';
 import '../../core/models/currency_model.dart';
 import '../../core/repositories/currency_repository.dart';
@@ -22,7 +21,7 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
   @override
   void initState() {
     super.initState();
-    // add();
+    //add();
     context.read<CurrencyCubit>().getAll();
   }
 
@@ -31,7 +30,7 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
 
   Future<void> add() async {
     final result = await currencyRepo.insert(
-      const CurrencyModel(currencyCode: 'DZD'),
+      const CurrencyModel(currencyCode: 'USD'),
     );
     log(result.toString());
     load();
@@ -46,34 +45,31 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      appBar: AppBar(title: const Text('Currency Page')),
-      body: Center(
-        child: Column(
-          children: [
-            Expanded(
-              child: BlocConsumer<CurrencyCubit, CurrencyState>(
-                listener: (context, state) {},
-                builder: (context, state) {
-                  if (state is CurrencyLoading) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                  if (state is CurrencyLoaded) {
-                    if (state.currencies.isEmpty) {
-                      return const EmptyState(
-                        image: AppAssets.emptyCurrencyImage,
-                      );
-                    }
-                    return const CurrencyListview(title: 'EUR');
-                  }
-                  if (state is CurrencyError) {
-                    return const Text('Error State');
-                  }
-                  return const Text('Initial state');
-                },
-              ),
-            ),
-          ],
+      appBar: AppBar(
+        title: const Text(
+          'Currency Page',
+          style: TextStyle(color: Colors.black),
         ),
+        elevation: 30,
+        backgroundColor: Colors.transparent,
+      ),
+      body: BlocConsumer<CurrencyCubit, CurrencyState>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          if (state is CurrencyLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (state is CurrencyLoaded) {
+            if (state.currencies.isEmpty) {
+              return const EmptyState(image: AppAssets.emptyCurrencyImage);
+            }
+            return const CurrencyLoadedWidget();
+          }
+          if (state is CurrencyError) {
+            return const Text('Error State');
+          }
+          return const Text('Initial state');
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},

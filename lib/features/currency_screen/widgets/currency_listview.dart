@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:my_money/core/constants/app_colors.dart';
 
+import '../../../core/widgets/app_popup_menu.dart';
+
 class CurrencyListview extends StatelessWidget {
-  const CurrencyListview({super.key, required this.title});
+  const CurrencyListview({super.key, required this.title, this.onSelected});
 
   final String title;
+  final void Function(String)? onSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -32,33 +35,7 @@ class CurrencyListview extends StatelessWidget {
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              trailing: PopupMenuButton<String>(
-                onSelected: (value) {
-                  // Handle selection
-                },
-                itemBuilder: (context) => [
-                  const PopupMenuItem(
-                    value: 'edit',
-                    child: Row(
-                      children: [
-                        Icon(Icons.edit),
-                        SizedBox(width: 4),
-                        Text('Edit'),
-                      ],
-                    ),
-                  ),
-                  PopupMenuItem(
-                    value: 'delete',
-                    child: Row(
-                      children: [
-                        Icon(Icons.delete, color: Colors.red.shade700),
-                        const SizedBox(width: 4),
-                        const Text('Delete'),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+              trailing: AppPopUpMenu(onSelected: onSelected),
             ),
           ),
         );
@@ -66,3 +43,5 @@ class CurrencyListview extends StatelessWidget {
     );
   }
 }
+
+
