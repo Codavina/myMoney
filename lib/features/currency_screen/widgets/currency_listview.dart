@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:my_money/core/constants/app_colors.dart';
-
+import 'package:my_money/core/models/currency_model.dart';
 import '../../../core/widgets/app_popup_menu.dart';
 
 class CurrencyListview extends StatelessWidget {
-  const CurrencyListview({super.key, required this.title, this.onSelected});
+  const CurrencyListview({super.key, required this.currencies, this.onSelected});
 
-  final String title;
+
+  final List<CurrencyModel> currencies;
   final void Function(String)? onSelected;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: 20,
+      itemCount: currencies.length,
       itemBuilder: (context, i) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
@@ -28,7 +29,7 @@ class CurrencyListview extends StatelessWidget {
             color: AppColors.lightBackground,
             child: ListTile(
               title: Text(
-                title,
+                currencies[i].currencyCode,
                 style: const TextStyle(
                   color: AppColors.primary,
                   fontSize: 22,

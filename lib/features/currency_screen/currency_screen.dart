@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/core/cubit/currency/currency_cubit.dart';
 import 'package:my_money/core/cubit/currency/currency_state.dart';
-import 'package:my_money/features/currency_screen/widgets/currency_listview.dart';
 import 'package:my_money/features/currency_screen/widgets/currency_loaded_widget.dart';
 import '../../core/constants/app_assets.dart';
 import '../../core/models/currency_model.dart';
@@ -60,10 +59,11 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
             return const Center(child: CircularProgressIndicator());
           }
           if (state is CurrencyLoaded) {
+
             if (state.currencies.isEmpty) {
               return const EmptyState(image: AppAssets.emptyCurrencyImage);
             }
-            return const CurrencyLoadedWidget();
+            return  CurrencyLoadedWidget(currencies: state.currencies,);
           }
           if (state is CurrencyError) {
             return const Text('Error State');
