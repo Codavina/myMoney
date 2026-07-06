@@ -1,12 +1,11 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/core/cubit/currency/currency_cubit.dart';
 import 'package:my_money/core/cubit/currency/currency_state.dart';
-import 'package:my_money/features/currency_screen/widgets/currency_loaded_widget.dart';
+import 'package:my_money/core/models/currency_model.dart';
+import 'package:my_money/features/currency_screen/widgets/add_currency_dialog.dart';
+import 'package:my_money/features/currency_screen/widgets/currency_body.dart';
 import '../../core/constants/app_assets.dart';
-import '../../core/models/currency_model.dart';
-import '../../core/repositories/currency_repository.dart';
 import '../../core/widgets/empty_state.dart';
 
 class CurrencyScreen extends StatefulWidget {
@@ -17,27 +16,30 @@ class CurrencyScreen extends StatefulWidget {
 }
 
 class _CurrencyScreenState extends State<CurrencyScreen> {
+
+
+
   @override
   void initState() {
     super.initState();
-    //add();
+
     context.read<CurrencyCubit>().getAll();
   }
 
-  final currencyRepo = CurrencyRepository();
-  List<CurrencyModel> currencies = [];
+  Future<void> _addCurrency()async{
 
-  Future<void> add() async {
-    final result = await currencyRepo.insert(
-      const CurrencyModel(currencyCode: 'USD'),
+    final CurrencyModel? currency = await showDialog<CurrencyModel>(
+      context: context,
+      builder: (_) => const AddCurrencyDialog(),
     );
-    log(result.toString());
-    load();
-  }
+    if(!mounted)return;
+    if(currency==null) return;
+    context.read<CurrencyCubit>().insert(currency);
 
-  Future<void> load() async {
-    currencies = await currencyRepo.getAll();
-    log(currencies.toString());
+
+
+
+
   }
 
   @override
@@ -49,8 +51,8 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
           'Currency Page',
           style: TextStyle(color: Colors.black),
         ),
-        elevation: 30,
-        backgroundColor: Colors.transparent,
+        elevation: 1,
+        backgroundColor:  const Color(0xfff3f3ef),
       ),
       body: BlocConsumer<CurrencyCubit, CurrencyState>(
         listener: (context, state) {},
@@ -63,7 +65,7 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
             if (state.currencies.isEmpty) {
               return const EmptyState(image: AppAssets.emptyCurrencyImage);
             }
-            return  CurrencyLoadedWidget(currencies: state.currencies,);
+            return  CurrencyBody(currencies: state.currencies,);
           }
           if (state is CurrencyError) {
             return const Text('Error State');
@@ -72,7 +74,7 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: _addCurrency,
         child: const Icon(Icons.add),
       ),
     );

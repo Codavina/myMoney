@@ -6,13 +6,14 @@ class AppAssets {
 
 
  ///flags
-static const String algerianDinar='assets/images/flags/dz.svg';
-static const String emiratsDirham='assets/images/flags/ae.svg';
-static const String europeEuro='assets/images/flags/eu.svg';
-static const String saudiRiyal='assets/images/flags/sa.svg';
-static const String tunisDinar='assets/images/flags/tn.svg';
-static const String turkishLira='assets/images/flags/tr.svg';
-static const String americanDollar='assets/images/flags/us.svg';
+static const String algerianFlag='assets/images/flags/dz.svg';
+static const String uaeFlag='assets/images/flags/ae.svg';
+static const String eurFlag='assets/images/flags/eu.svg';
+static const String saudiArabiaFlag='assets/images/flags/sa.svg';
+static const String tunisiaFlag='assets/images/flags/tn.svg';
+static const String turkeyFlag='assets/images/flags/tr.svg';
+static const String usFlag='assets/images/flags/us.svg';
+static const String unknownCurrency='assets/images/flags/us.svg';
 
 ///Currency images
 static const String currency96='assets/images/currency/currency96.png';

@@ -3,8 +3,8 @@ import '../../../core/models/currency_model.dart';
 import 'currency_header.dart';
 import 'currency_listview.dart';
 
-class CurrencyLoadedWidget extends StatelessWidget {
-  const CurrencyLoadedWidget({
+class CurrencyBody extends StatelessWidget {
+  const CurrencyBody({
     super.key,
     required this.currencies,
   });
@@ -19,7 +19,7 @@ class CurrencyLoadedWidget extends StatelessWidget {
       children: [
         CurrencyHeader(currencyCount: currencies.length),
         const SizedBox(height: 10),
-        Expanded(child: CurrencyListview(currencies: currencies,)),
+        Expanded(child: CurrencyListView(currencies: currencies,)),
       ],
     );
   }

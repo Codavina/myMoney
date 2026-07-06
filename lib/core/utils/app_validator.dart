@@ -20,6 +20,7 @@ class AppValidators {
     return null;
   }
 
+  ///title
   static String? title(String? value) {
     final text = value?.trim() ?? '';
 
@@ -33,6 +34,25 @@ class AppValidators {
 
     if (text.length > 50) {
       return 'Title cannot exceed 50 characters.';
+    }
+
+    return null;
+  }
+
+  ///Currency code
+  static String? currencyCode(String? value) {
+    final text = value?.trim() ?? '';
+
+    if (text.isEmpty) {
+      return 'Please enter a currency Code (ex: (DZD).';
+    }
+
+    if (text.length < 3) {
+      return 'Title must contain at between 3 and 10 characters.';
+    }
+
+    if (text.length > 10) {
+      return 'Title cannot exceed 10 characters.';
     }
 
     return null;
