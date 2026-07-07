@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:my_money/core/models/fund_model.dart';
 import 'package:my_money/core/utils/app_formatter.dart';
-import '../data/category_model.dart';
 import '../data/operation_model.dart';
 import '../widgets/balance_card.dart';
 import '../widgets/operations_table.dart';
@@ -10,10 +10,10 @@ import 'add_transaction_dialog/UI/add_transaction_dialog_view.dart';
 class FundDetails extends StatefulWidget {
   const FundDetails({
     super.key,
-    required this.category,
+    required this.fund,
   });
 
-  final CategoryModel category;
+  final FundModel fund;
 
   @override
   State<FundDetails> createState() => _FundDetailsState();
@@ -52,7 +52,7 @@ class _FundDetailsState extends State<FundDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.category.title),
+        title: Text(widget.fund.title),
       ),
       body: SafeArea(
         child: Padding(

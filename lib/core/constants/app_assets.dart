@@ -1,7 +1,7 @@
 
 class AppAssets {
   static const String emptyCurrencyImage='assets/images/currency/empty_currency.png';
-  static const String emptyFundImage='assets/images/currency/empty_currency.png';
+  static const String emptyFundImage='assets/images/fund/empty_fund.png';
   static const String emptyTransactionImage='assets/images/currency/empty_currency.png';
 
 

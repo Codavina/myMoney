@@ -3,14 +3,14 @@ import 'package:my_money/core/utils/app_validator.dart';
 import '../../funds_details_page/UI/add_transaction_dialog/widgets/custom_text_form_field.dart';
 import '../../funds_details_page/data/category_model.dart';
 
-class AddCategoryDialog extends StatefulWidget {
-  const AddCategoryDialog({super.key});
+class AddFundDialog extends StatefulWidget {
+  const AddFundDialog({super.key});
 
   @override
-  State<AddCategoryDialog> createState() => _AddCategoryDialogState();
+  State<AddFundDialog> createState() => _AddFundDialogState();
 }
 
-class _AddCategoryDialogState extends State<AddCategoryDialog> {
+class _AddFundDialogState extends State<AddFundDialog> {
   final GlobalKey<FormState> _formKey = GlobalKey();
   final TextEditingController _titleController = TextEditingController();
 

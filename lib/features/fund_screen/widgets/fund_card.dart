@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:my_money/core/models/fund_model.dart';
 import '../../../core/utils/app_formatter.dart';
-import '../../funds_details_page/data/category_model.dart';
+
 
 class FundCard extends StatelessWidget {
-  const FundCard({super.key, required this.category,required this.onPressed});
+  const FundCard({super.key, required this.fund,required this.onPressed});
 
-  final CategoryModel category;
+  final FundModel fund;
   final void Function()? onPressed;
 
   @override
@@ -18,14 +19,14 @@ class FundCard extends StatelessWidget {
           title: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              category.title,
+             fund.title,
               style: Theme.of(context).textTheme.titleMedium,
             ),
           ),
           subtitle: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              '${AppFormatter.money.format(category.balance)} ${category.currency}',
+              '${AppFormatter.money.format(fund.balance)} ${fund.currencyId}',
               style: Theme.of(context).textTheme.titleLarge,
             ),
           ),

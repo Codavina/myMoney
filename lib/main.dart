@@ -60,7 +60,7 @@ class MyMoneyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => CurrencyCubit(currencyRepository)),
-        BlocProvider(create: (context) => FundCubit(fundRepository)),
+        BlocProvider(create: (context) => FundCubit(fundRepository)..getAll()),
         BlocProvider(
           create: (context) => TransactionCubit(transactionRepository),
         ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_money/features/home_page/widgets/fund_card.dart';
+import 'package:my_money/features/fund_screen/widgets/fund_card.dart';
 import '../../funds_details_page/UI/fund_details_page.dart';
 import '../../funds_details_page/data/category_model.dart';
 import '../widgets/add_fund_dialog.dart';
@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   Future<void> _addCategory()async{
     final CategoryModel? category = await showDialog<CategoryModel>(
       context: context,
-      builder: (_) => const AddCategoryDialog(),
+      builder: (_) => const AddFundDialog(),
     );
 
     if (!mounted || category == null) return;
@@ -35,34 +35,34 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(title: const Text('My Money')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(height: 16),
-              Column(
-                children: List.generate(
-                  categories.length,
-                  (int index) => FundCard(category: categories[index],
-                  onPressed: ()async{
-                    await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            FundDetails(category: categories[index]),
-                      ),
-                    );
-                    setState(() {});
-                  },
-
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+      // body: Padding(
+      //   padding: const EdgeInsets.all(16.0),
+      //   child: SingleChildScrollView(
+      //     child: Column(
+      //       children: [
+      //         const SizedBox(height: 16),
+      //         Column(
+      //           children: List.generate(
+      //             categories.length,
+      //             (int index) => FundCard(category: categories[index],
+      //             onPressed: ()async{
+      //               await Navigator.push(
+      //                 context,
+      //                 MaterialPageRoute(
+      //                   builder: (context) =>
+      //                       FundDetails(category: categories[index]),
+      //                 ),
+      //               );
+      //               setState(() {});
+      //             },
+      //
+      //             ),
+      //           ),
+      //         ),
+      //       ],
+      //     ),
+      //   ),
+      // ),
 
       floatingActionButton: FloatingActionButton.extended(
 
