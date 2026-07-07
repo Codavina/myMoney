@@ -4,23 +4,32 @@ import 'package:my_money/core/models/currency_model.dart';
 import '../../../core/utils/app_validator.dart';
 import '../../funds_details_page/UI/add_transaction_dialog/widgets/custom_text_form_field.dart';
 
-class AddCurrencyDialog extends StatefulWidget {
-  const AddCurrencyDialog({super.key});
+class CurrencyDialog extends StatefulWidget {
+  const CurrencyDialog({super.key, this.currency});
+
+  final CurrencyModel? currency;
 
   @override
-  State<AddCurrencyDialog> createState() => _AddCurrencyDialogState();
+  State<CurrencyDialog> createState() => _CurrencyDialogState();
 }
 
-class _AddCurrencyDialogState extends State<AddCurrencyDialog> {
+class _CurrencyDialogState extends State<CurrencyDialog> {
   final TextEditingController _titleController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey();
 
+  @override
+  void initState() {
+    super.initState();
+    if (widget.currency != null) {
+      _titleController.text = widget.currency!.currencyCode;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       backgroundColor: Colors.white,
-      title: const Text('Add Currency'),
+      title: Text(widget.currency == null ? 'Add Currency' : 'Edit Currency'),
       content: Form(
         key: _formKey,
         child: Column(
@@ -28,7 +37,7 @@ class _AddCurrencyDialogState extends State<AddCurrencyDialog> {
           children: [
             const SizedBox(height: 12),
             CustomTextFormField(
-              labelText: 'title',
+              labelText: 'Currency Code',
               controller: _titleController,
               validator: AppValidators.currencyCode,
             ),
@@ -58,12 +67,10 @@ class _AddCurrencyDialogState extends State<AddCurrencyDialog> {
 
             Navigator.pop(
               context,
-              CurrencyModel(
-                currencyCode: _titleController.text.trim(),
-              ),
+              CurrencyModel(currencyCode: _titleController.text.trim()),
             );
           },
-          child: const Text('Save'),
+          child: Text(widget.currency == null ? 'Add' : 'Update'),
         ),
       ],
     );

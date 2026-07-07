@@ -48,11 +48,11 @@ class AppValidators {
     }
 
     if (text.length < 3) {
-      return 'Title must contain at between 3 and 10 characters.';
+      return 'At least 3 to 10 characters.';
     }
 
     if (text.length > 10) {
-      return 'Title cannot exceed 10 characters.';
+      return 'Code cannot exceed 10 characters.';
     }
 
     return null;

@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 
+enum MenuAction { edit, delete,}
 class AppPopUpMenu extends StatelessWidget {
   const AppPopUpMenu({
     super.key,
     required this.onSelected,
   });
 
-  final void Function(String)? onSelected;
+  final ValueChanged<MenuAction> onSelected;
+
 
   @override
   Widget build(BuildContext context) {
-    return PopupMenuButton<String>(
+    return PopupMenuButton<MenuAction>(
       onSelected: onSelected,
       itemBuilder: (context) => [
-        const PopupMenuItem(
-          value: 'edit',
+         const PopupMenuItem(
+          value: MenuAction.edit,
           child: Row(
             children: [
               Icon(Icons.edit),
@@ -24,7 +26,7 @@ class AppPopUpMenu extends StatelessWidget {
           ),
         ),
         PopupMenuItem(
-          value: 'delete',
+          value: MenuAction.delete,
           child: Row(
             children: [
               Icon(Icons.delete, color: Colors.red.shade700),
