@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/core/cubit/currency/currency_cubit.dart';
 import 'package:my_money/core/cubit/fund/fund_cubit.dart';
 import 'package:my_money/core/cubit/transaction/transaction_cubit.dart';
+import 'package:my_money/features/fund_screen/found_screen.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'core/database/app_database.dart';
 import 'core/repositories/currency_repository.dart';
@@ -73,7 +74,7 @@ class MyMoneyApp extends StatelessWidget {
         theme: AppTheme.light,
         darkTheme: AppTheme.dark,
         themeMode: ThemeMode.system,
-        home: const CurrencyScreen(),
+        home: const FoundScreen(),
       ),
     );
   }

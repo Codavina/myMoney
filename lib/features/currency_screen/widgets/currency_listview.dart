@@ -13,17 +13,14 @@ class CurrencyListView extends StatelessWidget {
 
   final List<CurrencyModel> currencies;
 
-  Future<void> _confirmDelete(
-      BuildContext context,
-      CurrencyModel currency,
-      ) async {
+  Future<void> _confirmDelete(BuildContext context,CurrencyModel currency,) async {
     final cubit = context.read<CurrencyCubit>();
 
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (_) => AppConfirmDialog(
         title: 'Delete Currency',
-        message: 'Are you sure you want to delete "${currency.currencyCode}"?',
+        message: 'Are you sure you want to delete "${currency.currencyCode.toUpperCase()}"?',
       ),
     );
 

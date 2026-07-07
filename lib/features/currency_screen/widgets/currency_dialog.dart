@@ -26,6 +26,12 @@ class _CurrencyDialogState extends State<CurrencyDialog> {
   }
 
   @override
+  void dispose() {
+      super.dispose();
+      _titleController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return AlertDialog(
       backgroundColor: Colors.white,
