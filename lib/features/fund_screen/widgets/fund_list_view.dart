@@ -7,12 +7,10 @@ import '../../../core/constants/app_colors.dart';
 import '../../../core/cubit/currency/currency_cubit.dart';
 import '../../../core/cubit/currency/currency_state.dart';
 import '../../../core/models/currency_model.dart';
+import '../../currency_screen/currency_info.dart';
 
 class FundListView extends StatelessWidget {
-  const FundListView({
-    super.key,
-    required this.funds,
-  });
+  const FundListView({super.key, required this.funds});
 
   final List<FundModel> funds;
 
@@ -26,6 +24,7 @@ class FundListView extends StatelessWidget {
     if (currencyState is CurrencyLoaded) {
       for (final currency in currencyState.currencies) {
         currencyMap[currency.currencyId!] = currency;
+
       }
     }
 
@@ -34,19 +33,21 @@ class FundListView extends StatelessWidget {
       itemCount: funds.length,
       itemBuilder: (context, index) {
         final fund = funds[index];
-        final color = AppColors.lessonColors;
+        final color = AppColors.fundCardColor;
         final currency = currencyMap[fund.currencyId];
+        final info =
+            currenciesInfo[currency?.currencyCode.toUpperCase()] ??
+                unknownCurrency;
 
         return FundCard(
+          flag: info.flag,
           fund: fund,
-          color: color[index % color.length],
+          backgroundColor: color[index % color.length],
           currencyCode: currency?.currencyCode ?? '',
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(
-                builder: (_) => FundDetails(fund: fund),
-              ),
+              MaterialPageRoute(builder: (_) => FundDetails(fund: fund)),
             );
           },
         );

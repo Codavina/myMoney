@@ -18,7 +18,7 @@ class FundScreen extends StatelessWidget {
       builder: (_) => const AddFundDialog(),
     );
 
-    if(!context.mounted)return;
+    if (!context.mounted) return;
     if (fund == null) return;
     context.read<FundCubit>().insert(fund);
   }
@@ -27,7 +27,10 @@ class FundScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      appBar: AppBar(title: const Text('My Money')),
+      appBar: AppBar(
+        title: const Text('My Money', style: TextStyle(color: Colors.black)),
+        backgroundColor: Colors.white,
+      ),
       body: BlocConsumer<FundCubit, FundState>(
         listener: (context, state) {},
         builder: (context, state) {
@@ -35,11 +38,10 @@ class FundScreen extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           }
           if (state is FundLoaded) {
-
             if (state.funds.isEmpty) {
               return const EmptyState(image: AppAssets.emptyFundImage);
             }
-            return  FundBody(funds: state.funds,);
+            return FundBody(funds: state.funds);
           }
           if (state is FundError) {
             return const Text('Fund State: Error');
@@ -48,7 +50,9 @@ class FundScreen extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: (){_addFund(context);},
+        onPressed: () {
+          _addFund(context);
+        },
         label: const Text('Fund'),
         icon: const Icon(Icons.add),
       ),
