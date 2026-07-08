@@ -34,4 +34,14 @@ abstract class AppColors {
   static const darkBorder = Color(0xFF2C2C2C);
   static const darkText = Color(0xFFF8FAFC);
   static const darkSubtitle = Color(0xFF94A3B8);
+
+  static  List<Color> lessonColors = [
+    Color(0xFFF4C430).withValues(alpha: 0.5), // Sunflower
+    Color(0xFF00BFFF).withValues(alpha: 0.5), // Sky Blue
+    Color(0xFFFF6F61).withValues(alpha: 0.5), // Coral
+    Color(0xFF4169E1).withValues(alpha: 0.5), // Royal Blue
+    Color(0xFF008080),// Teal
+    Color(0xFF5a2f26),//Dark Brown
+    // Color(0xFF9B59B6), // Purple
+  ];
 }

@@ -3,13 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/core/cubit/fund/fund_cubit.dart';
 import 'package:my_money/core/cubit/fund/fund_state.dart';
 import 'package:my_money/core/models/fund_model.dart';
+import 'package:my_money/features/fund_screen/widgets/fund_body.dart';
 
 import '../../core/constants/app_assets.dart';
 import '../../core/widgets/empty_state.dart';
-import '../home_page/widgets/add_fund_dialog.dart';
+import 'widgets/add_fund_dialog.dart';
 
-class FoundScreen extends StatelessWidget {
-  const FoundScreen({super.key});
+class FundScreen extends StatelessWidget {
+  const FundScreen({super.key});
 
   Future<void> _addFund(BuildContext context) async {
     final FundModel? fund = await showDialog<FundModel>(
@@ -17,6 +18,7 @@ class FoundScreen extends StatelessWidget {
       builder: (_) => const AddFundDialog(),
     );
 
+    if(!context.mounted)return;
     if (fund == null) return;
     context.read<FundCubit>().insert(fund);
   }
@@ -37,12 +39,12 @@ class FoundScreen extends StatelessWidget {
             if (state.funds.isEmpty) {
               return const EmptyState(image: AppAssets.emptyFundImage);
             }
-            return  Text('has data');//FundBody(currencies: state.funds,);
+            return  FundBody(funds: state.funds,);
           }
           if (state is FundError) {
-            return const Text('Error State');
+            return const Text('Fund State: Error');
           }
-          return const Text('Initial state');
+          return const Text('Fund State: Initial state');
         },
       ),
       floatingActionButton: FloatingActionButton.extended(

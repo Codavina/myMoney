@@ -7,8 +7,10 @@ class FundBody extends StatelessWidget {
 
   final List<FundModel> funds;
 
+
   @override
   Widget build(BuildContext context) {
+
     return FundListView(funds: funds);
   }
 }

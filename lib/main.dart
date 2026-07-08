@@ -5,14 +5,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/core/cubit/currency/currency_cubit.dart';
 import 'package:my_money/core/cubit/fund/fund_cubit.dart';
 import 'package:my_money/core/cubit/transaction/transaction_cubit.dart';
-import 'package:my_money/features/fund_screen/found_screen.dart';
+import 'package:my_money/features/fund_screen/fund_screen.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'core/database/app_database.dart';
 import 'core/repositories/currency_repository.dart';
 import 'core/repositories/fund_repository.dart';
 import 'core/repositories/transaction_repository.dart';
 import 'core/theme/app_theme.dart';
-import 'features/currency_screen/currency_screen.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -59,7 +59,7 @@ class MyMoneyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => CurrencyCubit(currencyRepository)),
+        BlocProvider(create: (context) => CurrencyCubit(currencyRepository)..getAll()),
         BlocProvider(create: (context) => FundCubit(fundRepository)..getAll()),
         BlocProvider(
           create: (context) => TransactionCubit(transactionRepository),
@@ -74,7 +74,7 @@ class MyMoneyApp extends StatelessWidget {
         theme: AppTheme.light,
         darkTheme: AppTheme.dark,
         themeMode: ThemeMode.system,
-        home: const FoundScreen(),
+        home: const FundScreen(),
       ),
     );
   }

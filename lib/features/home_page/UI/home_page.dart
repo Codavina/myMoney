@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_money/features/fund_screen/widgets/fund_card.dart';
-import '../../funds_details_page/UI/fund_details_page.dart';
 import '../../funds_details_page/data/category_model.dart';
-import '../widgets/add_fund_dialog.dart';
+import '../../fund_screen/widgets/add_fund_dialog.dart';
 
 
 

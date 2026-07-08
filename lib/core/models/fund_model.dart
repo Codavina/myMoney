@@ -9,9 +9,9 @@ class FundModel {
   const FundModel({
     this.fundId,
     required this.title,
-     this.balance=0,
+    this.balance = 0,
     required this.currencyId,
-    required this.isArchived,
+    this.isArchived = false,
     required this.createdAt,
   });
 
