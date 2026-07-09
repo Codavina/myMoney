@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_money/core/cubit/currency/currency_cubit.dart';
 import 'package:my_money/core/models/fund_model.dart';
 import 'package:my_money/features/fund_screen/widgets/fund_card.dart';
 import 'package:my_money/features/transaction_screen/transaction_screen.dart';
@@ -15,8 +16,8 @@ class FundListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder(
-      builder: (BuildContext context, state) {
+    return BlocBuilder<CurrencyCubit,CurrencyState>(
+      builder: (context, state) {
         // Build a lookup map once instead of searching for every Fund.
         final currencyMap = <int, CurrencyModel>{};
 
