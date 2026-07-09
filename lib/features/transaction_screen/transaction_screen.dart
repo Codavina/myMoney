@@ -9,7 +9,6 @@ import '../../core/cubit/transaction/transaction_state.dart';
 import '../../core/models/fund_model.dart';
 import '../../core/widgets/empty_state.dart';
 import 'widgets/add_transaction_dialog.dart';
-import '../funds_details_page/data/operation_model.dart';
 
 class TransactionScreen extends StatefulWidget {
   const TransactionScreen({super.key, required this.fund});
@@ -21,15 +20,8 @@ class TransactionScreen extends StatefulWidget {
 }
 
 class _TransactionScreenState extends State<TransactionScreen> {
-  final List<OperationModel> operations = [];
 
-  double get balance {
-    return operations.fold(0, (total, operation) {
-      return operation.isDeposit
-          ? total + operation.amount
-          : total - operation.amount;
-    });
-  }
+
 
   Future<void> _addTransaction() async {
     final transaction = await showDialog<TransactionModel>(

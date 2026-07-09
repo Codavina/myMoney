@@ -3,8 +3,8 @@ import 'package:my_money/core/models/transaction_model.dart';
 import 'package:my_money/core/utils/app_formatter.dart';
 import 'package:my_money/core/utils/app_validator.dart';
 import '../../../core/utils/amount_formatter.dart';
-import '../../funds_details_page/UI/add_transaction_dialog/widgets/operation_selector.dart';
-import '../../funds_details_page/UI/add_transaction_dialog/widgets/custom_text_form_field.dart';
+import 'operation_selector.dart';
+import '../../../core/widgets/custom_text_form_field.dart';
 
 class AddTransactionDialog extends StatefulWidget {
   const AddTransactionDialog({super.key, required this.fundId});
@@ -12,8 +12,7 @@ class AddTransactionDialog extends StatefulWidget {
   final int fundId;
 
   @override
-  State<AddTransactionDialog> createState() =>
-      _AddTransactionDialogState();
+  State<AddTransactionDialog> createState() => _AddTransactionDialogState();
 }
 
 class _AddTransactionDialogState extends State<AddTransactionDialog> {
@@ -22,7 +21,6 @@ class _AddTransactionDialogState extends State<AddTransactionDialog> {
   final TextEditingController _amountController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
-
 
   TransactionType _selectedType = TransactionType.deposit;
   DateTime _selectedDate = DateTime.now();
@@ -50,9 +48,8 @@ class _AddTransactionDialogState extends State<AddTransactionDialog> {
     );
 
     if (date == null) return;
-     _selectedDate = date;
+    _selectedDate = date;
     _dateController.text = AppFormatter.date.format(date);
-
   }
 
   @override
@@ -68,7 +65,6 @@ class _AddTransactionDialogState extends State<AddTransactionDialog> {
               //  const TransactionCategory(),
               const SizedBox(height: 16),
               CustomTextFormField(
-                readOnly: false,
                 labelText: 'Amount',
                 controller: _amountController,
                 validator: AppValidators.amount,
@@ -79,7 +75,6 @@ class _AddTransactionDialogState extends State<AddTransactionDialog> {
               ),
               const SizedBox(height: 12),
               CustomTextFormField(
-                readOnly: false,
                 labelText: 'Description',
                 controller: _descriptionController,
                 validator: AppValidators.description,

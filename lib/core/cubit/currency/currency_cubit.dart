@@ -41,7 +41,7 @@ class CurrencyCubit extends Cubit<CurrencyState> {
       await _repository.update(currency);
       final currencies = await _repository.getAll();
 
-      emit(CurrencyLoaded(currencies: currencies));
+      emit(CurrencyLoaded(currencies: currencies,message: 'Currency updated successfully'));
     } catch (e) {
       emit(CurrencyError(e.toString()));
     }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_money/core/utils/app_validator.dart';
 import '../../../core/models/currency_model.dart';
 import '../../../core/models/fund_model.dart';
-import '../../funds_details_page/UI/add_transaction_dialog/widgets/custom_text_form_field.dart';
+import '../../../core/widgets/custom_text_form_field.dart';
 import 'currency_dropdown_field.dart';
 
 class AddFundDialog extends StatefulWidget {
@@ -38,14 +38,13 @@ class _AddFundDialogState extends State<AddFundDialog> {
         createdAt: DateTime.now(),
       ),
     );
-
   }
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text('Add Fund'),
-backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       content: SingleChildScrollView(
         child: Form(
           key: _formKey,
@@ -53,7 +52,6 @@ backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             mainAxisSize: MainAxisSize.min,
             children: [
               CustomTextFormField(
-                readOnly: false,
                 labelText: 'Fund Name',
                 controller: _titleController,
                 validator: AppValidators.title,
@@ -63,7 +61,7 @@ backgroundColor: Theme.of(context).scaffoldBackgroundColor,
 
               CurrencyDropdownField(
                 selectedCurrency: _selectedCurrency,
-                onChanged: (value){
+                onChanged: (value) {
                   setState(() {
                     _selectedCurrency = value;
                   });
@@ -85,5 +83,3 @@ backgroundColor: Theme.of(context).scaffoldBackgroundColor,
     );
   }
 }
-
-

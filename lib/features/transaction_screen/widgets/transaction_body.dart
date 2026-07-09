@@ -4,8 +4,8 @@ import 'package:my_money/core/models/fund_model.dart';
 import 'package:my_money/core/models/transaction_model.dart';
 import '../../../core/cubit/fund/fund_cubit.dart';
 import '../../../core/cubit/fund/fund_state.dart';
-import '../../funds_details_page/widgets/balance_card.dart';
-import '../../funds_details_page/widgets/operations_table.dart';
+import 'balance_card.dart';
+import 'operations_table.dart';
 
 class TransactionBody extends StatelessWidget {
   const TransactionBody({super.key, required this.transactions, required this.selectedFund});

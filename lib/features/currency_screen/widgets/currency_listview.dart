@@ -107,27 +107,4 @@ class CurrencyListView extends StatelessWidget {
     );
   }
 
-  Container buildCurrencyId(CurrencyModel currency) {
-    return Container(
-      width: 40,
-      height: 40,
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(8)),
-        gradient: LinearGradient(
-          colors: [Color(0xff1B64C3), Color(0xff4a94e1)],
-        ),
-      ),
-      child: Align(
-        alignment: Alignment.center,
-        child: Text(
-          '${currency.currencyId}',
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-    );
-  }
 }

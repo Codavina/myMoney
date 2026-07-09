@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../core/models/transaction_model.dart';
+import '../../../core/models/transaction_model.dart';
 
 class OperationSelector extends StatelessWidget {
   const OperationSelector({

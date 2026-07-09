@@ -1,6 +1,6 @@
-import 'package:flutter/foundation.dart';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:device_preview/device_preview.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/core/cubit/currency/currency_cubit.dart';
 import 'package:my_money/core/cubit/fund/fund_cubit.dart';
@@ -20,8 +20,12 @@ void main() async {
 
 
   //sqflite_common_ffi package for run app on windows
-  sqfliteFfiInit();
-  databaseFactory = databaseFactoryFfi;
+  if (Platform.isWindows ||
+      Platform.isLinux ||
+      Platform.isMacOS) {
+    sqfliteFfiInit();
+    databaseFactory = databaseFactoryFfi;
+  }
 
   await AppDatabase.instance.database;
 
@@ -32,13 +36,10 @@ void main() async {
   final transactionRepository = TransactionRepository();
 
   runApp(
-    DevicePreview(
-      enabled: !kReleaseMode,
-      builder: (context) => MyMoneyApp(
-        currencyRepository: currencyRepository,
-        fundRepository: fundRepository,
-        transactionRepository: transactionRepository,
-      ), // Wrap your app
+    MyMoneyApp(
+      currencyRepository: currencyRepository,
+      fundRepository: fundRepository,
+      transactionRepository: transactionRepository,
     ),
   );
 }
@@ -68,11 +69,8 @@ class MyMoneyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'My Money App',
-
         debugShowCheckedModeBanner: false,
-        locale: DevicePreview.locale(context),
-        builder: DevicePreview.appBuilder,
-        theme: AppTheme.light,
+              theme: AppTheme.light,
         darkTheme: AppTheme.dark,
         themeMode: ThemeMode.system,
         home: const FundScreen(),

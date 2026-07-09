@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:my_money/core/models/fund_model.dart';
 import 'package:my_money/features/fund_screen/widgets/fund_list_view.dart';
 
+import '../../../core/models/currency_model.dart';
+
 class FundBody extends StatelessWidget {
   const FundBody({super.key, required this.funds});
 
@@ -10,7 +12,6 @@ class FundBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return FundListView(funds: funds);
   }
 }

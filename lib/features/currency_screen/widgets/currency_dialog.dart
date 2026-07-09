@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_money/core/models/currency_model.dart';
 
 import '../../../core/utils/app_validator.dart';
-import '../../funds_details_page/UI/add_transaction_dialog/widgets/custom_text_form_field.dart';
+import '../../../core/widgets/custom_text_form_field.dart';
 
 class CurrencyDialog extends StatefulWidget {
   const CurrencyDialog({super.key, this.currency});
@@ -27,8 +27,8 @@ class _CurrencyDialogState extends State<CurrencyDialog> {
 
   @override
   void dispose() {
-      super.dispose();
-      _titleController.dispose();
+    super.dispose();
+    _titleController.dispose();
   }
 
   @override
@@ -43,7 +43,6 @@ class _CurrencyDialogState extends State<CurrencyDialog> {
           children: [
             const SizedBox(height: 12),
             CustomTextFormField(
-              readOnly: false,
               labelText: 'Currency Code',
               controller: _titleController,
               validator: AppValidators.currencyCode,

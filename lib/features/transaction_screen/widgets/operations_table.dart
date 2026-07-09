@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_money/core/models/transaction_model.dart';
-import 'package:my_money/features/funds_details_page/widgets/table_header.dart';
+import 'package:my_money/features/transaction_screen/widgets/table_header.dart';
 import 'empty_operations.dart';
 import 'operations_list.dart';
 

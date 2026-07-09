@@ -57,7 +57,7 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
           if (state is CurrencyLoaded &&
               state.message != null) {
 
-          AppSnackBar.success(context,  'Currency added successfully');
+          AppSnackBar.success(context,  state.message!);
           }
         },
         builder: (context, state) {
