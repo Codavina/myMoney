@@ -21,10 +21,12 @@ class TransactionCubit extends Cubit<TransactionState> {
 
   Future<void> insert(TransactionModel transaction) async {
     emit(TransactionLoading());
+
     try {
       await _repository.insert(transaction);
-      final transactions = await _repository.getAll();
-      emit(TransactionLoaded(transactions));
+
+      await _loadTransactions(transaction.fundId);
+
     } catch (e) {
       emit(TransactionError(e.toString()));
     }
@@ -46,6 +48,25 @@ class TransactionCubit extends Cubit<TransactionState> {
     try {
       await _repository.delete(id);
       final transactions = await _repository.getAll();
+      emit(TransactionLoaded(transactions));
+    } catch (e) {
+      emit(TransactionError(e.toString()));
+    }
+  }
+
+  Future<void> getByFund(int fundId) async {
+    emit(TransactionLoading());
+
+    await _loadTransactions(fundId);
+  }
+
+
+  //we create _loadTransactions method tho avoid calling
+  //[TransactionLoading()] twice when calling getByFund method
+  Future<void> _loadTransactions(int fundId) async {
+    try {
+      final transactions = await _repository.getByFund(fundId);
+
       emit(TransactionLoaded(transactions));
     } catch (e) {
       emit(TransactionError(e.toString()));

@@ -1,36 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:my_money/core/models/transaction_model.dart';
 import 'package:my_money/core/utils/app_formatter.dart';
 import 'package:my_money/core/utils/app_validator.dart';
-import '../../../../../core/utils/amount_formatter.dart';
-import '../../../data/operation_model.dart';
-import '../widgets/operation_selector.dart';
-import '../widgets/custom_text_form_field.dart';
+import '../../../core/utils/amount_formatter.dart';
+import '../../funds_details_page/UI/add_transaction_dialog/widgets/operation_selector.dart';
+import '../../funds_details_page/UI/add_transaction_dialog/widgets/custom_text_form_field.dart';
 
-class AddTransactionDialogView extends StatefulWidget {
-  const AddTransactionDialogView({super.key});
+class AddTransactionDialog extends StatefulWidget {
+  const AddTransactionDialog({super.key, required this.fundId});
+
+  final int fundId;
 
   @override
-  State<AddTransactionDialogView> createState() =>
-      _AddTransactionDialogViewState();
+  State<AddTransactionDialog> createState() =>
+      _AddTransactionDialogState();
 }
 
-class _AddTransactionDialogViewState extends State<AddTransactionDialogView> {
+class _AddTransactionDialogState extends State<AddTransactionDialog> {
   final GlobalKey<FormState> _formKey = GlobalKey();
 
   final TextEditingController _amountController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
 
-  //DateTime? _selectedDate;
-  List<bool> selected = [true, false];
-  bool isDeposit = true;
 
+  TransactionType _selectedType = TransactionType.deposit;
+  DateTime _selectedDate = DateTime.now();
 
   @override
   void initState() {
-       super.initState();
+    super.initState();
     _dateController.text = AppFormatter.date.format(DateTime.now());
   }
+
   @override
   void dispose() {
     _amountController.dispose();
@@ -42,14 +44,15 @@ class _AddTransactionDialogViewState extends State<AddTransactionDialogView> {
   void _pickDate() async {
     final date = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: _selectedDate,
       firstDate: DateTime(2020),
       lastDate: DateTime(2050),
     );
 
     if (date == null) return;
-    // _selectedDate = date;
+     _selectedDate = date;
     _dateController.text = AppFormatter.date.format(date);
+
   }
 
   @override
@@ -62,9 +65,10 @@ class _AddTransactionDialogViewState extends State<AddTransactionDialogView> {
           key: _formKey,
           child: Column(
             children: [
-          //  const TransactionCategory(),
+              //  const TransactionCategory(),
               const SizedBox(height: 16),
               CustomTextFormField(
+                readOnly: false,
                 labelText: 'Amount',
                 controller: _amountController,
                 validator: AppValidators.amount,
@@ -75,6 +79,7 @@ class _AddTransactionDialogViewState extends State<AddTransactionDialogView> {
               ),
               const SizedBox(height: 12),
               CustomTextFormField(
+                readOnly: false,
                 labelText: 'Description',
                 controller: _descriptionController,
                 validator: AppValidators.description,
@@ -84,15 +89,16 @@ class _AddTransactionDialogViewState extends State<AddTransactionDialogView> {
                 labelText: 'Date',
                 controller: _dateController,
                 keyboardType: TextInputType.datetime,
+                readOnly: true,
 
                 onTap: _pickDate,
               ),
               const SizedBox(height: 12),
               OperationSelector(
-                isDeposit: isDeposit,
+                selectedType: _selectedType,
                 onChanged: (value) {
                   setState(() {
-                    isDeposit = value;
+                    _selectedType = value;
                   });
                 },
               ),
@@ -115,15 +121,19 @@ class _AddTransactionDialogViewState extends State<AddTransactionDialogView> {
         ElevatedButton(
           onPressed: () {
             if (_formKey.currentState!.validate()) {
-              final amount =AmountFormatter.parseAmount(_amountController.text);
-              final operation = OperationModel(
-                amount: amount,
-                description: _descriptionController.text,
-                date: _dateController.text,
-                isDeposit: isDeposit,
+              final amount = AmountFormatter.parseAmount(
+                _amountController.text,
               );
 
-              Navigator.pop(context, operation);
+              final transaction = TransactionModel(
+                amount: amount,
+                description: _descriptionController.text,
+                transactionType: _selectedType,
+                fundId: widget.fundId,
+                transactionDate: _selectedDate,
+              );
+
+              Navigator.pop(context, transaction);
             }
           },
           child: const Text('Save'),

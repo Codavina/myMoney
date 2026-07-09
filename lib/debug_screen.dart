@@ -42,7 +42,7 @@ class _DebugScreenState extends State<DebugScreen> {
     load();
   }
 Future<void>addTrans()async{
-    final result = await transactionRepo.insert(TransactionModel(fundId: 3, amount: 12500, transactionType: 0, transactionDate: DateTime.now(), description: 'description', createdAt: DateTime.now()));
+    final result = await transactionRepo.insert(TransactionModel(fundId: 3, amount: 12500, transactionType: TransactionType.withdrawal, transactionDate: DateTime.now(), description: 'description', createdAt: DateTime.now()));
 }
   Future<void> getById() async {
     final result = await transactionRepo.getById(20);
@@ -50,7 +50,7 @@ Future<void>addTrans()async{
   }
 
   Future<void> update() async {
-    final result = await transactionRepo.update(TransactionModel(fundId: 1, amount: 2000, transactionType: 1, transactionDate: DateTime.now(), description: 'withdraw amount', createdAt: DateTime.now(),transactionId: 100));
+    final result = await transactionRepo.update(TransactionModel(fundId: 1, amount: 2000, transactionType: TransactionType.deposit, transactionDate: DateTime.now(), description: 'withdraw amount', createdAt: DateTime.now(),transactionId: 100));
     log(result.toString());
     load();
   }

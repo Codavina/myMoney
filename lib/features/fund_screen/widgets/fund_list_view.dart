@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/core/models/fund_model.dart';
 import 'package:my_money/features/fund_screen/widgets/fund_card.dart';
-import 'package:my_money/features/funds_details_page/UI/fund_details_page.dart';
+import 'package:my_money/features/transaction_screen/transaction_screen.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/cubit/currency/currency_cubit.dart';
 import '../../../core/cubit/currency/currency_state.dart';
@@ -47,7 +47,7 @@ class FundListView extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (_) => FundDetails(fund: fund)),
+              MaterialPageRoute(builder: (_) => TransactionScreen(fund: fund)),
             );
           },
         );

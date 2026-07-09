@@ -45,9 +45,9 @@ class CurrencyListView extends StatelessWidget {
 
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
-          child: Card(
-            elevation: 0,
-
+          child:
+          Card(
+            clipBehavior: Clip.antiAlias,
             shape: RoundedRectangleBorder(
               borderRadius: const BorderRadius.all(Radius.circular(12)),
               side: BorderSide(
@@ -56,47 +56,52 @@ class CurrencyListView extends StatelessWidget {
               ),
             ),
             color: AppColors.lightBackground,
+            elevation: 0,
             child: ListTile(
-              title: Text(
-                currency.currencyCode.toUpperCase(),
-                style: const TextStyle(
-                  color: AppColors.primary,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              subtitle: Text(info.name),
-              leading: Container(
-                width: 50,
-                height: 50,
-                decoration: BoxDecoration(
-                  color: AppColors.primary.withValues(alpha: 0.08),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(6),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(6),
+                  title: Text(
+                    currency.currencyCode.toUpperCase(),
+                    style: const TextStyle(
+                      color: AppColors.primary,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  subtitle: Text(info.name),
+                  leading: Container(
+                    width: 50,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: AppColors.primary.withValues(alpha: 0.08),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(6),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(6),
 
-                    child: SvgPicture.asset(info.flag, fit: BoxFit.contain),
+                        child: SvgPicture.asset(info.flag, fit: BoxFit.contain),
+                      ),
+                    ),
+                  ),
+                  trailing: AppPopUpMenu(
+                    onSelected: (action) async {
+                      switch (action) {
+                        case MenuAction.edit:
+                        // _showEditDialog(currency);
+                          break;
+
+                        case MenuAction.delete:
+                          _confirmDelete(context, currency);
+                          break;
+                      }
+                    },
                   ),
                 ),
-              ),
-              trailing: AppPopUpMenu(
-                onSelected: (action) async {
-                  switch (action) {
-                    case MenuAction.edit:
-                      // _showEditDialog(currency);
-                      break;
 
-                    case MenuAction.delete:
-                      _confirmDelete(context, currency);
-                      break;
-                  }
-                },
-              ),
-            ),
+
           ),
+
+
         );
       },
     );

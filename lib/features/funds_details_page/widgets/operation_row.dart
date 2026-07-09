@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:my_money/core/models/transaction_model.dart';
 import 'package:my_money/core/utils/app_formatter.dart';
 
-import '../data/operation_model.dart';
+
 
 class OperationRow extends StatelessWidget {
 
   const OperationRow({
     super.key,
-    required this.operation,
+    required this.transaction,
   });
 
-  final OperationModel operation;
+  final TransactionModel transaction;
 
   @override
   Widget build(BuildContext context) {
 
     final text = Theme.of(context).textTheme;
-    final sign =
-    operation.isDeposit ? '+' : '-';
+    final sign = transaction.transactionType==TransactionType.deposit?'+' : '-';
+
 
     return Padding(
 
@@ -32,13 +33,13 @@ class OperationRow extends StatelessWidget {
 
           Expanded(
             flex: 2,
-            child: Text(operation.date),
+            child: Text(AppFormatter.date.format(transaction.transactionDate)),
           ),
 
           Expanded(
             flex: 4,
             child: Text(
-              operation.description,
+              transaction.description,
               overflow: TextOverflow.ellipsis,
               maxLines: 2,
             ),
@@ -53,14 +54,14 @@ class OperationRow extends StatelessWidget {
 
               child: Text(
 
-                '$sign ${AppFormatter.money.format(operation.amount)}',
+                '$sign ${AppFormatter.money.format(transaction.amount)}',
 
                 style: text.bodyMedium?.copyWith(
 
                   fontWeight: FontWeight.w600,
                   fontSize: 12,
 
-                  color: operation.isDeposit
+                  color: transaction.transactionType==TransactionType.deposit
                       ? Colors.green.shade700
                       : Colors.red.shade700,
 

@@ -1,11 +1,16 @@
+enum TransactionType {
+  deposit,
+  withdrawal,
+}
+
 class TransactionModel {
   final int? transactionId;
   final int fundId;
   final double amount;
-  final int transactionType;
+  final TransactionType transactionType;
   final DateTime transactionDate;
   final String description;
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   const TransactionModel({
     this.transactionId,
@@ -14,7 +19,7 @@ class TransactionModel {
     required this.transactionType,
     required this.transactionDate,
     required this.description,
-    required this.createdAt,
+     this.createdAt,
   });
 
   // Convert Dart object → Map (used when saving to SQLite)
@@ -24,10 +29,15 @@ class TransactionModel {
       if (transactionId != null) 'transaction_id': transactionId,
       'fund_id': fundId,
       'amount': amount,
-      'transaction_type': transactionType,
+      'transaction_type': transactionType.index,
       'transaction_date': transactionDate.toIso8601String(),
       'description': description,
-      'created_at': createdAt.toIso8601String(),
+     // 'created_at': createdAt.toIso8601String(),
+
+      // Don't send created_at when inserting a new transaction.
+      // SQLite will fill it automatically using CURRENT_TIMESTAMP.
+      if (transactionId != null)
+        'created_at': createdAt!.toIso8601String(),
     };
   }
 
@@ -39,7 +49,7 @@ class TransactionModel {
       transactionId: map['transaction_id'] as int?,
       fundId: map['fund_id'] as int,
       amount: (map['amount'] as num).toDouble(),
-      transactionType: map['transaction_type'] as int,
+      transactionType:TransactionType.values[map['transaction_type']],
       transactionDate: DateTime.parse(map['transaction_date']),
       description: map['description'] as String,
       createdAt: DateTime.parse(map['created_at']),
@@ -51,7 +61,7 @@ class TransactionModel {
     int? transactionId,
     int? fundId,
     double? amount,
-    int? transactionType,
+    TransactionType? transactionType,
     DateTime? transactionDate,
     String? description,
     DateTime? createdAt,

@@ -8,6 +8,8 @@ class TransactionInitial extends TransactionState {}
 
 class TransactionLoading extends TransactionState {}
 
+class TransactionEmpty extends TransactionState {}
+
 class TransactionLoaded extends TransactionState {
   final List<TransactionModel> transactions;
 

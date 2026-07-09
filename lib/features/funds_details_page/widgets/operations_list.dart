@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
-
-import '../data/operation_model.dart';
+import 'package:my_money/core/models/transaction_model.dart';
 import 'operation_row.dart';
 
 class OperationsList extends StatelessWidget {
   const OperationsList({
     super.key,
-    required this.operations,
+    required this.transactions,
   });
 
-  final List<OperationModel> operations;
+  final List<TransactionModel> transactions;
 
   @override
   Widget build(BuildContext context) {
 
     return ListView.separated(
 
-      itemCount: operations.length,
+      itemCount: transactions.length,
 
       separatorBuilder: (ctx, i) =>
       const Divider(height: 1),
@@ -24,7 +23,7 @@ class OperationsList extends StatelessWidget {
       itemBuilder: (_, index) {
 
         return OperationRow(
-          operation: operations[index],
+          transaction: transactions[index],
         );
 
       },

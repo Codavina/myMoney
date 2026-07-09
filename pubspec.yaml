@@ -73,6 +73,7 @@ flutter:
     - assets/images/currency/
     - assets/images/flags/
     - assets/images/fund/
+    - assets/images/transaction/
     - assets/fonts/
   #   - images/a_dot_ham.jpeg
 

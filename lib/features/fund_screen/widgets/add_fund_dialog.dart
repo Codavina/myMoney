@@ -53,6 +53,7 @@ backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             mainAxisSize: MainAxisSize.min,
             children: [
               CustomTextFormField(
+                readOnly: false,
                 labelText: 'Fund Name',
                 controller: _titleController,
                 validator: AppValidators.title,

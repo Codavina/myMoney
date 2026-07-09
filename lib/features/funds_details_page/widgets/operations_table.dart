@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:my_money/core/models/transaction_model.dart';
 import 'package:my_money/features/funds_details_page/widgets/table_header.dart';
-import '../data/operation_model.dart';
 import 'empty_operations.dart';
 import 'operations_list.dart';
 
 class OperationsTable extends StatelessWidget {
   const OperationsTable({
     super.key,
-    required this.operations,
+    required this.transactions,
   });
 
-  final List<OperationModel> operations;
+  final List<TransactionModel> transactions;
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +32,10 @@ class OperationsTable extends StatelessWidget {
           const Divider(height: 1),
 
           Expanded(
-            child: operations.isEmpty
+            child: transactions.isEmpty
                 ? const EmptyOperations()
                 : OperationsList(
-              operations: operations,
+              transactions: transactions,
             ),
           ),
 

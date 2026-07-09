@@ -10,8 +10,9 @@ final class CurrencyLoading extends CurrencyState {}
 
 final class CurrencyLoaded extends CurrencyState {
   final List<CurrencyModel> currencies;
+  final String? message;
 
-  CurrencyLoaded(this.currencies);
+  CurrencyLoaded({required this.currencies, this.message});
 }
 
 final class CurrencyError extends CurrencyState {

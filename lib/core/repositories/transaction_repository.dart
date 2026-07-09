@@ -56,5 +56,17 @@ class TransactionRepository {
     );
   }
 
+  Future<List<TransactionModel>> getByFund(int fundId) async {
+    final db = await _dbProvider.database;
+
+    final result = await db.query(
+      'Transactions',
+      where: 'fund_id = ?',
+      whereArgs: [fundId],
+      orderBy: 'transaction_date DESC, transaction_id DESC',
+    );
+
+    return result.map(TransactionModel.fromMap).toList();
+  }
 
 }

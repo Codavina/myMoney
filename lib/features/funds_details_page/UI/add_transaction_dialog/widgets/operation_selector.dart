@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../core/models/transaction_model.dart';
+
 class OperationSelector extends StatelessWidget {
   const OperationSelector({
-    super.key,
-    required this.isDeposit,
-    required this.onChanged,
+    super.key, required this.selectedType, required this.onChanged,
+
   });
 
-  final bool isDeposit;
-  final ValueChanged<bool> onChanged;
+  final TransactionType selectedType;
+  final ValueChanged<TransactionType> onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -17,16 +18,16 @@ class OperationSelector extends StatelessWidget {
       children: [
         ChoiceChip(
           label: const Text('Withdraw'),
-          selected: !isDeposit,
-          onSelected: (_) => onChanged(false),
+          selected: selectedType == TransactionType.withdrawal,
+          onSelected: (_) => onChanged(TransactionType.withdrawal),
         ),
 
         const SizedBox(width: 12),
 
         ChoiceChip(
           label: const Text('Deposit'),
-          selected: isDeposit,
-          onSelected: (_) => onChanged(true),
+          selected: selectedType == TransactionType.deposit,
+          onSelected: (_) => onChanged(TransactionType.deposit),
         ),
       ],
     );

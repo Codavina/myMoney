@@ -14,7 +14,7 @@ class CurrencyCubit extends Cubit<CurrencyState> {
 
     try {
       final currencies = await _repository.getAll();
-      emit(CurrencyLoaded(currencies));
+      emit(CurrencyLoaded(currencies: currencies));
     } catch (e) {
       emit(CurrencyError(e.toString()));
     }
@@ -28,7 +28,7 @@ class CurrencyCubit extends Cubit<CurrencyState> {
 
       final currencies = await _repository.getAll();
 
-      emit(CurrencyLoaded(currencies));
+      emit(CurrencyLoaded(currencies: currencies,message: 'Currency added successfully'));
     } catch (e) {
       emit(CurrencyError(e.toString()));
     }
@@ -41,7 +41,7 @@ class CurrencyCubit extends Cubit<CurrencyState> {
       await _repository.update(currency);
       final currencies = await _repository.getAll();
 
-      emit(CurrencyLoaded(currencies));
+      emit(CurrencyLoaded(currencies: currencies));
     } catch (e) {
       emit(CurrencyError(e.toString()));
     }
@@ -52,7 +52,7 @@ class CurrencyCubit extends Cubit<CurrencyState> {
     try {
       await _repository.delete(id);
       final currencies = await _repository.getAll();
-      emit(CurrencyLoaded(currencies));
+      emit(CurrencyLoaded(currencies: currencies,message: 'Currency deleted successfully'));
     } catch (e) {
       emit(CurrencyError(e.toString()));
     }

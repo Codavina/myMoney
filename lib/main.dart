@@ -14,6 +14,7 @@ import 'core/repositories/transaction_repository.dart';
 import 'core/theme/app_theme.dart';
 
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -62,7 +63,7 @@ class MyMoneyApp extends StatelessWidget {
         BlocProvider(create: (context) => CurrencyCubit(currencyRepository)..getAll()),
         BlocProvider(create: (context) => FundCubit(fundRepository)..getAll()),
         BlocProvider(
-          create: (context) => TransactionCubit(transactionRepository),
+          create: (context) => TransactionCubit(transactionRepository)..getAll(),
         ),
       ],
       child: MaterialApp(

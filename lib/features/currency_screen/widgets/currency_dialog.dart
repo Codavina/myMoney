@@ -43,6 +43,7 @@ class _CurrencyDialogState extends State<CurrencyDialog> {
           children: [
             const SizedBox(height: 12),
             CustomTextFormField(
+              readOnly: false,
               labelText: 'Currency Code',
               controller: _titleController,
               validator: AppValidators.currencyCode,

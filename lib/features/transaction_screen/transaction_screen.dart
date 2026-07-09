@@ -1,0 +1,94 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_money/core/models/transaction_model.dart';
+import 'package:my_money/features/transaction_screen/widgets/transaction_body.dart';
+import '../../core/constants/app_assets.dart';
+import '../../core/cubit/fund/fund_cubit.dart';
+import '../../core/cubit/transaction/transaction_cubit.dart';
+import '../../core/cubit/transaction/transaction_state.dart';
+import '../../core/models/fund_model.dart';
+import '../../core/widgets/empty_state.dart';
+import 'widgets/add_transaction_dialog.dart';
+import '../funds_details_page/data/operation_model.dart';
+
+class TransactionScreen extends StatefulWidget {
+  const TransactionScreen({super.key, required this.fund});
+
+  final FundModel fund;
+
+  @override
+  State<TransactionScreen> createState() => _TransactionScreenState();
+}
+
+class _TransactionScreenState extends State<TransactionScreen> {
+  final List<OperationModel> operations = [];
+
+  double get balance {
+    return operations.fold(0, (total, operation) {
+      return operation.isDeposit
+          ? total + operation.amount
+          : total - operation.amount;
+    });
+  }
+
+  Future<void> _addTransaction() async {
+    final transaction = await showDialog<TransactionModel>(
+      context: context,
+      builder: (_) => AddTransactionDialog(
+        fundId: widget.fund.fundId!,
+      ),
+    );
+
+    if (!mounted || transaction == null) return;
+
+    // Wait until the transaction is inserted and the list is refreshed.
+    await context.read<TransactionCubit>().insert(transaction);
+
+    if (!mounted) return;
+
+    // Reload funds to get the updated balance from the trigger.
+    context.read<FundCubit>().getAll();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      appBar: AppBar(
+        elevation: 1,
+        title: Text(
+          widget.fund.title,
+          style: const TextStyle(color: Colors.black),
+        ),
+        backgroundColor: Colors.white,
+        iconTheme: const IconThemeData(color: Colors.black),
+      ),
+      body: BlocConsumer<TransactionCubit, TransactionState>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          if (state is TransactionLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (state is TransactionLoaded) {
+            if (state.transactions.isEmpty) {
+              return const EmptyState(image: AppAssets.emptyTransactionImage);
+            }
+            return TransactionBody(
+              transactions: state.transactions,
+              selectedFund: widget.fund,
+            );
+          }
+          if (state is TransactionError) {
+            return const Text('Transaction State: Error');
+          }
+          return const Text('Transaction State: Initial state');
+        },
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: _addTransaction,
+        icon: const Icon(Icons.add),
+        label: const Text("Transaction"),
+      ),
+    );
+  }
+}

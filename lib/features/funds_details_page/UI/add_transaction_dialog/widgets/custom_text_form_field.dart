@@ -8,7 +8,7 @@ class CustomTextFormField extends StatelessWidget {
     required this.controller,
     this.keyboardType,
     this.inputFormatters,
-    this.onTap, this.validator,
+    this.onTap, this.validator,this.readOnly
   });
 
   final String labelText;
@@ -17,10 +17,12 @@ class CustomTextFormField extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final void Function()? onTap;
   final String? Function(String?)? validator;
+  final bool? readOnly;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      readOnly: readOnly!,
       keyboardType: keyboardType ?? TextInputType.text,
       inputFormatters: inputFormatters,
       controller: controller,

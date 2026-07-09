@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_money/core/constants/app_colors.dart';
 import 'package:my_money/core/cubit/fund/fund_cubit.dart';
 import 'package:my_money/core/cubit/fund/fund_state.dart';
 import 'package:my_money/core/models/fund_model.dart';
+import 'package:my_money/features/currency_screen/currency_screen.dart';
 import 'package:my_money/features/fund_screen/widgets/fund_body.dart';
 
 import '../../core/constants/app_assets.dart';
@@ -30,6 +32,12 @@ class FundScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('My Money', style: TextStyle(color: Colors.black)),
         backgroundColor: Colors.white,
+        actions: [
+          IconButton(onPressed: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>const CurrencyScreen()));
+          }, icon: const Icon(Icons.wallet))
+        ],
+        iconTheme:const IconThemeData(color: AppColors.primary),
       ),
       body: BlocConsumer<FundCubit, FundState>(
         listener: (context, state) {},

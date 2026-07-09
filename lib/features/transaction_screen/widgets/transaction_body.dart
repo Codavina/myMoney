@@ -1,0 +1,52 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_money/core/models/fund_model.dart';
+import 'package:my_money/core/models/transaction_model.dart';
+import '../../../core/cubit/fund/fund_cubit.dart';
+import '../../../core/cubit/fund/fund_state.dart';
+import '../../funds_details_page/widgets/balance_card.dart';
+import '../../funds_details_page/widgets/operations_table.dart';
+
+class TransactionBody extends StatelessWidget {
+  const TransactionBody({super.key, required this.transactions, required this.selectedFund});
+
+  final List<TransactionModel> transactions;
+  final FundModel selectedFund;
+
+  @override
+  Widget build(BuildContext context) {
+
+    return  SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+
+            BlocBuilder<FundCubit, FundState>(
+              builder: (context, state) {
+                if (state is! FundLoaded) {
+                  return const SizedBox.shrink();
+                }
+
+                final currentFund = state.funds.firstWhere(
+                      (f) => f.fundId == selectedFund.fundId,
+                );
+
+                return BalanceCard(balance: currentFund.balance);
+              },
+            ),
+
+            const SizedBox(height: 16),
+
+            Expanded(
+              child: OperationsTable(
+                transactions: transactions,
+              ),
+            ),
+
+          ],
+        ),
+      ),
+    );
+  }
+}

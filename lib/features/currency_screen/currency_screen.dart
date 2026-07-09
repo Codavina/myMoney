@@ -3,9 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/core/cubit/currency/currency_cubit.dart';
 import 'package:my_money/core/cubit/currency/currency_state.dart';
 import 'package:my_money/core/models/currency_model.dart';
+import 'package:my_money/core/utils/app_snackbar.dart';
 import 'package:my_money/features/currency_screen/widgets/currency_dialog.dart';
 import 'package:my_money/features/currency_screen/widgets/currency_body.dart';
 import '../../core/constants/app_assets.dart';
+import '../../core/constants/app_colors.dart';
 import '../../core/widgets/empty_state.dart';
 
 class CurrencyScreen extends StatefulWidget {
@@ -48,9 +50,16 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
         ),
         elevation: 1,
         backgroundColor:  const Color(0xfff3f3ef),
+        iconTheme:const IconThemeData(color: AppColors.primary),
       ),
       body: BlocConsumer<CurrencyCubit, CurrencyState>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state is CurrencyLoaded &&
+              state.message != null) {
+
+          AppSnackBar.success(context,  'Currency added successfully');
+          }
+        },
         builder: (context, state) {
           if (state is CurrencyLoading) {
             return const Center(child: CircularProgressIndicator());
