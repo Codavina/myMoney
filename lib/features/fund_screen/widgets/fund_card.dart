@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:my_money/core/constants/app_assets.dart';
 import 'package:my_money/core/models/fund_model.dart';
+import 'package:svg_flutter/svg.dart';
+import '../../../core/constants/app_colors.dart';
 import '../../../core/utils/app_formatter.dart';
+import '../../currency_screen/currency_info.dart';
 
 class FundCard extends StatelessWidget {
   const FundCard({
@@ -10,7 +13,9 @@ class FundCard extends StatelessWidget {
     required this.onPressed,
     required this.currencyCode,
     required this.backgroundColor,
-    required this.flag, required this.gradian1, required this.gradian2,
+    required this.flag,
+    required this.gradian1,
+    required this.gradian2,
   });
 
   final FundModel fund;
@@ -27,7 +32,7 @@ class FundCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
       child: Container(
         width: double.infinity,
-        height: MediaQuery.sizeOf(context).height * 0.2,
+        height: MediaQuery.sizeOf(context).height * 0.18,
 
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.only(
@@ -38,18 +43,15 @@ class FundCard extends StatelessWidget {
           ),
           // color: backgroundColor,
           gradient: LinearGradient(
-            colors: [
-             gradian1,
-              gradian2,
-            ],
+            colors: [gradian1, gradian2],
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
           ),
           image: const DecorationImage(
             image: AssetImage(AppAssets.bgMoney),
+            repeat: ImageRepeat.repeat,
             fit: BoxFit.fitHeight,
-
-            opacity: 0.02,
+            opacity: 0.015,
           ),
         ),
         child: Padding(
@@ -60,37 +62,51 @@ class FundCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  const SizedBox(width: 8),
+                  Text(
+                    fund.title.toUpperCase(),
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+
                   Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 16,
                       vertical: 8,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Colors.white.withValues(alpha: 0.5),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(
-                      fund.title.toUpperCase(),
-                      style: Theme.of(context).textTheme.titleMedium,
+                      '${AppFormatter.money.format(fund.balance)} ${currencyCode.toUpperCase()}',
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                        color: backgroundColor.withValues(alpha: 1),
+                      ),
                     ),
-                  ),
-
-                  Text(
-                    '${AppFormatter.money.format(fund.balance)} ${currencyCode.toUpperCase()}',
-                    style: const TextStyle(
-                      color: Colors.black87,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ), //Theme.of(context).textTheme.titleLarge,
                   ),
                 ],
               ),
               const Spacer(),
               Align(
                 alignment: Alignment.centerRight,
-                child: IconButton(
-                  onPressed: onPressed,
-                  icon: const Icon(Icons.arrow_forward_ios, size: 36),
+                child: Container(
+                  width: 44,
+                  height: 44,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(40),
+                  ),
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: IconButton(
+                      onPressed: onPressed,
+                      icon: Icon(
+                        Icons.arrow_forward_ios,
+                        size: 26,
+                        color: backgroundColor.withValues(alpha: 1),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -100,49 +116,3 @@ class FundCard extends StatelessWidget {
     );
   }
 }
-
-/*
-* Card(
-        color: backgroundColor,
-        child: ListTile(
-          contentPadding: const EdgeInsets.all(8.0),
-          title: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              fund.title,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-          ),
-          subtitle: Padding(
-            padding: const EdgeInsets.all(8.0),
-
-              child: Text(
-                '${AppFormatter.money.format(fund.balance)} ${currencyCode.toUpperCase()}',
-                style: TextStyle(fontSize: 16),//Theme.of(context).textTheme.titleLarge,
-                textAlign: TextAlign.center,
-              ),
-
-          ),
-          leading: Container(
-            width: 50,
-            height: 50,
-            decoration: BoxDecoration(
-              color: AppColors.primary.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(6),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(6),
-
-                child: SvgPicture.asset(flag, fit: BoxFit.contain),
-              ),
-            ),
-          ),
-          trailing: IconButton(
-            onPressed: onPressed,
-            icon: const Icon(Icons.arrow_forward_ios, size: 36),
-          ),
-        ),
-      ),
-* */

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/core/cubit/transaction/transaction_state.dart';
 import 'package:my_money/core/models/transaction_model.dart';
@@ -55,6 +56,7 @@ class TransactionCubit extends Cubit<TransactionState> {
   }
 
   Future<void> getByFund(int fundId) async {
+    debugPrint("Loading fund: $fundId");
     emit(TransactionLoading());
 
     await _loadTransactions(fundId);
@@ -64,10 +66,12 @@ class TransactionCubit extends Cubit<TransactionState> {
   //we create _loadTransactions method tho avoid calling
   //[TransactionLoading()] twice when calling getByFund method
   Future<void> _loadTransactions(int fundId) async {
+
     try {
       final transactions = await _repository.getByFund(fundId);
 
       emit(TransactionLoaded(transactions));
+      debugPrint("Transactions count = ${transactions.length}");
     } catch (e) {
       emit(TransactionError(e.toString()));
     }

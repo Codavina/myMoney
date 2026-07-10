@@ -1,11 +1,8 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_money/core/constants/app_assets.dart';
 import 'package:my_money/core/cubit/currency/currency_cubit.dart';
 import 'package:my_money/core/cubit/fund/fund_cubit.dart';
-import 'package:my_money/core/cubit/transaction/transaction_cubit.dart';
 import 'package:my_money/features/fund_screen/fund_screen.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'core/database/app_database.dart';
@@ -14,16 +11,11 @@ import 'core/repositories/fund_repository.dart';
 import 'core/repositories/transaction_repository.dart';
 import 'core/theme/app_theme.dart';
 
-
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-
   //sqflite_common_ffi package for run app on windows
-  if (Platform.isWindows ||
-      Platform.isLinux ||
-      Platform.isMacOS) {
+  if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     sqfliteFfiInit();
     databaseFactory = databaseFactoryFfi;
   }
@@ -60,22 +52,29 @@ class MyMoneyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (context) => CurrencyCubit(currencyRepository)..getAll()),
-        BlocProvider(create: (context) => FundCubit(fundRepository)..getAll()),
-        BlocProvider(
-          create: (context) => TransactionCubit(transactionRepository)..getAll(),
-        ),
-      ],
+    return MultiRepositoryProvider(
+        providers: [
+          RepositoryProvider.value(value: currencyRepository),
+          RepositoryProvider.value(value: fundRepository),
+          RepositoryProvider.value(value: transactionRepository),
+        ],
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (_) => CurrencyCubit(currencyRepository)..getAll(),
+            ),
+            BlocProvider(
+              create: (_) => FundCubit(fundRepository)..getAll(),
+            ),
+          ],
       child: MaterialApp(
         title: 'My Money App',
         debugShowCheckedModeBanner: false,
-              theme: AppTheme.light,
+        theme: AppTheme.light,
         darkTheme: AppTheme.dark,
         themeMode: ThemeMode.system,
         home: const FundScreen(),
-      ),
+      ),),
     );
   }
 }

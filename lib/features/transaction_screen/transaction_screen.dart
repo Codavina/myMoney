@@ -42,6 +42,14 @@ class _TransactionScreenState extends State<TransactionScreen> {
     context.read<FundCubit>().getAll();
   }
 
+  // @override
+  // void initState() {
+  //   super.initState();
+  //
+  //   context.read<TransactionCubit>().getByFund(widget.fund.fundId!);
+  // }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,10 +97,10 @@ class _TransactionScreenState extends State<TransactionScreen> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: FloatingActionButton(
         onPressed: _addTransaction,
-        icon: const Icon(Icons.add),
-        label: const Text("Transaction"),
+        shape: const CircleBorder(),
+        child: const Icon(Icons.add,size: 36,),
       ),
     );
   }

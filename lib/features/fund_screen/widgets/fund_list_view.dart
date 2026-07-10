@@ -6,7 +6,9 @@ import 'package:my_money/features/fund_screen/widgets/fund_card.dart';
 import 'package:my_money/features/transaction_screen/transaction_screen.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/cubit/currency/currency_state.dart';
+import '../../../core/cubit/transaction/transaction_cubit.dart';
 import '../../../core/models/currency_model.dart';
+import '../../../core/repositories/transaction_repository.dart';
 import '../../currency_screen/currency_info.dart';
 
 class FundListView extends StatelessWidget {
@@ -14,8 +16,29 @@ class FundListView extends StatelessWidget {
 
   final List<FundModel> funds;
 
+
+  void _openTransactions(
+      BuildContext context,
+      FundModel fund,
+      ) {
+    final repository = context.read<TransactionRepository>();
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => BlocProvider(
+          create: (_) =>
+          TransactionCubit(repository)
+            ..getByFund(fund.fundId!),
+          child: TransactionScreen(fund: fund),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+
     return BlocBuilder<CurrencyCubit,CurrencyState>(
       builder: (context, state) {
         // Build a lookup map once instead of searching for every Fund.
@@ -27,14 +50,16 @@ class FundListView extends StatelessWidget {
           }
         }
 
+        // its static lists so we put it before listview
+        final color = AppColors.fundCardColor;
+        final gradian1 = AppColors.gradianColor1;
+        final gradian2 = AppColors.gradianColor2;
         return ListView.builder(
           padding: const EdgeInsets.symmetric(vertical: 8),
           itemCount: funds.length,
           itemBuilder: (context, index) {
             final fund = funds[index];
-            final color = AppColors.fundCardColor;
-            final gradian1 = AppColors.gradianColor1;
-            final gradian2 = AppColors.gradianColor2;
+
             final currency = currencyMap[fund.currencyId];
             final info =
                 currenciesInfo[currency?.currencyCode.toUpperCase()] ??
@@ -48,14 +73,7 @@ class FundListView extends StatelessWidget {
               gradian1: gradian1[index % gradian1.length],
               gradian2: gradian2[index % gradian2.length],
               currencyCode: currency?.currencyCode ?? '',
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => TransactionScreen(fund: fund),
-                  ),
-                );
-              },
+              onPressed:()=> _openTransactions(context,fund),
             );
           },
         );

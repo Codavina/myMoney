@@ -93,7 +93,8 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _addCurrency,
-        child: const Icon(Icons.add),
+        shape: const CircleBorder(),
+        child: const Icon(Icons.add,size: 36,),
       ),
     );
   }

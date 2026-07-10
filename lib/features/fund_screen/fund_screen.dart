@@ -72,12 +72,12 @@ class FundScreen extends StatelessWidget {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: FloatingActionButton(
         onPressed: () {
           _addFund(context);
         },
-        label: const Text('Fund'),
-        icon: const Icon(Icons.add),
+        shape: const CircleBorder(),
+       child: const Icon(Icons.add,size: 36,),
       ),
     );
   }
