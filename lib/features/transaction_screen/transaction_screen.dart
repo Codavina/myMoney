@@ -55,26 +55,39 @@ class _TransactionScreenState extends State<TransactionScreen> {
         backgroundColor: Colors.white,
         iconTheme: const IconThemeData(color: Colors.black),
       ),
-      body: BlocConsumer<TransactionCubit, TransactionState>(
-        listener: (context, state) {},
-        builder: (context, state) {
-          if (state is TransactionLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (state is TransactionLoaded) {
-            if (state.transactions.isEmpty) {
-              return const EmptyState(image: AppAssets.emptyTransactionImage);
-            }
-            return TransactionBody(
-              transactions: state.transactions,
-              selectedFund: widget.fund,
-            );
-          }
-          if (state is TransactionError) {
-            return const Text('Transaction State: Error');
-          }
-          return const Text('Transaction State: Initial state');
-        },
+      body: SafeArea(
+        child: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(
+                AppAssets.bgFundCard,
+              ),
+              fit: BoxFit.cover,
+              opacity: 0.3,
+            ),
+          ),
+          child: BlocConsumer<TransactionCubit, TransactionState>(
+            listener: (context, state) {},
+            builder: (context, state) {
+              if (state is TransactionLoading) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              if (state is TransactionLoaded) {
+                if (state.transactions.isEmpty) {
+                  return const EmptyState(image: AppAssets.emptyTransactionImage);
+                }
+                return TransactionBody(
+                  transactions: state.transactions,
+                  selectedFund: widget.fund,
+                );
+              }
+              if (state is TransactionError) {
+                return const Text('Transaction State: Error');
+              }
+              return const Text('Transaction State: Initial state');
+            },
+          ),
+        ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _addTransaction,

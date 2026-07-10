@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/constants/app_assets.dart';
+import '../../../core/constants/app_colors.dart';
 
 class CurrencyHeader extends StatelessWidget {
   const CurrencyHeader({
@@ -17,10 +18,10 @@ class CurrencyHeader extends StatelessWidget {
           vertical: 12,
         ),
         decoration: BoxDecoration(
-          gradient: const LinearGradient(
+          gradient:  LinearGradient(
             colors: [
-              Color(0xff1B64C3),
-              Color(0xff4a94e1),
+            AppColors.primary,
+              AppColors.primary.withValues(alpha: 0.6),
             ],
           ),
           borderRadius: BorderRadius.circular(10),

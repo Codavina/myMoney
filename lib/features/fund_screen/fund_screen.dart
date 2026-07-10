@@ -29,6 +29,7 @@ class FundScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+
       appBar: AppBar(
         title: const Text('My Money', style: TextStyle(color: Colors.black)),
         backgroundColor: Colors.white,
@@ -39,23 +40,37 @@ class FundScreen extends StatelessWidget {
         ],
         iconTheme:const IconThemeData(color: AppColors.primary),
       ),
-      body: BlocConsumer<FundCubit, FundState>(
-        listener: (context, state) {},
-        builder: (context, state) {
-          if (state is FundLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (state is FundLoaded) {
-            if (state.funds.isEmpty) {
-              return const EmptyState(image: AppAssets.emptyFundImage);
-            }
-            return FundBody(funds: state.funds);
-          }
-          if (state is FundError) {
-            return const Text('Fund State: Error');
-          }
-          return const Text('Fund State: Initial state');
-        },
+      body: SafeArea(
+        child: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(
+                AppAssets.bgFundCard,
+              ),
+              fit: BoxFit.cover,
+              opacity: 0.3,
+            ),
+          ),
+        
+          child: BlocConsumer<FundCubit, FundState>(
+            listener: (context, state) {},
+            builder: (context, state) {
+              if (state is FundLoading) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              if (state is FundLoaded) {
+                if (state.funds.isEmpty) {
+                  return const EmptyState(image: AppAssets.emptyFundImage);
+                }
+                return FundBody(funds: state.funds);
+              }
+              if (state is FundError) {
+                return const Text('Fund State: Error');
+              }
+              return const Text('Fund State: Initial state');
+            },
+          ),
+        ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {

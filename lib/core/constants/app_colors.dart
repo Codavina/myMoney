@@ -4,6 +4,7 @@ abstract class AppColors {
   // Brand
   // static const primary = Color(0xFF2E7D32);
   static const primary = Color(0xFF4F46E5);
+  // static const primary = Color(0xFF0e92ff);
   static const secondary = Color(0xFF66BB6A);
 
   // States
@@ -53,5 +54,25 @@ abstract class AppColors {
     const Color(0xFF008080),// Teal
     const Color(0xFF5a2f26),//Dark Brown
     const Color(0xFF9B59B6), // Purple
+  ];
+
+  static  List<Color> gradianColor1 = [
+    const Color(0xFFF4C430).withValues(alpha: 0.6), // Sunflower
+    const Color(0xFF00BFFF).withValues(alpha: 0.6), // Sky Blue
+    const Color(0xFFFF6F61).withValues(alpha: 0.6), // Coral
+    const Color(0xFF4169E1).withValues(alpha: 0.6), // Royal Blue
+    const Color(0xFF008080).withValues(alpha: 0.6),// Teal
+    const Color(0xFF5a2f26).withValues(alpha: 0.6),//Dark Brown
+    const Color(0xFF9B59B6).withValues(alpha: 0.6), // Purple
+  ];
+
+  static  List<Color> gradianColor2 = [
+    const Color(0xFFF4C430).withValues(alpha: 0.2), // Sunflower
+    const Color(0xFF00BFFF).withValues(alpha: 0.2), // Sky Blue
+    const Color(0xFFFF6F61).withValues(alpha: 0.2), // Coral
+    const Color(0xFF4169E1).withValues(alpha: 0.2), // Royal Blue
+    const Color(0xFF008080).withValues(alpha: 0.2),// Teal
+    const Color(0xFF5a2f26).withValues(alpha: 0.15),//Dark Brown
+    const Color(0xFF9B59B6).withValues(alpha: 0.2), // Purple
   ];
 }

@@ -33,15 +33,20 @@ class FundListView extends StatelessWidget {
           itemBuilder: (context, index) {
             final fund = funds[index];
             final color = AppColors.fundCardColor;
+            final gradian1 = AppColors.gradianColor1;
+            final gradian2 = AppColors.gradianColor2;
             final currency = currencyMap[fund.currencyId];
             final info =
                 currenciesInfo[currency?.currencyCode.toUpperCase()] ??
                 unknownCurrency;
 
             return FundCard(
+
               flag: info.flag,
               fund: fund,
               backgroundColor: color[index % color.length],
+              gradian1: gradian1[index % gradian1.length],
+              gradian2: gradian2[index % gradian2.length],
               currencyCode: currency?.currencyCode ?? '',
               onPressed: () {
                 Navigator.push(

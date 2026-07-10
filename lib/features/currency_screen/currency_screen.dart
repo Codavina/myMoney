@@ -52,30 +52,44 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
         backgroundColor:  const Color(0xfff3f3ef),
         iconTheme:const IconThemeData(color: AppColors.primary),
       ),
-      body: BlocConsumer<CurrencyCubit, CurrencyState>(
-        listener: (context, state) {
-          if (state is CurrencyLoaded &&
-              state.message != null) {
-
-          AppSnackBar.success(context,  state.message!);
-          }
-        },
-        builder: (context, state) {
-          if (state is CurrencyLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (state is CurrencyLoaded) {
-
-            if (state.currencies.isEmpty) {
-              return const EmptyState(image: AppAssets.emptyCurrencyImage);
-            }
-            return  CurrencyBody(currencies: state.currencies,);
-          }
-          if (state is CurrencyError) {
-            return const Text('Error State');
-          }
-          return const Text('Initial state');
-        },
+      body: SafeArea(
+        child: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(
+                AppAssets.bgFundCard,
+              ),
+              fit: BoxFit.cover,
+              opacity: 0.4,
+            ),
+          ),
+        
+          child: BlocConsumer<CurrencyCubit, CurrencyState>(
+            listener: (context, state) {
+              if (state is CurrencyLoaded &&
+                  state.message != null) {
+        
+              AppSnackBar.success(context,  state.message!);
+              }
+            },
+            builder: (context, state) {
+              if (state is CurrencyLoading) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              if (state is CurrencyLoaded) {
+        
+                if (state.currencies.isEmpty) {
+                  return const EmptyState(image: AppAssets.emptyCurrencyImage);
+                }
+                return  CurrencyBody(currencies: state.currencies,);
+              }
+              if (state is CurrencyError) {
+                return const Text('Error State');
+              }
+              return const Text('Initial state');
+            },
+          ),
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _addCurrency,
