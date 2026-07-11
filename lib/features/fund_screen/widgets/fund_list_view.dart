@@ -16,20 +16,14 @@ class FundListView extends StatelessWidget {
 
   final List<FundModel> funds;
 
-
-  void _openTransactions(
-      BuildContext context,
-      FundModel fund,
-      ) {
+  void _openTransactions(BuildContext context, FundModel fund) {
     final repository = context.read<TransactionRepository>();
 
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (_) => BlocProvider(
-          create: (_) =>
-          TransactionCubit(repository)
-            ..getByFund(fund.fundId!),
+          create: (_) => TransactionCubit(repository)..getByFund(fund.fundId!),
           child: TransactionScreen(fund: fund),
         ),
       ),
@@ -38,8 +32,7 @@ class FundListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    return BlocBuilder<CurrencyCubit,CurrencyState>(
+    return BlocBuilder<CurrencyCubit, CurrencyState>(
       builder: (context, state) {
         // Build a lookup map once instead of searching for every Fund.
         final currencyMap = <int, CurrencyModel>{};
@@ -52,28 +45,22 @@ class FundListView extends StatelessWidget {
 
         // its static lists so we put it before listview
         final color = AppColors.fundCardColor;
-        final gradian1 = AppColors.gradianColor1;
-        final gradian2 = AppColors.gradianColor2;
         return ListView.builder(
           padding: const EdgeInsets.symmetric(vertical: 8),
           itemCount: funds.length,
           itemBuilder: (context, index) {
             final fund = funds[index];
-
             final currency = currencyMap[fund.currencyId];
             final info =
                 currenciesInfo[currency?.currencyCode.toUpperCase()] ??
                 unknownCurrency;
 
             return FundCard(
-
               flag: info.flag,
               fund: fund,
               backgroundColor: color[index % color.length],
-              gradian1: gradian1[index % gradian1.length],
-              gradian2: gradian2[index % gradian2.length],
               currencyCode: currency?.currencyCode ?? '',
-              onPressed:()=> _openTransactions(context,fund),
+              onPressed: () => _openTransactions(context, fund),
             );
           },
         );

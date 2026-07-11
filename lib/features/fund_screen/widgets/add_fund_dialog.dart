@@ -44,7 +44,8 @@ class _AddFundDialogState extends State<AddFundDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text('Add Fund'),
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor:Theme.of(context).scaffoldBackgroundColor,
+
       content: SingleChildScrollView(
         child: Form(
           key: _formKey,

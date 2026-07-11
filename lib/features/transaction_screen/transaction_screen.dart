@@ -42,12 +42,6 @@ class _TransactionScreenState extends State<TransactionScreen> {
     context.read<FundCubit>().getAll();
   }
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //
-  //   context.read<TransactionCubit>().getByFund(widget.fund.fundId!);
-  // }
 
 
   @override

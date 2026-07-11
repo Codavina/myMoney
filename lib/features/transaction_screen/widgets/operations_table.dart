@@ -16,7 +16,7 @@ class OperationsTable extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        //color: Colors.white,
+        color: Colors.white54,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
           color: Colors.grey.shade300,

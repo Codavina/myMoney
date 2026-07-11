@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_money/core/extensions/string_extensions.dart';
 import 'package:my_money/core/models/transaction_model.dart';
 import 'package:my_money/core/utils/app_formatter.dart';
 
@@ -39,7 +40,7 @@ class OperationRow extends StatelessWidget {
           Expanded(
             flex: 4,
             child: Text(
-              transaction.description,
+              transaction.description.toSimpleTitleCase(),
               overflow: TextOverflow.ellipsis,
               maxLines: 2,
             ),

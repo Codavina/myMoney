@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_money/core/constants/app_assets.dart';
+import 'package:my_money/core/extensions/string_extensions.dart';
 import 'package:my_money/core/models/fund_model.dart';
-import 'package:svg_flutter/svg.dart';
-import '../../../core/constants/app_colors.dart';
 import '../../../core/utils/app_formatter.dart';
-import '../../currency_screen/currency_info.dart';
 
 class FundCard extends StatelessWidget {
   const FundCard({
@@ -14,26 +12,21 @@ class FundCard extends StatelessWidget {
     required this.currencyCode,
     required this.backgroundColor,
     required this.flag,
-    required this.gradian1,
-    required this.gradian2,
   });
 
   final FundModel fund;
   final VoidCallback? onPressed;
   final String currencyCode;
   final Color backgroundColor;
-  final Color gradian1;
-  final Color gradian2;
   final String flag;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6),
       child: Container(
         width: double.infinity,
-        height: MediaQuery.sizeOf(context).height * 0.18,
-
+        height: MediaQuery.sizeOf(context).height * 0.17,
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(12),
@@ -41,12 +34,8 @@ class FundCard extends StatelessWidget {
             bottomRight: Radius.circular(12),
             topRight: Radius.circular(48),
           ),
-          // color: backgroundColor,
-          gradient: LinearGradient(
-            colors: [gradian1, gradian2],
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-          ),
+          color: backgroundColor,
+
           image: const DecorationImage(
             image: AssetImage(AppAssets.bgMoney),
             repeat: ImageRepeat.repeat,
@@ -58,35 +47,44 @@ class FundCard extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           child: Row(
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(width: 8),
-                  Text(
-                    fund.title.toUpperCase(),
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // const SizedBox(height: 1),
+                    Text(
+                      fund.title.toSimpleTitleCase(),
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                        color: Colors.grey.shade700,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.5),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      '${AppFormatter.money.format(fund.balance)} ${currencyCode.toUpperCase()}',
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                        color: backgroundColor.withValues(alpha: 1),
+                    const Spacer(),
+                    Flexible(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.5),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Text(
+                          '${AppFormatter.money.format(fund.balance)} ${currencyCode.toUpperCase()}',
+                          style: Theme.of(context).textTheme.titleLarge!
+                              .copyWith(
+                                color: backgroundColor.withValues(alpha: 1),
+                              ),
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-              const Spacer(),
+              // const Spacer(),
               Align(
                 alignment: Alignment.centerRight,
                 child: Container(
