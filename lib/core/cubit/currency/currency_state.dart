@@ -8,11 +8,17 @@ final class CurrencyInitial extends CurrencyState {}
 
 final class CurrencyLoading extends CurrencyState {}
 
+
 final class CurrencyLoaded extends CurrencyState {
   final List<CurrencyModel> currencies;
-  final String? message;
+  final String? successMessage;
+  final String? errorMessage;
 
-  CurrencyLoaded({required this.currencies, this.message});
+   CurrencyLoaded({
+    required this.currencies,
+    this.successMessage,
+    this.errorMessage,
+  });
 }
 
 final class CurrencyError extends CurrencyState {

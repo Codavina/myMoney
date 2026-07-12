@@ -7,13 +7,13 @@ class AppSnackBar {
   static void success(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        behavior: SnackBarBehavior.floating,
+        behavior: SnackBarBehavior.fixed,
         elevation: 8,
         duration: const Duration(seconds: 2),
-        margin: const EdgeInsets.all(16),
+     //   margin: const EdgeInsets.all(16),//use margin just with floating
         backgroundColor: Colors.teal,//green.shade700,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(0),
         ),
         content: Row(
           children: [
@@ -40,13 +40,13 @@ class AppSnackBar {
   static void error(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        behavior: SnackBarBehavior.floating,
+        behavior: SnackBarBehavior.fixed,
         elevation: 8,
-        duration: const Duration(seconds: 4),
-        margin: const EdgeInsets.all(16),
+        duration: const Duration(seconds: 3),
+       // margin: const EdgeInsets.all(16),
         backgroundColor: Colors.red.shade700,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(0),
         ),
         content: Row(
           children: [

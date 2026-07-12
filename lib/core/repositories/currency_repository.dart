@@ -1,6 +1,7 @@
 import 'package:my_money/core/models/currency_model.dart';
 import 'package:sqflite/sqflite.dart';
 import '../database/app_database.dart';
+import '../errors/database_error_handler.dart';
 
 
 class CurrencyRepository {
@@ -13,11 +14,9 @@ class CurrencyRepository {
       // Convert object → map before saving to SQLite
       final db = await _dbProvider.database;
 
-      return db.insert('Currencies', currency.toMap());
-    } on DatabaseException {
-      rethrow;
-    } catch (_) {
-      rethrow;
+      return await db.insert('Currencies', currency.toMap());
+    }on DatabaseException catch (e) {
+      throw DatabaseErrorHandler.handle(e);
     }
   }
 

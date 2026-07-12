@@ -77,10 +77,7 @@ class FundScreen extends StatelessWidget {
                 }
                 return FundBody(funds: state.funds);
               }
-              if (state is FundError) {
-                return const Text('Fund State: Error');
-              }
-              return const Text('Fund State: Initial state');
+             return const SizedBox();
             },
           ),
         ),
@@ -93,7 +90,7 @@ class FundScreen extends StatelessWidget {
           'Add Fund',
           style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
         ),
-   
+
         icon: const Icon(Icons.add),
       ),
     );

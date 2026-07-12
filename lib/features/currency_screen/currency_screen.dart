@@ -9,6 +9,7 @@ import 'package:my_money/features/currency_screen/widgets/currency_body.dart';
 import '../../core/constants/app_assets.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/widgets/empty_state.dart';
+import '../../core/widgets/error_state.dart';
 
 class CurrencyScreen extends StatefulWidget {
   const CurrencyScreen({super.key});
@@ -66,27 +67,53 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
         
           child: BlocConsumer<CurrencyCubit, CurrencyState>(
             listener: (context, state) {
-              if (state is CurrencyLoaded &&
-                  state.message != null) {
-        
-              AppSnackBar.success(context,  state.message!);
+              if (state is CurrencyLoaded) {
+                if (state.successMessage != null) {
+                  AppSnackBar.success(
+                    context,
+                    state.successMessage!,
+                  );
+                }
+
+                if (state.errorMessage != null) {
+                  AppSnackBar.error(
+                    context,
+                    state.errorMessage!,
+                  );
+                }
+              }
+
+              if (state is CurrencyError) {
+                AppSnackBar.error(
+                  context,
+                  state.errorMessage,
+                );
               }
             },
             builder: (context, state) {
               if (state is CurrencyLoading) {
-                return const Center(child: CircularProgressIndicator());
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
               }
+
               if (state is CurrencyLoaded) {
-        
                 if (state.currencies.isEmpty) {
-                  return const EmptyState(image: AppAssets.emptyCurrencyImage);
+                  return const EmptyState(
+                    image: AppAssets.emptyCurrencyImage,
+                  );
                 }
-                return  CurrencyBody(currencies: state.currencies,);
+
+                return CurrencyBody(
+                  currencies: state.currencies,
+                );
               }
+
               if (state is CurrencyError) {
-                return const Text('Error State');
+                return const ErrorState();
               }
-              return const Text('Initial state');
+
+              return const SizedBox.shrink();
             },
           ),
         ),

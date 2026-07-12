@@ -3,6 +3,8 @@ import 'package:my_money/core/cubit/currency/currency_state.dart';
 import 'package:my_money/core/models/currency_model.dart';
 import 'package:my_money/core/repositories/currency_repository.dart';
 
+import '../../errors/app_exception.dart';
+
 class CurrencyCubit extends Cubit<CurrencyState> {
   final CurrencyRepository _repository;
 
@@ -28,9 +30,21 @@ class CurrencyCubit extends Cubit<CurrencyState> {
 
       final currencies = await _repository.getAll();
 
-      emit(CurrencyLoaded(currencies: currencies,message: 'Currency added successfully'));
+      emit(
+        CurrencyLoaded(
+          currencies: currencies,
+          successMessage: 'Currency added successfully.',
+        ),
+      );
     } catch (e) {
-      emit(CurrencyError(e.toString()));
+      final currencies = await _repository.getAll();
+
+      emit(
+        CurrencyLoaded(
+          currencies: currencies,
+          errorMessage: e is AppException ? e.message : 'Unexpected error.',
+        ),
+      );
     }
   }
 
@@ -41,7 +55,12 @@ class CurrencyCubit extends Cubit<CurrencyState> {
       await _repository.update(currency);
       final currencies = await _repository.getAll();
 
-      emit(CurrencyLoaded(currencies: currencies,message: 'Currency updated successfully'));
+      emit(
+        CurrencyLoaded(
+          currencies: currencies,
+          successMessage: 'Currency updated successfully',
+        ),
+      );
     } catch (e) {
       emit(CurrencyError(e.toString()));
     }
@@ -52,7 +71,12 @@ class CurrencyCubit extends Cubit<CurrencyState> {
     try {
       await _repository.delete(id);
       final currencies = await _repository.getAll();
-      emit(CurrencyLoaded(currencies: currencies,message: 'Currency deleted successfully'));
+      emit(
+        CurrencyLoaded(
+          currencies: currencies,
+          successMessage: 'Currency deleted successfully',
+        ),
+      );
     } catch (e) {
       emit(CurrencyError(e.toString()));
     }
