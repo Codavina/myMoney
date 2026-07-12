@@ -145,13 +145,13 @@ ThemeData lightTheme = ThemeData(
     ),
 
     titleLarge: TextStyle(
-      fontSize: 22,
+      fontSize: 24,
       fontWeight: FontWeight.w700,
 
     ),
 
     titleMedium: TextStyle(
-      fontSize: 16,
+      fontSize: 20,
       fontWeight: FontWeight.w700,
 
     ),

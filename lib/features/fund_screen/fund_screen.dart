@@ -36,7 +36,7 @@ class FundScreen extends StatelessWidget {
         actions: [
           IconButton(onPressed: (){
             Navigator.push(context, MaterialPageRoute(builder: (context)=>const CurrencyScreen()));
-          }, icon: const Icon(Icons.wallet))
+          }, icon: const Icon(Icons.notifications))
         ],
         iconTheme:const IconThemeData(color: AppColors.primary),
       ),

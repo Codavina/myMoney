@@ -37,24 +37,26 @@ abstract class AppColors {
   static const darkSubtitle = Color(0xFF94A3B8);
 
   static  List<Color> fundCardColor = [
-    const Color(0xFFF4C430).withValues(alpha: 0.4), // Sunflower
+
     const Color(0xFF00BFFF).withValues(alpha: 0.4), // Sky Blue
     const Color(0xFF9B59B6).withValues(alpha: 0.4), // Purple
     const Color(0xFF4169E1).withValues(alpha: 0.4), // Royal Blue
     const Color(0xFF008080).withValues(alpha: 0.4),// Coral
     const Color(0xFFFF6F61).withValues(alpha: 0.4),// Teal
     const Color(0xFF5a2f26).withValues(alpha: 0.4),//Dark Brown
+    const Color(0xFFF4C430).withValues(alpha: 0.4), // Sunflower
 
   ];
 
   static  List<Color> fundTextColor = [
-    const Color(0xFFF4C430), // Sunflower
+
     const Color(0xFF00BFFF), // Sky Blue
     const Color(0xFF9B59B6), // Purple
     const Color(0xFF4169E1), // Royal Blue
     const Color(0xFF008080),// Coral
     const Color(0xFFFF6F61),// Teal
     const Color(0xFF5a2f26),//Dark Brown
+    const Color(0xFFF4C430), // Sunflower
   ];
 
  }

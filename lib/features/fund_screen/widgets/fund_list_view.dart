@@ -56,6 +56,7 @@ class FundListView extends StatelessWidget {
                 unknownCurrency;
 
             return FundCard(
+              info: info.symbol,
               flag: info.flag,
               fund: fund,
               backgroundColor: color[index % color.length],

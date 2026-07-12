@@ -90,6 +90,7 @@ class _AddTransactionDialogState extends State<AddTransactionDialog> {
               ),
               const SizedBox(height: 12),
               OperationSelector(
+
                 selectedType: _selectedType,
                 onChanged: (value) {
                   setState(() {

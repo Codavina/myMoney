@@ -4,6 +4,7 @@ import 'package:my_money/core/extensions/string_extensions.dart';
 import 'package:my_money/core/models/fund_model.dart';
 import '../../../core/utils/app_formatter.dart';
 
+
 class FundCard extends StatelessWidget {
   const FundCard({
     super.key,
@@ -11,7 +12,7 @@ class FundCard extends StatelessWidget {
     required this.onPressed,
     required this.currencyCode,
     required this.backgroundColor,
-    required this.flag,
+    required this.flag, required this.info,
   });
 
   final FundModel fund;
@@ -19,14 +20,21 @@ class FundCard extends StatelessWidget {
   final String currencyCode;
   final Color backgroundColor;
   final String flag;
+  final String info;
+
+
+
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6),
       child: Container(
+        constraints: const BoxConstraints(
+          minHeight: 130,
+        ),
         width: double.infinity,
-        height: MediaQuery.sizeOf(context).height * 0.17,
+
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(12),
@@ -52,61 +60,53 @@ class FundCard extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // const SizedBox(height: 1),
+
                     Text(
                       fund.title.toSimpleTitleCase(),
-                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                        color: Colors.grey.shade700,
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurface,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    const Spacer(),
-                    Flexible(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.5),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Text(
-                          '${AppFormatter.money.format(fund.balance)} ${currencyCode.toUpperCase()}',
-                          style: Theme.of(context).textTheme.titleLarge!
-                              .copyWith(
-                                color: backgroundColor.withValues(alpha: 1),
-                              ),
-                        ),
+                    const SizedBox(height: 20,),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 08,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.6),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                        '${AppFormatter.money.format(fund.balance)} $info',
+                        style: Theme.of(context).textTheme.titleLarge!
+                            .copyWith(
+                              color: backgroundColor.withValues(alpha: 1),
+                            ),
                       ),
                     ),
+
                   ],
                 ),
               ),
-              // const Spacer(),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Container(
-                  width: 44,
-                  height: 44,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(40),
-                  ),
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: IconButton(
-                      onPressed: onPressed,
-                      icon: Icon(
-                        Icons.arrow_forward_ios,
-                        size: 26,
-                        color: backgroundColor.withValues(alpha: 1),
-                      ),
+
+              CircleAvatar(
+                  radius: 22,
+                  backgroundColor: Colors.white,
+                  child: IconButton(
+                    onPressed: onPressed,
+                    icon: Icon(
+                      Icons.arrow_forward,
+                      size: 26,
+                      color: backgroundColor.withValues(alpha: 1),
+
                     ),
+
                   ),
                 ),
-              ),
+
             ],
           ),
         ),
