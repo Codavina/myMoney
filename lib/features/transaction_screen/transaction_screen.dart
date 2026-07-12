@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/core/models/transaction_model.dart';
 import 'package:my_money/features/transaction_screen/widgets/transaction_body.dart';
 import '../../core/constants/app_assets.dart';
+import '../../core/constants/app_colors.dart';
 import '../../core/cubit/fund/fund_cubit.dart';
 import '../../core/cubit/transaction/transaction_cubit.dart';
 import '../../core/cubit/transaction/transaction_state.dart';
@@ -46,15 +47,17 @@ class _TransactionScreenState extends State<TransactionScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         elevation: 1,
         title: Text(
           widget.fund.title,
-          style: const TextStyle(color: Colors.black),
+          style: const TextStyle(color: Colors.white),
         ),
-        backgroundColor: Colors.white,
+       // backgroundColor: Colors.white,
+        backgroundColor: const Color(0xFF9B59B6),
         iconTheme: const IconThemeData(color: Colors.black),
       ),
       body: SafeArea(
