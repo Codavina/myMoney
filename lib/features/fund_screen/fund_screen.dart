@@ -26,14 +26,19 @@ class FundScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xfff3f6f6),
-
-      //Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: const Color(0xffF1F5F9),
       appBar: AppBar(
         title: const Text('My Money'),
         backgroundColor: const Color(0xffF8FAFC),
         foregroundColor: const Color(0xff1F2937),
         elevation: 1,
+          bottom: const PreferredSize(
+            preferredSize: Size.fromHeight(1),
+            child: Divider(
+              height: 1,
+              color: Color(0xffE6EAF0),
+            ),
+          ),
         actions: [
           IconButton(
             onPressed: () {
@@ -45,7 +50,7 @@ class FundScreen extends StatelessWidget {
             icon: const Icon(Icons.notifications),
           ),
         ],
-        //iconTheme: const IconThemeData(color: AppColors.error),
+
       ),
 
       body: SafeArea(
@@ -74,7 +79,7 @@ class FundScreen extends StatelessWidget {
           style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700,color: Color(0xffFFFFFF)),
         ),
         backgroundColor: const Color(0xff0088cc),
-        icon: const Icon(Icons.add,color:Color(0xffFFFFFF) ,),
+        icon: const Icon(Icons.add,color:Color(0xffFFFFFF),),
       ),
     );
   }

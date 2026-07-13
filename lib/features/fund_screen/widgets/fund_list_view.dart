@@ -56,8 +56,7 @@ class FundListView extends StatelessWidget {
               info: info.symbol,
               flag: info.flag,
               fund: fund,
-
-              currencyCode: currency?.currencyCode ?? '',
+              //currencyCode: currency?.currencyCode ?? '',
               onPressed: () => _openTransactions(context, fund),
             );
           },

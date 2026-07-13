@@ -41,14 +41,21 @@ class _TransactionScreenState extends State<TransactionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xfff3f6f6),
+      backgroundColor: const Color(0xffF1F5F9),
       appBar: AppBar(
-        elevation: 0.5,
-        shadowColor: Colors.black26,
-
-        title: Text(widget.fund.title.toSimpleTitleCase()),
         backgroundColor: const Color(0xffF8FAFC),
         foregroundColor: const Color(0xff1F2937),
+        elevation: 1,
+        bottom: const PreferredSize(
+          preferredSize: Size.fromHeight(1),
+          child: Divider(
+            height: 1,
+            color: Color(0xffE6EAF0),
+          ),
+        ),
+
+        title: Text(widget.fund.title.toSimpleTitleCase()),
+
 
       ),
       body: SafeArea(

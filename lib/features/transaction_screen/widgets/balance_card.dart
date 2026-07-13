@@ -20,10 +20,15 @@ class BalanceCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 16),
         child: Row(
+
           children: [
-            Text('Sold:', style: text.titleMedium!.copyWith(color: Colors.grey.shade700)),
-            const Spacer(),
-            Text(AppFormatter.money.format(balance), style: text.titleLarge),
+            Text('Sold:', style: text.titleMedium!.copyWith(color: Colors.grey.shade700),textAlign: TextAlign.center,),
+           // const Spacer(),
+            Expanded(
+              child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(AppFormatter.money.format(balance), style: text.titleLarge)),
+            ),
           ],
         ),
       ),

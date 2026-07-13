@@ -7,7 +7,6 @@ import 'package:my_money/core/utils/app_snackbar.dart';
 import 'package:my_money/features/currency_screen/widgets/currency_dialog.dart';
 import 'package:my_money/features/currency_screen/widgets/currency_body.dart';
 import '../../core/constants/app_assets.dart';
-import '../../core/constants/app_colors.dart';
 import '../../core/widgets/empty_state.dart';
 import '../../core/widgets/error_state.dart';
 
@@ -43,85 +42,82 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: const Color(0xffF1F5F9),
       appBar: AppBar(
+        backgroundColor: const Color(0xffF8FAFC),
+        foregroundColor: const Color(0xff1F2937),
         title: const Text(
           'Currency Page',
           style: TextStyle(color: Colors.black),
         ),
         elevation: 1,
-        backgroundColor:  const Color(0xfff3f3ef),
-        iconTheme:const IconThemeData(color: AppColors.primary),
-      ),
-      body: SafeArea(
-        child: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(
-                AppAssets.bgFundCard,
-              ),
-              fit: BoxFit.cover,
-              opacity: 0.4,
-            ),
-          ),
-        
-          child: BlocConsumer<CurrencyCubit, CurrencyState>(
-            listener: (context, state) {
-              if (state is CurrencyLoaded) {
-                if (state.successMessage != null) {
-                  AppSnackBar.success(
-                    context,
-                    state.successMessage!,
-                  );
-                }
-
-                if (state.errorMessage != null) {
-                  AppSnackBar.error(
-                    context,
-                    state.errorMessage!,
-                  );
-                }
-              }
-
-              if (state is CurrencyError) {
-                AppSnackBar.error(
-                  context,
-                  state.errorMessage,
-                );
-              }
-            },
-            builder: (context, state) {
-              if (state is CurrencyLoading) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-
-              if (state is CurrencyLoaded) {
-                if (state.currencies.isEmpty) {
-                  return const EmptyState(
-                    image: AppAssets.emptyCurrencyImage,
-                  );
-                }
-
-                return CurrencyBody(
-                  currencies: state.currencies,
-                );
-              }
-
-              if (state is CurrencyError) {
-                return const ErrorState();
-              }
-
-              return const SizedBox.shrink();
-            },
+        bottom: const PreferredSize(
+          preferredSize: Size.fromHeight(1),
+          child: Divider(
+            height: 1,
+            color: Color(0xffE6EAF0),
           ),
         ),
+
       ),
-      floatingActionButton: FloatingActionButton(
+      body: SafeArea(
+        child: BlocConsumer<CurrencyCubit, CurrencyState>(
+          listener: (context, state) {
+            if (state is CurrencyLoaded) {
+              if (state.successMessage != null) {
+                AppSnackBar.success(
+                  context,
+                  state.successMessage!,
+                );
+              }
+
+              if (state.errorMessage != null) {
+                AppSnackBar.error(
+                  context,
+                  state.errorMessage!,
+                );
+              }
+            }
+
+            if (state is CurrencyError) {
+              AppSnackBar.error(
+                context,
+                state.errorMessage,
+              );
+            }
+          },
+          builder: (context, state) {
+            if (state is CurrencyLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
+            if (state is CurrencyLoaded) {
+              if (state.currencies.isEmpty) {
+                return const EmptyState(
+                  image: AppAssets.emptyCurrencyImage,
+                );
+              }
+
+              return CurrencyBody(
+                currencies: state.currencies,
+              );
+            }
+
+            if (state is CurrencyError) {
+              return const ErrorState();
+            }
+
+            return const SizedBox.shrink();
+          },
+        ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
         onPressed: _addCurrency,
-        shape: const CircleBorder(),
-        child: const Icon(Icons.add,size: 36,),
+        backgroundColor: const Color(0xff0088cc),
+        icon: const Icon(Icons.add,color:Color(0xffFFFFFF),),
+        label: const Text('Add Currency', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700,color: Color(0xffFFFFFF))),
       ),
     );
   }
