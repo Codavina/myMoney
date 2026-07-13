@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_money/core/extensions/string_extensions.dart';
 import 'package:my_money/core/models/transaction_model.dart';
 import 'package:my_money/features/transaction_screen/widgets/transaction_body.dart';
 import '../../core/constants/app_assets.dart';
-import '../../core/constants/app_colors.dart';
 import '../../core/cubit/fund/fund_cubit.dart';
 import '../../core/cubit/transaction/transaction_cubit.dart';
 import '../../core/cubit/transaction/transaction_state.dart';
@@ -21,15 +21,10 @@ class TransactionScreen extends StatefulWidget {
 }
 
 class _TransactionScreenState extends State<TransactionScreen> {
-
-
-
   Future<void> _addTransaction() async {
     final transaction = await showDialog<TransactionModel>(
       context: context,
-      builder: (_) => AddTransactionDialog(
-        fundId: widget.fund.fundId!,
-      ),
+      builder: (_) => AddTransactionDialog(fundId: widget.fund.fundId!),
     );
 
     if (!mounted || transaction == null) return;
@@ -43,61 +38,47 @@ class _TransactionScreenState extends State<TransactionScreen> {
     context.read<FundCubit>().getAll();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: const Color(0xfff3f6f6),
       appBar: AppBar(
-        elevation: 1,
-        title: Text(
-          widget.fund.title,
-          style: const TextStyle(color: Colors.white),
-        ),
-       // backgroundColor: Colors.white,
-        backgroundColor: const Color(0xFF9B59B6),
-        iconTheme: const IconThemeData(color: Colors.black),
+        elevation: 0.5,
+        shadowColor: Colors.black26,
+
+        title: Text(widget.fund.title.toSimpleTitleCase()),
+        backgroundColor: const Color(0xffF8FAFC),
+        foregroundColor: const Color(0xff1F2937),
+
       ),
       body: SafeArea(
-        child: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(
-                AppAssets.bgFundCard,
-              ),
-              fit: BoxFit.cover,
-              opacity: 0.3,
-            ),
-          ),
-          child: BlocConsumer<TransactionCubit, TransactionState>(
-            listener: (context, state) {},
-            builder: (context, state) {
-              if (state is TransactionLoading) {
-                return const Center(child: CircularProgressIndicator());
+        child: BlocConsumer<TransactionCubit, TransactionState>(
+          listener: (context, state) {},
+          builder: (context, state) {
+            if (state is TransactionLoading) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (state is TransactionLoaded) {
+              if (state.transactions.isEmpty) {
+                return const EmptyState(image: AppAssets.emptyTransactionImage);
               }
-              if (state is TransactionLoaded) {
-                if (state.transactions.isEmpty) {
-                  return const EmptyState(image: AppAssets.emptyTransactionImage);
-                }
-                return TransactionBody(
-                  transactions: state.transactions,
-                  selectedFund: widget.fund,
-                );
-              }
-              if (state is TransactionError) {
-                return const Text('Transaction State: Error');
-              }
-              return const Text('Transaction State: Initial state');
-            },
-          ),
+              return TransactionBody(
+                transactions: state.transactions,
+                selectedFund: widget.fund,
+              );
+            }
+            if (state is TransactionError) {
+              return const Text('Transaction State: Error');
+            }
+            return const Text('Transaction State: Initial state');
+          },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.extended(
         onPressed: _addTransaction,
-        shape: const CircleBorder(),
-        child: const Icon(Icons.add,size: 36,),
+        //shape: const CircleBorder(),
+        label: const Text('Add Transaction',style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700,color: Color(0xffFFFFFF)),),
+        icon: const Icon(Icons.add, size: 24),
       ),
     );
   }

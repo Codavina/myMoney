@@ -26,21 +26,14 @@ class FundScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: const Color(0xfff3f6f6),
 
+      //Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text('My Money', style: TextStyle(color: Colors.white)),
-        backgroundColor: Colors.transparent,
+        title: const Text('My Money'),
+        backgroundColor: const Color(0xffF8FAFC),
+        foregroundColor: const Color(0xff1F2937),
         elevation: 1,
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [Color(0xFF9B59B6), Color(0xFFC36FE6)],
-            ),
-          ),
-        ),
         actions: [
           IconButton(
             onPressed: () {
@@ -56,30 +49,20 @@ class FundScreen extends StatelessWidget {
       ),
 
       body: SafeArea(
-        child: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(AppAssets.bgFundCard),
-              fit: BoxFit.cover,
-              opacity: 0.3,
-            ),
-          ),
-
-          child: BlocConsumer<FundCubit, FundState>(
-            listener: (context, state) {},
-            builder: (context, state) {
-              if (state is FundLoading) {
-                return const Center(child: CircularProgressIndicator());
+        child: BlocConsumer<FundCubit, FundState>(
+          listener: (context, state) {},
+          builder: (context, state) {
+            if (state is FundLoading) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (state is FundLoaded) {
+              if (state.funds.isEmpty) {
+                return const EmptyState(image: AppAssets.emptyFundImage);
               }
-              if (state is FundLoaded) {
-                if (state.funds.isEmpty) {
-                  return const EmptyState(image: AppAssets.emptyFundImage);
-                }
-                return FundBody(funds: state.funds);
-              }
-             return const SizedBox();
-            },
-          ),
+              return FundBody(funds: state.funds);
+            }
+            return const SizedBox();
+          },
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
@@ -88,10 +71,10 @@ class FundScreen extends StatelessWidget {
         },
         label: const Text(
           'Add Fund',
-          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
+          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700,color: Color(0xffFFFFFF)),
         ),
-
-        icon: const Icon(Icons.add),
+        backgroundColor: const Color(0xff0088cc),
+        icon: const Icon(Icons.add,color:Color(0xffFFFFFF) ,),
       ),
     );
   }

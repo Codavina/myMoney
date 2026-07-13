@@ -4,7 +4,6 @@ import 'package:my_money/core/cubit/currency/currency_cubit.dart';
 import 'package:my_money/core/models/fund_model.dart';
 import 'package:my_money/features/fund_screen/widgets/fund_card.dart';
 import 'package:my_money/features/transaction_screen/transaction_screen.dart';
-import '../../../core/constants/app_colors.dart';
 import '../../../core/cubit/currency/currency_state.dart';
 import '../../../core/cubit/transaction/transaction_cubit.dart';
 import '../../../core/models/currency_model.dart';
@@ -43,8 +42,6 @@ class FundListView extends StatelessWidget {
           }
         }
 
-        // its static lists so we put it before listview
-        final color = AppColors.fundCardColor;
         return ListView.builder(
           padding: const EdgeInsets.symmetric(vertical: 8),
           itemCount: funds.length,
@@ -59,7 +56,7 @@ class FundListView extends StatelessWidget {
               info: info.symbol,
               flag: info.flag,
               fund: fund,
-              backgroundColor: color[index % color.length],
+
               currencyCode: currency?.currencyCode ?? '',
               onPressed: () => _openTransactions(context, fund),
             );

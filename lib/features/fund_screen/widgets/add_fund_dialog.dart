@@ -79,7 +79,14 @@ class _AddFundDialogState extends State<AddFundDialog> {
           child: const Text('Cancel'),
         ),
 
-        FilledButton(onPressed: _save, child: const Text('Save')),
+        FilledButton(
+            style: FilledButton.styleFrom(
+              backgroundColor: const Color(0xff0088cc),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12)
+              )
+            ),
+            onPressed: _save, child: const Text('Save',)),
       ],
     );
   }

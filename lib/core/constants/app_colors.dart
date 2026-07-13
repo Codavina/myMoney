@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 abstract class AppColors {
   ///Brand
   // static const primary = Color(0xFF2E7D32);
-  // static const primary = Color(0xFF4F46E5);
-  static const primary = Color(0xFF9B59B6);
-  static const secondary = Color(0xFF66BB6A);
+   //static const primary = Color(0xFF2563EB);
+  static const primary = Color(0xFF0088cc); //indigo
+  static const secondary = Color(0xFF64748B);
+
+
+
 
   /// States
   static const success = Color(0xFF2E7D32);
