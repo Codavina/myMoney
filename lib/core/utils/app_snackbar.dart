@@ -42,7 +42,7 @@ class AppSnackBar {
       SnackBar(
         behavior: SnackBarBehavior.fixed,
         elevation: 8,
-        duration: const Duration(seconds: 3),
+        duration: const Duration(seconds: 2),
        // margin: const EdgeInsets.all(16),
         backgroundColor: Colors.red.shade700,
         shape: RoundedRectangleBorder(

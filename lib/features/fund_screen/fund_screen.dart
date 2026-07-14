@@ -32,6 +32,7 @@ class FundScreen extends StatelessWidget {
         title: const Text('My Money'),
         backgroundColor: const Color(0xffF8FAFC),
         foregroundColor: const Color(0xff1F2937),
+        centerTitle: true,
         elevation: 1,
         bottom: const PreferredSize(
           preferredSize: Size.fromHeight(1),

@@ -10,14 +10,12 @@ class FundCard extends StatelessWidget {
     super.key,
     required this.fund,
     required this.onPressed,
-   // required this.currencyCode,
     required this.flag,
     required this.info,
   });
 
   final FundModel fund;
   final VoidCallback? onPressed;
- // final String currencyCode;
   final String flag;
   final String info;
 
@@ -97,7 +95,7 @@ class FundCard extends StatelessWidget {
                           color: AppColors.primary,
                         ),
                         overflow: TextOverflow.ellipsis,
-                        maxLines:1,
+                        maxLines: 1,
                       ),
                     ],
                   ),
@@ -123,5 +121,3 @@ class FundCard extends StatelessWidget {
     );
   }
 }
-
-

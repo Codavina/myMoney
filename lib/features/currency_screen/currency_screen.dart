@@ -8,7 +8,7 @@ import 'package:my_money/features/currency_screen/widgets/currency_dialog.dart';
 import 'package:my_money/features/currency_screen/widgets/currency_body.dart';
 import '../../core/constants/app_assets.dart';
 import '../../core/widgets/empty_state.dart';
-import '../../core/widgets/error_state.dart';
+
 
 class CurrencyScreen extends StatefulWidget {
   const CurrencyScreen({super.key});

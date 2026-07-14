@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/core/cubit/currency/currency_cubit.dart';
 import 'package:my_money/core/models/fund_model.dart';
+import 'package:my_money/core/widgets/app_popup_menu.dart';
 import 'package:my_money/features/fund_screen/widgets/fund_card.dart';
 import 'package:my_money/features/transaction_screen/transaction_screen.dart';
 import '../../../core/cubit/currency/currency_state.dart';
@@ -56,7 +57,6 @@ class FundListView extends StatelessWidget {
               info: info.symbol,
               flag: info.flag,
               fund: fund,
-              //currencyCode: currency?.currencyCode ?? '',
               onPressed: () => _openTransactions(context, fund),
             );
           },
