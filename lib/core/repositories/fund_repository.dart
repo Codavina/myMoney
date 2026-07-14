@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:my_money/core/database/app_database.dart';
 import 'package:my_money/core/models/fund_model.dart';
 import 'package:sqflite/sqflite.dart';
@@ -13,8 +14,10 @@ class FundRepository {
     try {
       final db = await _dbProvider.database;
 
-      return db.insert('Funds', fund.toMap());
+      return await db.insert('Funds', fund.toMap());
     }on DatabaseException catch (e) {
+      debugPrint("Repository Catch");
+      debugPrint(e.runtimeType.toString());
       throw DatabaseErrorHandler.handle(e);
     }
   }
@@ -67,7 +70,7 @@ class FundRepository {
   Future<int> delete(int id) async {
     final db = await _dbProvider.database;
 
-    return db.delete('Funds', where: 'fund_id=?', whereArgs: [id]);
+    return await db.delete('Funds', where: 'fund_id=?', whereArgs: [id]);
   }
 
 

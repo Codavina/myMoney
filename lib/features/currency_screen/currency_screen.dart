@@ -95,9 +95,7 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
 
             if (state is CurrencyLoaded) {
               if (state.currencies.isEmpty) {
-                return const EmptyState(
-                  image: AppAssets.emptyCurrencyImage,
-                );
+                return const EmptyState(image: AppAssets.emptyCurrencyImage);
               }
 
               return CurrencyBody(
@@ -105,9 +103,6 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
               );
             }
 
-            if (state is CurrencyError) {
-              return const ErrorState();
-            }
 
             return const SizedBox.shrink();
           },

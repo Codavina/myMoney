@@ -87,7 +87,7 @@ class CurrencyRepository {
     try {
       final db = await _dbProvider.database;
 
-      return db.delete(
+      return await db.delete(
         'Currencies',
         where: 'currency_id=?',
         // Always use WHERE to avoid deleting entire table

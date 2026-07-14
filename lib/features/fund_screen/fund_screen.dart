@@ -86,7 +86,7 @@ class FundScreen extends StatelessWidget {
               }
               return FundBody(funds: state.funds);
             }
-            return const SizedBox();
+            return const SizedBox.shrink();
           },
         ),
       ),

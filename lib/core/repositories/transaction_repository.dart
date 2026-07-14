@@ -7,7 +7,7 @@ class TransactionRepository {
   Future<int> insert(TransactionModel transaction) async {
     final db = await _dbProvider.database;
 
-    return db.insert('Transactions', transaction.toMap());
+    return await db.insert('Transactions', transaction.toMap());
   }
 
   Future<List<TransactionModel>> getAll() async {
@@ -49,7 +49,7 @@ class TransactionRepository {
   Future<int> delete(int id) async {
     final db = await _dbProvider.database;
 
-    return db.delete(
+    return await db.delete(
       'Transactions',
       where: 'transaction_id=?',
       whereArgs: [id],

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/core/cubit/fund/fund_state.dart';
 import 'package:my_money/core/models/fund_model.dart';
@@ -34,6 +35,8 @@ class FundCubit extends Cubit<FundState> {
         ),
       );
     } catch (e) {
+      debugPrint(e.runtimeType.toString());
+      debugPrint(e.toString());
       final funds = await _repository.getAll();
 
       emit(FundLoaded(
@@ -56,6 +59,7 @@ class FundCubit extends Cubit<FundState> {
       ),
       );
     } catch (e) {
+
       final funds = await _repository.getAll();
 
       emit(FundLoaded(
