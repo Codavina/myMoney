@@ -11,8 +11,10 @@ final class FundLoading extends FundState {}
 
 final class FundLoaded extends FundState {
   final List<FundModel> funds;
+  final String? successMessage;
+  final String? errorMessage;
 
-  FundLoaded(this.funds);
+  FundLoaded({required this.funds, this.successMessage, this.errorMessage});
 }
 
 final class FundError extends FundState {

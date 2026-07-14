@@ -6,6 +6,7 @@ import 'package:my_money/core/models/fund_model.dart';
 import 'package:my_money/features/currency_screen/currency_screen.dart';
 import 'package:my_money/features/fund_screen/widgets/fund_body.dart';
 import '../../core/constants/app_assets.dart';
+import '../../core/utils/app_snackbar.dart';
 import '../../core/widgets/empty_state.dart';
 import 'widgets/add_fund_dialog.dart';
 
@@ -32,13 +33,10 @@ class FundScreen extends StatelessWidget {
         backgroundColor: const Color(0xffF8FAFC),
         foregroundColor: const Color(0xff1F2937),
         elevation: 1,
-          bottom: const PreferredSize(
-            preferredSize: Size.fromHeight(1),
-            child: Divider(
-              height: 1,
-              color: Color(0xffE6EAF0),
-            ),
-          ),
+        bottom: const PreferredSize(
+          preferredSize: Size.fromHeight(1),
+          child: Divider(height: 1, color: Color(0xffE6EAF0)),
+        ),
         actions: [
           IconButton(
             onPressed: () {
@@ -50,12 +48,34 @@ class FundScreen extends StatelessWidget {
             icon: const Icon(Icons.notifications),
           ),
         ],
-
       ),
 
       body: SafeArea(
         child: BlocConsumer<FundCubit, FundState>(
-          listener: (context, state) {},
+          listener: (context, state) {
+            if (state is FundLoaded) {
+              if (state.successMessage != null) {
+                AppSnackBar.success(
+                  context,
+                  state.successMessage!,
+                );
+              }
+
+              if (state.errorMessage != null) {
+                AppSnackBar.error(
+                  context,
+                  state.errorMessage!,
+                );
+              }
+            }
+
+            if (state is FundError) {
+              AppSnackBar.error(
+                context,
+                state.errorMessage,
+              );
+            }
+          },
           builder: (context, state) {
             if (state is FundLoading) {
               return const Center(child: CircularProgressIndicator());
@@ -76,10 +96,14 @@ class FundScreen extends StatelessWidget {
         },
         label: const Text(
           'Add Fund',
-          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700,color: Color(0xffFFFFFF)),
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w700,
+            color: Color(0xffFFFFFF),
+          ),
         ),
         backgroundColor: const Color(0xff0088cc),
-        icon: const Icon(Icons.add,color:Color(0xffFFFFFF),),
+        icon: const Icon(Icons.add, color: Color(0xffFFFFFF)),
       ),
     );
   }

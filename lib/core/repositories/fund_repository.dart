@@ -1,22 +1,34 @@
 import 'package:my_money/core/database/app_database.dart';
 import 'package:my_money/core/models/fund_model.dart';
+import 'package:sqflite/sqflite.dart';
+
+import '../errors/database_error_handler.dart';
 
 class FundRepository {
   final _dbProvider = AppDatabase.instance;
 
   //Insert
   Future<int> insert(FundModel fund) async {
-    final db = await _dbProvider.database;
 
-    return db.insert('Funds', fund.toMap());
+    try {
+      final db = await _dbProvider.database;
+
+      return db.insert('Funds', fund.toMap());
+    }on DatabaseException catch (e) {
+      throw DatabaseErrorHandler.handle(e);
+    }
   }
 
   //Read all
   Future<List<FundModel>> getAll() async {
-    final db = await _dbProvider.database;
-    final result = await db.query('Funds');
+    try {
+      final db = await _dbProvider.database;
+      final result = await db.query('Funds');
 
-    return result.map((e) => FundModel.fromMap(e)).toList();
+      return result.map((e) => FundModel.fromMap(e)).toList();
+    }on DatabaseException catch (e) {
+      throw DatabaseErrorHandler.handle(e);
+    }
   }
 
   //Read by id

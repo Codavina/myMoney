@@ -3,6 +3,8 @@ import 'package:my_money/core/cubit/fund/fund_state.dart';
 import 'package:my_money/core/models/fund_model.dart';
 import 'package:my_money/core/repositories/fund_repository.dart';
 
+import '../../errors/app_exception.dart';
+
 class FundCubit extends Cubit<FundState> {
   final FundRepository _repository;
 
@@ -14,7 +16,7 @@ class FundCubit extends Cubit<FundState> {
     try {
       final funds = await _repository.getAll();
 
-      emit(FundLoaded(funds));
+      emit(FundLoaded(funds: funds));
     } catch (e) {
       emit(FundError(e.toString()));
     }
@@ -26,9 +28,19 @@ class FundCubit extends Cubit<FundState> {
     try {
       await _repository.insert(fund);
       final funds = await _repository.getAll();
-      emit(FundLoaded(funds));
+      emit(FundLoaded(
+          funds:funds,
+          successMessage: 'Fund added successfully.',
+        ),
+      );
     } catch (e) {
-      emit(FundError(e.toString()));
+      final funds = await _repository.getAll();
+
+      emit(FundLoaded(
+          funds:funds,
+          errorMessage: e is AppException ? e.message : 'Unexpected error.',
+        ),
+      );
     }
   }
 
@@ -38,9 +50,19 @@ class FundCubit extends Cubit<FundState> {
     try {
       await _repository.update(fund);
       final funds = await _repository.getAll();
-      emit(FundLoaded(funds));
+      emit(FundLoaded(
+        funds:funds,
+        successMessage: 'Fund updated successfully.',
+      ),
+      );
     } catch (e) {
-      emit(FundError(e.toString()));
+      final funds = await _repository.getAll();
+
+      emit(FundLoaded(
+        funds:funds,
+        errorMessage: e is AppException ? e.message : 'Unexpected error.',
+      ),
+      );
     }
   }
 
@@ -49,9 +71,19 @@ class FundCubit extends Cubit<FundState> {
     try{
       await _repository.delete(id);
       final funds = await _repository.getAll();
-      emit(FundLoaded(funds));
-    }catch (e){
-      emit(FundError(e.toString()));
+      emit(FundLoaded(
+        funds:funds,
+        successMessage: 'Fund deleted successfully.',
+      ),
+      );
+    } catch (e) {
+      final funds = await _repository.getAll();
+
+      emit(FundLoaded(
+        funds:funds,
+        errorMessage: e is AppException ? e.message : 'Unexpected error.',
+      ),
+      );
     }
   }
 

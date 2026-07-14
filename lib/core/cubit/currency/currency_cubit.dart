@@ -22,11 +22,11 @@ class CurrencyCubit extends Cubit<CurrencyState> {
     }
   }
 
-  Future<void> insert(CurrencyModel model) async {
+  Future<void> insert(CurrencyModel currency) async {
     emit(CurrencyLoading());
 
     try {
-      await _repository.insert(model);
+      await _repository.insert(currency);
 
       final currencies = await _repository.getAll();
 
