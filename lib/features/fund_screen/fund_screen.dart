@@ -14,12 +14,7 @@ class FundScreen extends StatelessWidget {
   const FundScreen({super.key});
 
   Future<void> _addFund(BuildContext context) async {
-    // final currencyState = context.read<CurrencyCubit>().state;
-    // if (currencyState is! CurrencyLoaded) return;
-    // final FundModel? fund = await showDialog<FundModel>(
-    //   context: context,
-    //   builder: (_) =>  AddFundDialog(currencies: currencyState.currencies,),
-    // );
+
     final fund = await openFundDialog(context);
 
     if (!context.mounted) return;

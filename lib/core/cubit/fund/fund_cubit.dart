@@ -23,6 +23,30 @@ class FundCubit extends Cubit<FundState> {
     }
   }
 
+  Future<void> getAllActive() async {
+    emit(FundLoading());
+
+    try {
+      final funds = await _repository.getAllActive();
+
+      emit(FundLoaded(funds: funds));
+    } catch (e) {
+      emit(FundError(e.toString()));
+    }
+  }
+
+  Future<void> getAllArchived() async {
+    emit(FundLoading());
+
+    try {
+      final funds = await _repository.getAllArchived();
+
+      emit(FundLoaded(funds: funds));
+    } catch (e) {
+      emit(FundError(e.toString()));
+    }
+  }
+
   Future<void> insert(FundModel fund) async {
     emit(FundLoading());
 

@@ -79,18 +79,32 @@ class FundListView extends StatelessWidget {
                 color: Colors.red,
                 alignment: Alignment.centerRight,
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: const Icon(
-                  Icons.delete,
-                  color: Colors.white,
+                child: const Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.delete,
+                      color: Colors.white,
+                    ),
+                    SizedBox(height: 10,),
+                    Text('Delete',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
+                  ],
                 ),
               ),
               background: Container(
                 color: Colors.blue,
                 alignment: Alignment.centerLeft,
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: const Icon(
-                  Icons.edit,
-                  color: Colors.white,
+                child: const Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.edit,
+                      color: Colors.white,
+                    ),
+                    SizedBox(height: 10,),
+                    Text('Edit',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
+                  ],
                 ),
               ),
               confirmDismiss: (direction) async {

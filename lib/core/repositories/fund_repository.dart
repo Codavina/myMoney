@@ -35,6 +35,42 @@ class FundRepository {
     }
   }
 
+  //Read All Active funds
+  Future<List<FundModel>> getAllActive() async {
+    try {
+      final db = await _dbProvider.database;
+
+      final result = await db.query(
+        'Funds',
+        where: 'is_archived = ?',
+        whereArgs: [0],
+        orderBy: 'created_at DESC',
+      );
+
+      return result.map(FundModel.fromMap).toList();
+    } on DatabaseException catch (e) {
+      throw DatabaseErrorHandler.handle(e);
+    }
+  }
+
+  //Read ALl Archived funds
+  Future<List<FundModel>> getAllArchived() async {
+    try {
+      final db = await _dbProvider.database;
+
+      final result = await db.query(
+        'Funds',
+        where: 'is_archived = ?',
+        whereArgs: [1],
+        orderBy: 'created_at DESC',
+      );
+
+      return result.map(FundModel.fromMap).toList();
+    } on DatabaseException catch (e) {
+      throw DatabaseErrorHandler.handle(e);
+    }
+  }
+
   //Read by id
   Future<FundModel?> getById(int id) async {
     final db = await _dbProvider.database;
@@ -88,5 +124,29 @@ class FundRepository {
     }
   }
 
+  Future<void> archive(int fundId) async {
+    final db = await _dbProvider.database;
 
+    await db.update(
+      'Funds',
+      {
+        'is_archived': 1,
+      },
+      where: 'fund_id = ?',
+      whereArgs: [fundId],
+    );
+  }
+
+  Future<void> unarchive(int fundId) async {
+    final db = await _dbProvider.database;
+
+    await db.update(
+      'Funds',
+      {
+        'is_archived': 0,
+      },
+      where: 'fund_id = ?',
+      whereArgs: [fundId],
+    );
+  }
 }
