@@ -35,7 +35,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
     if (!mounted) return;
 
     // Reload funds to get the updated balance from the trigger.
-    context.read<FundCubit>().getAll();
+    context.read<FundCubit>().getAllActive();
   }
 
   @override

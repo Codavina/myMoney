@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/core/cubit/fund/fund_state.dart';
 import 'package:my_money/core/models/fund_model.dart';
@@ -31,7 +30,13 @@ class FundCubit extends Cubit<FundState> {
 
       emit(FundLoaded(funds: funds));
     } catch (e) {
-      emit(FundError(e.toString()));
+      emit(
+        FundError(
+          e is AppException
+              ? e.message
+              : 'Unexpected error.',
+        ),
+      );
     }
   }
 
@@ -43,7 +48,13 @@ class FundCubit extends Cubit<FundState> {
 
       emit(FundLoaded(funds: funds));
     } catch (e) {
-      emit(FundError(e.toString()));
+      emit(
+        FundError(
+          e is AppException
+              ? e.message
+              : 'Unexpected error.',
+        ),
+      );
     }
   }
 
@@ -52,16 +63,14 @@ class FundCubit extends Cubit<FundState> {
 
     try {
       await _repository.insert(fund);
-      final funds = await _repository.getAll();
+      final funds = await _repository.getAllActive();
       emit(FundLoaded(
           funds:funds,
           successMessage: 'Fund added successfully.',
         ),
       );
     } catch (e) {
-      debugPrint(e.runtimeType.toString());
-      debugPrint(e.toString());
-      final funds = await _repository.getAll();
+            final funds = await _repository.getAllActive();
 
       emit(FundLoaded(
           funds:funds,
@@ -76,7 +85,7 @@ class FundCubit extends Cubit<FundState> {
 
     try {
       await _repository.update(fund);
-      final funds = await _repository.getAll();
+      final funds = await _repository.getAllActive();
       emit(FundLoaded(
         funds:funds,
         successMessage: 'Fund updated successfully.',
@@ -84,7 +93,7 @@ class FundCubit extends Cubit<FundState> {
       );
     } catch (e) {
 
-      final funds = await _repository.getAll();
+      final funds = await _repository.getAllActive();
 
       emit(FundLoaded(
         funds:funds,
@@ -98,16 +107,15 @@ class FundCubit extends Cubit<FundState> {
     emit(FundLoading());
     try{
       await _repository.delete(id);
-      final funds = await _repository.getAll();
+      final funds = await _repository.getAllActive();
       emit(FundLoaded(
         funds:funds,
         successMessage: 'Fund deleted successfully.',
       ),
       );
     } catch (e) {
-      debugPrint('Fund cubit (delete method: ');
-      debugPrint(e.toString());
-      final funds = await _repository.getAll();
+
+      final funds = await _repository.getAllActive();
 
       emit(FundLoaded(
         funds:funds,
@@ -117,8 +125,60 @@ class FundCubit extends Cubit<FundState> {
     }
   }
 
+
   Future<void> archive(int id) async {
-    //i do not have archive method in fund_repository yet
-    // i think this method it just update the is_archived from false to true
+    emit(FundLoading());
+
+    try {
+      await _repository.archive(id);
+
+      final funds = await _repository.getAllActive();
+
+      emit(
+        FundLoaded(
+          funds: funds,
+          successMessage: 'Fund archived successfully.',
+        ),
+      );
+    } catch (e) {
+      final funds = await _repository.getAllActive();
+
+      emit(
+        FundLoaded(
+          funds: funds,
+          errorMessage: e is AppException
+              ? e.message
+              : 'Unexpected error.',
+        ),
+      );
+    }
+  }
+
+  Future<void> restore(int id) async {
+    emit(FundLoading());
+
+    try {
+      await _repository.restore(id);
+
+      final funds = await _repository.getAllArchived();
+
+      emit(
+        FundLoaded(
+          funds: funds,
+          successMessage: 'Fund restored successfully.',
+        ),
+      );
+    } catch (e) {
+      final funds = await _repository.getAllArchived();
+
+      emit(
+        FundLoaded(
+          funds: funds,
+          errorMessage: e is AppException
+              ? e.message
+              : 'Unexpected error.',
+        ),
+      );
+    }
   }
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/core/cubit/fund/fund_cubit.dart';
 import 'package:my_money/core/cubit/fund/fund_state.dart';
-import 'package:my_money/features/fund_screen/widgets/fund_body.dart';
+import 'package:my_money/features/fund_screen/widgets/fund_list_view.dart';
 import '../../core/constants/app_assets.dart';
 import '../../core/utils/app_snackbar.dart';
 import '../../core/widgets/app_popup_menu.dart';
@@ -78,7 +78,7 @@ class FundScreen extends StatelessWidget {
               if (state.funds.isEmpty) {
                 return const EmptyState(image: AppAssets.emptyFundImage);
               }
-              return FundBody(funds: state.funds);
+              return FundListView(funds: state.funds);
             }
             return const SizedBox.shrink();
           },

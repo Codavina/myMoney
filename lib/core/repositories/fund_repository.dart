@@ -137,7 +137,7 @@ class FundRepository {
     );
   }
 
-  Future<void> unarchive(int fundId) async {
+  Future<void> restore(int fundId) async {
     final db = await _dbProvider.database;
 
     await db.update(
