@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/core/cubit/fund/fund_cubit.dart';
 import 'package:my_money/core/cubit/fund/fund_state.dart';
-import 'package:my_money/features/currency_screen/currency_screen.dart';
 import 'package:my_money/features/fund_screen/widgets/fund_body.dart';
 import '../../core/constants/app_assets.dart';
 import '../../core/utils/app_snackbar.dart';
+import '../../core/widgets/app_popup_menu.dart';
 import '../../core/widgets/empty_state.dart';
 import 'fund_helper/fund_dialog_helper.dart';
 
@@ -36,17 +36,10 @@ class FundScreen extends StatelessWidget {
           preferredSize: Size.fromHeight(1),
           child: Divider(height: 1, color: Color(0xffE6EAF0)),
         ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const CurrencyScreen()),
-              );
-            },
-            icon: const Icon(Icons.notifications),
-          ),
-        ],
+        actions: const [AppPopupMenu(),]
+
+
+
       ),
 
       body: SafeArea(
@@ -80,6 +73,8 @@ class FundScreen extends StatelessWidget {
               return const Center(child: CircularProgressIndicator());
             }
             if (state is FundLoaded) {
+
+
               if (state.funds.isEmpty) {
                 return const EmptyState(image: AppAssets.emptyFundImage);
               }
@@ -107,3 +102,5 @@ class FundScreen extends StatelessWidget {
     );
   }
 }
+
+

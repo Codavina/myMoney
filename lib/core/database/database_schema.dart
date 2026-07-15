@@ -3,9 +3,7 @@ import 'dart:developer';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseSchema {
-
   static Future<void> create(Database db) async {
-
     ///Create Tables
     await _createCurrenciesTable(db);
     await _createFundsTable(db);
@@ -17,7 +15,9 @@ class DatabaseSchema {
     ///Create Triggers
     await _createTriggers(db);
 
-    log('=========== create method called from DatabaseSchema class =============');
+    log(
+      '=========== create method called from DatabaseSchema class =============',
+    );
   }
 
   // ===========================
@@ -119,6 +119,7 @@ class DatabaseSchema {
 
   static Future<void> _createTriggers(Database db) async {
 
+
     // ==========================================================
     // 1. Update Fund Balance After Insert Transaction
     // ==========================================================
@@ -171,6 +172,27 @@ class DatabaseSchema {
       END;
     END;
   ''');
-    log('=========== TRIGGER trg_CheckBalanceBeforeInsert created =============');
+    log(
+      '=========== TRIGGER trg_CheckBalanceBeforeInsert created =============',
+    );
+    // ==========================================================
+    // 4. Prevent transactions on archived fund
+    // ==========================================================
+    await db.execute('''CREATE TRIGGER trg_PreventTransactionOnArchivedFund
+BEFORE INSERT ON Transactions
+FOR EACH ROW
+WHEN EXISTS (
+    SELECT 1
+    FROM Funds
+    WHERE fund_id = NEW.fund_id
+      AND is_archived = 1
+)
+BEGIN
+    SELECT RAISE(ABORT,
+        'Cannot add transactions to an archived fund');
+END;''');
+    log(
+      '=========== TRIGGER trg_PreventTransactionOnArchivedFund created =============',
+    );
   }
 }

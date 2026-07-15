@@ -4,7 +4,7 @@ import 'package:my_money/core/models/currency_model.dart';
 import 'package:svg_flutter/svg.dart';
 import '../../../core/cubit/currency/currency_cubit.dart';
 import '../../../core/widgets/app_confirm_dialog.dart';
-import '../../../core/widgets/app_popup_menu.dart';
+import '../../../core/widgets/currency_popup_menu.dart';
 import '../currency_info.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -83,7 +83,7 @@ class CurrencyListView extends StatelessWidget {
                       ),
                     ),
                   ),
-                  trailing: AppPopUpMenu(
+                  trailing: CurrencyPopUpMenu(
                     onSelected: (action) async {
                       switch (action) {
                         case MenuAction.edit:

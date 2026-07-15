@@ -4,3 +4,9 @@ enum EnNavigationPages {
   settings,
 }
 
+enum AppMenuAction {
+  addCurrency,
+  archived,
+  settings,
+  about,
+}

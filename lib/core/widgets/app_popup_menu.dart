@@ -1,38 +1,82 @@
 import 'package:flutter/material.dart';
+import 'package:my_money/features/archived_fund_screen/archived_fund_screen.dart';
 
-enum MenuAction { edit, delete,}
-class AppPopUpMenu extends StatelessWidget {
-  const AppPopUpMenu({
-    super.key,
-    required this.onSelected,
-  });
+import '../../features/currency_screen/currency_screen.dart';
+import '../constants/app_enums.dart';
 
-  final ValueChanged<MenuAction> onSelected;
-
+class AppPopupMenu extends StatelessWidget {
+  const AppPopupMenu({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return PopupMenuButton<MenuAction>(
-      onSelected: onSelected,
+    return PopupMenuButton<AppMenuAction>(
+      tooltip: 'Menu',
+      icon: const Icon(Icons.more_vert),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      elevation: 3,
+      onSelected: (value) {
+        switch (value) {
+          case AppMenuAction.addCurrency:
+            // TODO: Navigate to Add Currency
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const CurrencyScreen()),
+            );
+            break;
+
+          case AppMenuAction.archived:
+            // TODO: Navigate to Archived Funds
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const ArchivedFundScreen()),
+            );
+            break;
+
+          case AppMenuAction.settings:
+            // TODO: Navigate to Settings
+            break;
+
+          case AppMenuAction.about:
+            // TODO: Show About Dialog
+            break;
+        }
+      },
       itemBuilder: (context) => [
-         const PopupMenuItem(
-          value: MenuAction.edit,
-          child: Row(
-            children: [
-              Icon(Icons.edit),
-              SizedBox(width: 4),
-              Text('Edit'),
-            ],
+        const PopupMenuItem(
+          value: AppMenuAction.addCurrency,
+          child: ListTile(
+            leading: Icon(Icons.currency_exchange),
+            title: Text('Add Currency'),
+            contentPadding: EdgeInsets.zero,
           ),
         ),
-        PopupMenuItem(
-          value: MenuAction.delete,
-          child: Row(
-            children: [
-              Icon(Icons.delete, color: Colors.red.shade700),
-              const SizedBox(width: 4),
-              const Text('Delete'),
-            ],
+
+        const PopupMenuItem(
+          value: AppMenuAction.archived,
+          child: ListTile(
+            leading: Icon(Icons.archive_outlined),
+            title: Text('Archived Funds'),
+            contentPadding: EdgeInsets.zero,
+          ),
+        ),
+
+        const PopupMenuDivider(),
+
+        const PopupMenuItem(
+          value: AppMenuAction.settings,
+          child: ListTile(
+            leading: Icon(Icons.settings_outlined),
+            title: Text('Settings'),
+            contentPadding: EdgeInsets.zero,
+          ),
+        ),
+
+        const PopupMenuItem(
+          value: AppMenuAction.about,
+          child: ListTile(
+            leading: Icon(Icons.info_outline),
+            title: Text('About'),
+            contentPadding: EdgeInsets.zero,
           ),
         ),
       ],
