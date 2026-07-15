@@ -2,22 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/core/cubit/fund/fund_cubit.dart';
 import 'package:my_money/core/cubit/fund/fund_state.dart';
-import 'package:my_money/core/models/fund_model.dart';
 import 'package:my_money/features/currency_screen/currency_screen.dart';
 import 'package:my_money/features/fund_screen/widgets/fund_body.dart';
 import '../../core/constants/app_assets.dart';
 import '../../core/utils/app_snackbar.dart';
 import '../../core/widgets/empty_state.dart';
-import 'widgets/add_fund_dialog.dart';
+import 'fund_helper/fund_dialog_helper.dart';
+
 
 class FundScreen extends StatelessWidget {
   const FundScreen({super.key});
 
   Future<void> _addFund(BuildContext context) async {
-    final FundModel? fund = await showDialog<FundModel>(
-      context: context,
-      builder: (_) => const AddFundDialog(),
-    );
+    // final currencyState = context.read<CurrencyCubit>().state;
+    // if (currencyState is! CurrencyLoaded) return;
+    // final FundModel? fund = await showDialog<FundModel>(
+    //   context: context,
+    //   builder: (_) =>  AddFundDialog(currencies: currencyState.currencies,),
+    // );
+    final fund = await openFundDialog(context);
 
     if (!context.mounted) return;
     if (fund == null) return;

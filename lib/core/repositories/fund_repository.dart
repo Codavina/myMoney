@@ -3,6 +3,7 @@ import 'package:my_money/core/database/app_database.dart';
 import 'package:my_money/core/models/fund_model.dart';
 import 'package:sqflite/sqflite.dart';
 
+import '../errors/app_exception.dart';
 import '../errors/database_error_handler.dart';
 
 class FundRepository {
@@ -58,8 +59,11 @@ class FundRepository {
 
     final result = await db.update(
       'Funds',
-      fund.toMap(),
-      where: 'fund_id=?',
+      {
+        'title': fund.title,
+        'currency_id': fund.currencyId,
+      },
+      where: 'fund_id = ?',
       whereArgs: [fund.fundId],
     );
 
@@ -68,9 +72,20 @@ class FundRepository {
 
   //delete
   Future<int> delete(int id) async {
-    final db = await _dbProvider.database;
+    try {
+      final db = await _dbProvider.database;
 
-    return await db.delete('Funds', where: 'fund_id=?', whereArgs: [id]);
+      return await db.delete('Funds', where: 'fund_id=?', whereArgs: [id]);
+    }on DatabaseException catch (e) {
+
+      if (e.toString().contains('FOREIGN KEY constraint failed')) {
+        throw const AppException(
+          'This fund contains transactions and cannot be deleted.',
+        );
+      }
+
+      throw DatabaseErrorHandler.handle(e);
+    }
   }
 
 

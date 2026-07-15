@@ -81,6 +81,8 @@ class FundCubit extends Cubit<FundState> {
       ),
       );
     } catch (e) {
+      debugPrint('Fund cubit (delete method: ');
+      debugPrint(e.toString());
       final funds = await _repository.getAll();
 
       emit(FundLoaded(

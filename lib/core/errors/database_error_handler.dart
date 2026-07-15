@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 import 'app_exception.dart';
 
@@ -18,7 +19,8 @@ class DatabaseErrorHandler {
 
       return const AppException('Database error.');
     }
-
+    debugPrint('Database_error_handler: ');
+    debugPrint(error.toString());
     return const AppException('Unexpected error.');
   }
 }

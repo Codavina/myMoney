@@ -5,7 +5,6 @@ import 'package:my_money/core/cubit/currency/currency_cubit.dart';
 import 'package:my_money/core/cubit/fund/fund_cubit.dart';
 import 'package:my_money/features/fund_screen/fund_screen.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'core/cubit/navigation/navigation_cubit.dart';
 import 'core/database/app_database.dart';
 import 'core/repositories/currency_repository.dart';
 import 'core/repositories/fund_repository.dart';
@@ -61,9 +60,7 @@ class MyMoneyApp extends StatelessWidget {
         ],
         child: MultiBlocProvider(
           providers: [
-            BlocProvider(
-              create: (_) => NavigationCubit(),
-            ),
+
             BlocProvider(
               create: (_) => CurrencyCubit(currencyRepository)..getAll(),
             ),
