@@ -45,6 +45,7 @@ class FundScreen extends StatelessWidget {
       body: SafeArea(
         child: BlocConsumer<FundCubit, FundState>(
           listener: (context, state) {
+            debugPrint('Listener in FundScreen');
             if (state is FundLoaded) {
               if (state.successMessage != null) {
                 AppSnackBar.success(

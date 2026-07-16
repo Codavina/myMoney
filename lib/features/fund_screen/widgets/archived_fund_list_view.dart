@@ -15,6 +15,7 @@ import 'fund_card.dart';
 
 class ArchivedFundListView extends StatelessWidget {
   const ArchivedFundListView({super.key, required this.funds});
+
   final List<FundModel> funds;
 
   void _openTransactions(BuildContext context, FundModel fund) {
@@ -25,7 +26,7 @@ class ArchivedFundListView extends StatelessWidget {
       MaterialPageRoute(
         builder: (_) => BlocProvider(
           create: (_) => TransactionCubit(repository)..getByFund(fund.fundId!),
-          child: TransactionScreen(fund: fund),
+          child: TransactionScreen(fund: fund,readOnly: true,),
         ),
       ),
     );
@@ -37,7 +38,8 @@ class ArchivedFundListView extends StatelessWidget {
       builder: (_) => AppConfirmDialog(
         title: 'Delete Fund',
         message:
-        'Are you sure you want to delete "${fund.title.toUpperCase()}"?',
+            'Are you sure you want to delete "${fund.title.toUpperCase()}"?',
+        isArchived: false,
       ),
     );
 
@@ -66,25 +68,25 @@ class ArchivedFundListView extends StatelessWidget {
             final currency = currencyMap[fund.currencyId];
             final info =
                 currenciesInfo[currency?.currencyCode.toUpperCase()] ??
-                    unknownCurrency;
+                unknownCurrency;
 
             return Dismissible(
               key: ValueKey(fund.fundId),
               direction: DismissDirection.horizontal,
               secondaryBackground: const SwipeBackground(
-                color: Colors.red,
-                icon: Icons.delete,
-                text: 'Delete',
-                alignment: Alignment.centerRight,
-              ),
-              background:  const SwipeBackground(
                 color: Colors.teal,
                 icon: Icons.unarchive,
                 text: 'Restore',
+                alignment: Alignment.centerRight,
+              ),
+              background: const SwipeBackground(
+                color: Colors.red,
+                icon: Icons.delete,
+                text: 'Delete',
                 alignment: Alignment.centerLeft,
               ),
               confirmDismiss: (direction) async {
-                if (direction == DismissDirection.endToStart) {
+                if (direction == DismissDirection.startToEnd) {
                   final confirmed = await _confirmDelete(context, fund);
 
                   if (confirmed) {
@@ -94,10 +96,8 @@ class ArchivedFundListView extends StatelessWidget {
                   return confirmed;
                 }
 
-                if (direction == DismissDirection.startToEnd) {
-
-                    fundCubit.restore(fund.fundId!);
-
+                if (direction == DismissDirection.endToStart ) {
+                  fundCubit.restore(fund.fundId!);
 
                   return false;
                 }

@@ -40,6 +40,7 @@ class ActiveFundListView extends StatelessWidget {
         title: 'Archive Fund',
         message:
             'Are you sure you want to archive "${fund.title.toUpperCase()}"?',
+        isArchived: true,
       ),
     );
 

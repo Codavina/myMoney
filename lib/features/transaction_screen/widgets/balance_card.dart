@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:my_money/core/utils/app_formatter.dart';
 
 class BalanceCard extends StatelessWidget {
-  const BalanceCard({super.key, required this.balance,required this.backgroundColor});
+  const BalanceCard({super.key, required this.balance});
 
   final double balance;
-  final Color backgroundColor;
+
 
   @override
   Widget build(BuildContext context) {

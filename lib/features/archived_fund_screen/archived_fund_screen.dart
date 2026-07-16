@@ -31,15 +31,19 @@ class ArchivedFundScreen extends StatelessWidget {
           listener: (context, state) {
             if (state is FundLoaded) {
               if (state.successMessage != null) {
+
+                debugPrint('Restore message from BlocConsumer(listener) in ArchivedFundScreen');
                 AppSnackBar.success(context, state.successMessage!);
               }
 
               if (state.errorMessage != null) {
+                debugPrint('Delete message from BlocConsumer(state.errorMessage != null) in ArchivedFundScreen');
                 AppSnackBar.error(context, state.errorMessage!);
               }
             }
 
             if (state is FundError) {
+              debugPrint('Delete message from BlocConsumer(state is FundError) in ArchivedFundScreen');
               AppSnackBar.error(context, state.errorMessage);
             }
           },

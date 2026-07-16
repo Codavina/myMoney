@@ -5,6 +5,7 @@ import 'package:my_money/features/archived_fund_screen/archived_fund_screen.dart
 import '../../features/currency_screen/currency_screen.dart';
 import '../constants/app_enums.dart';
 import '../cubit/fund/fund_cubit.dart';
+import '../repositories/fund_repository.dart';
 
 class AppPopupMenu extends StatelessWidget {
   const AppPopupMenu({super.key});
@@ -16,10 +17,9 @@ class AppPopupMenu extends StatelessWidget {
       icon: const Icon(Icons.more_vert),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       elevation: 3,
-      onSelected: (value) async{
+      onSelected: (value) async {
         switch (value) {
           case AppMenuAction.addCurrency:
-            // TODO: Navigate to Add Currency
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const CurrencyScreen()),
@@ -27,16 +27,18 @@ class AppPopupMenu extends StatelessWidget {
             break;
 
           case AppMenuAction.archived:
-            // TODO: Navigate to Archived Funds
-           await Navigator.push(
+            await Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (_) => BlocProvider.value(
-                  value: context.read<FundCubit>()..getAllArchived(),
+                builder: (_) => BlocProvider(
+                  create: (context) =>
+                      FundCubit(context.read<FundRepository>())
+                        ..getAllArchived(),
                   child: const ArchivedFundScreen(),
                 ),
               ),
             );
+
             if (!context.mounted) return;
 
             context.read<FundCubit>().getAllActive();

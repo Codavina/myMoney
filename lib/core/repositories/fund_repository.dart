@@ -91,19 +91,21 @@ class FundRepository {
 
   //Update
   Future<int> update(FundModel fund) async {
-    final db = await _dbProvider.database;
+    try {
+      final db = await _dbProvider.database;
 
-    final result = await db.update(
-      'Funds',
-      {
-        'title': fund.title,
-        'currency_id': fund.currencyId,
-      },
-      where: 'fund_id = ?',
-      whereArgs: [fund.fundId],
-    );
-
-    return result;
+      return await db.update(
+        'Funds',
+        {
+          'title': fund.title,
+          'currency_id': fund.currencyId,
+        },
+        where: 'fund_id = ?',
+        whereArgs: [fund.fundId],
+      );
+    } on DatabaseException catch (e) {
+      throw DatabaseErrorHandler.handle(e);
+    }
   }
 
   //delete
@@ -149,4 +151,6 @@ class FundRepository {
       whereArgs: [fundId],
     );
   }
+
+
 }

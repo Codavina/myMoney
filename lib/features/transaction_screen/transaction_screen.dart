@@ -12,9 +12,14 @@ import '../../core/widgets/empty_state.dart';
 import 'widgets/add_transaction_dialog.dart';
 
 class TransactionScreen extends StatefulWidget {
-  const TransactionScreen({super.key, required this.fund});
+  const TransactionScreen({
+    super.key,
+    required this.fund,
+    this.readOnly = false,
+  });
 
   final FundModel fund;
+  final bool readOnly;
 
   @override
   State<TransactionScreen> createState() => _TransactionScreenState();
@@ -48,15 +53,10 @@ class _TransactionScreenState extends State<TransactionScreen> {
         elevation: 1,
         bottom: const PreferredSize(
           preferredSize: Size.fromHeight(1),
-          child: Divider(
-            height: 1,
-            color: Color(0xffE6EAF0),
-          ),
+          child: Divider(height: 1, color: Color(0xffE6EAF0)),
         ),
 
         title: Text(widget.fund.title.toSimpleTitleCase()),
-
-
       ),
       body: SafeArea(
         child: BlocConsumer<TransactionCubit, TransactionState>(
@@ -81,12 +81,21 @@ class _TransactionScreenState extends State<TransactionScreen> {
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _addTransaction,
-        //shape: const CircleBorder(),
-        label: const Text('Add Transaction',style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700,color: Color(0xffFFFFFF)),),
-        icon: const Icon(Icons.add, size: 24),
-      ),
+      floatingActionButton: widget.readOnly
+          ? null
+          : FloatingActionButton.extended(
+              onPressed: _addTransaction,
+              //shape: const CircleBorder(),
+              label: const Text(
+                'Add Transaction',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xffFFFFFF),
+                ),
+              ),
+              icon: const Icon(Icons.add, size: 24),
+            ),
     );
   }
 }

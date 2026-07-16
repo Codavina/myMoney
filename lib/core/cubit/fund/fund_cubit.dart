@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/core/cubit/fund/fund_state.dart';
 import 'package:my_money/core/models/fund_model.dart';
@@ -20,6 +21,10 @@ class FundCubit extends Cubit<FundState> {
     } catch (e) {
       emit(FundError(e.toString()));
     }
+  }
+
+  Future<FundModel?> getById(int id) {
+    return _repository.getById(id);
   }
 
   Future<void> getAllActive() async {
@@ -107,7 +112,8 @@ class FundCubit extends Cubit<FundState> {
     emit(FundLoading());
     try{
       await _repository.delete(id);
-      final funds = await _repository.getAllActive();
+      final funds = await _repository.getAllArchived();
+
       emit(FundLoaded(
         funds:funds,
         successMessage: 'Fund deleted successfully.',
@@ -115,8 +121,8 @@ class FundCubit extends Cubit<FundState> {
       );
     } catch (e) {
 
-      final funds = await _repository.getAllActive();
-
+      final funds = await _repository.getAllArchived();
+      debugPrint('Delete message from delete function in fund_cubit');
       emit(FundLoaded(
         funds:funds,
         errorMessage: e is AppException ? e.message : 'Unexpected error.',
@@ -162,6 +168,7 @@ class FundCubit extends Cubit<FundState> {
 
       final funds = await _repository.getAllArchived();
 
+      debugPrint('Restore message from restore function in fund_cubit');
       emit(
         FundLoaded(
           funds: funds,

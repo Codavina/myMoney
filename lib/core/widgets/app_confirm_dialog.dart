@@ -5,10 +5,12 @@ class AppConfirmDialog extends StatelessWidget {
     super.key,
     required this.title,
     required this.message,
+     this.isArchived=false,
   });
 
   final String title;
   final String message;
+  final bool isArchived;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,7 @@ class AppConfirmDialog extends StatelessWidget {
         ),
         FilledButton(
           onPressed: () => Navigator.pop(context, true),
-          child: const Text('Delete'),
+          child:  Text(isArchived?'Archive':'Delete'),
         ),
       ],
     );
