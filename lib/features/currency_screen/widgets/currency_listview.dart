@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_money/core/constants/app_colors.dart';
 import 'package:my_money/core/models/currency_model.dart';
+import 'package:my_money/features/currency_screen/widgets/add_currency_dialog.dart';
+import 'package:my_money/features/currency_screen/widgets/currency_dialog_helper.dart';
 import 'package:svg_flutter/svg.dart';
 import '../../../core/cubit/currency/currency_cubit.dart';
 import '../../../core/widgets/app_confirm_dialog.dart';
@@ -13,7 +15,7 @@ class CurrencyListView extends StatelessWidget {
 
   final List<CurrencyModel> currencies;
 
-  Future<void> _confirmDelete(BuildContext context,CurrencyModel currency,) async {
+  Future<void> _confirmDelete(BuildContext context,CurrencyModel currency) async {
     final cubit = context.read<CurrencyCubit>();
 
     final confirmed = await showDialog<bool>(
@@ -29,7 +31,14 @@ class CurrencyListView extends StatelessWidget {
     }
   }
 
+Future<void> _showEditDialog(BuildContext context, CurrencyModel currency) async {
+  final currencyCubit = context.read<CurrencyCubit>();
+  final updatedCurrency = await openCurrencyDialog(context, currency: currency);
 
+  if (updatedCurrency != null) {
+    currencyCubit.update(updatedCurrency);
+  }
+}
 
 
   @override
@@ -87,7 +96,7 @@ class CurrencyListView extends StatelessWidget {
                     onSelected: (action) async {
                       switch (action) {
                         case MenuAction.edit:
-                        // _showEditDialog(currency);
+                         _showEditDialog(context,currency);
                           break;
 
                         case MenuAction.delete:

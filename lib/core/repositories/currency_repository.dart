@@ -1,6 +1,7 @@
 import 'package:my_money/core/models/currency_model.dart';
 import 'package:sqflite/sqflite.dart';
 import '../database/app_database.dart';
+import '../errors/app_exception.dart';
 import '../errors/database_error_handler.dart';
 
 
@@ -30,10 +31,8 @@ class CurrencyRepository {
 
       // Convert each Map → Note object
       return result.map((e) => CurrencyModel.fromMap(e)).toList();
-    } on DatabaseException {
-      rethrow;
-    } catch (_) {
-      rethrow;
+    }on DatabaseException catch (e) {
+      throw DatabaseErrorHandler.handle(e);
     }
   }
 
@@ -54,10 +53,8 @@ class CurrencyRepository {
       }
 
       return CurrencyModel.fromMap(result.first);
-    } on DatabaseException {
-      rethrow;
-    } catch (_) {
-      rethrow;
+    }on DatabaseException catch (e) {
+      throw DatabaseErrorHandler.handle(e);
     }
   }
 
@@ -75,10 +72,8 @@ class CurrencyRepository {
       );
 
       return result;
-    } on DatabaseException {
-      rethrow;
-    } catch (_) {
-      rethrow;
+    }on DatabaseException catch (e) {
+      throw DatabaseErrorHandler.handle(e);
     }
   }
 
@@ -89,14 +84,17 @@ class CurrencyRepository {
 
       return await db.delete(
         'Currencies',
-        where: 'currency_id=?',
-        // Always use WHERE to avoid deleting entire table
+        where: 'currency_id = ?',
         whereArgs: [id],
       );
-    } on DatabaseException {
-      rethrow;
-    } catch (_) {
-      rethrow;
+    } on DatabaseException catch (e) {
+      if (e.toString().contains('FOREIGN KEY')) {
+        throw const AppException(
+          'This currency is being used by one or more funds and cannot be deleted.',
+        );
+      }
+
+      throw DatabaseErrorHandler.handle(e);
     }
   }
 }

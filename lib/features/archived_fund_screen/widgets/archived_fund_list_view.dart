@@ -11,7 +11,7 @@ import '../../../core/repositories/transaction_repository.dart';
 import '../../../core/widgets/app_confirm_dialog.dart';
 import '../../currency_screen/currency_info.dart';
 import '../../transaction_screen/transaction_screen.dart';
-import 'fund_card.dart';
+import '../../fund_screen/widgets/fund_card.dart';
 
 class ArchivedFundListView extends StatelessWidget {
   const ArchivedFundListView({super.key, required this.funds});
@@ -52,12 +52,20 @@ class ArchivedFundListView extends StatelessWidget {
     return BlocBuilder<CurrencyCubit, CurrencyState>(
       builder: (context, state) {
         // Build a lookup map once instead of searching for every Fund.
+        if (state is CurrencyLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        if (state is! CurrencyLoaded) {
+          return const SizedBox.shrink();
+        }
+
         final currencyMap = <int, CurrencyModel>{};
 
-        if (state is CurrencyLoaded) {
-          for (final currency in state.currencies) {
-            currencyMap[currency.currencyId!] = currency;
-          }
+        for (final currency in state.currencies) {
+          currencyMap[currency.currencyId!] = currency;
         }
 
         return ListView.builder(

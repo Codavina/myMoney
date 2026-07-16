@@ -16,9 +16,18 @@ class CurrencyCubit extends Cubit<CurrencyState> {
 
     try {
       final currencies = await _repository.getAll();
-      emit(CurrencyLoaded(currencies: currencies));
+
+      emit(
+        CurrencyLoaded(
+          currencies: currencies,
+        ),
+      );
     } catch (e) {
-      emit(CurrencyError(e.toString()));
+      emit(
+        CurrencyError(
+          e is AppException ? e.message : 'Unexpected error.',
+        ),
+      );
     }
   }
 
@@ -42,7 +51,8 @@ class CurrencyCubit extends Cubit<CurrencyState> {
       emit(
         CurrencyLoaded(
           currencies: currencies,
-          errorMessage: e is AppException ? e.message : 'Unexpected error.',
+          errorMessage:
+          e is AppException ? e.message : 'Unexpected error.',
         ),
       );
     }
@@ -53,32 +63,52 @@ class CurrencyCubit extends Cubit<CurrencyState> {
 
     try {
       await _repository.update(currency);
+
       final currencies = await _repository.getAll();
 
       emit(
         CurrencyLoaded(
           currencies: currencies,
-          successMessage: 'Currency updated successfully',
+          successMessage: 'Currency updated successfully.',
         ),
       );
     } catch (e) {
-      emit(CurrencyError(e.toString()));
+      final currencies = await _repository.getAll();
+
+      emit(
+        CurrencyLoaded(
+          currencies: currencies,
+          errorMessage:
+          e is AppException ? e.message : 'Unexpected error.',
+        ),
+      );
     }
   }
 
   Future<void> delete(int id) async {
     emit(CurrencyLoading());
+
     try {
       await _repository.delete(id);
+
       final currencies = await _repository.getAll();
+
       emit(
         CurrencyLoaded(
           currencies: currencies,
-          successMessage: 'Currency deleted successfully',
+          successMessage: 'Currency deleted successfully.',
         ),
       );
     } catch (e) {
-      emit(CurrencyError(e.toString()));
+      final currencies = await _repository.getAll();
+
+      emit(
+        CurrencyLoaded(
+          currencies: currencies,
+          errorMessage:
+          e is AppException ? e.message : 'Unexpected error.',
+        ),
+      );
     }
   }
 }

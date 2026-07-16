@@ -4,18 +4,20 @@ import 'package:my_money/core/models/currency_model.dart';
 import '../../../core/utils/app_validator.dart';
 import '../../../core/widgets/custom_text_form_field.dart';
 
-class CurrencyDialog extends StatefulWidget {
-  const CurrencyDialog({super.key, this.currency});
+class AddCurrencyDialog extends StatefulWidget {
+  const AddCurrencyDialog({super.key, this.currency});
 
   final CurrencyModel? currency;
 
   @override
-  State<CurrencyDialog> createState() => _CurrencyDialogState();
+  State<AddCurrencyDialog> createState() => _AddCurrencyDialogState();
 }
 
-class _CurrencyDialogState extends State<CurrencyDialog> {
+class _AddCurrencyDialogState extends State<AddCurrencyDialog> {
   final TextEditingController _titleController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey();
+
+  bool get isEdit => widget.currency != null;
 
   @override
   void initState() {
@@ -35,7 +37,7 @@ class _CurrencyDialogState extends State<CurrencyDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       backgroundColor: Colors.white,
-      title: Text(widget.currency == null ? 'Add Currency' : 'Edit Currency'),
+      title: Text(isEdit ?'Edit Currency': 'Add Currency'),
       content: Form(
         key: _formKey,
         child: Column(
@@ -73,10 +75,13 @@ class _CurrencyDialogState extends State<CurrencyDialog> {
 
             Navigator.pop(
               context,
-              CurrencyModel(currencyCode: _titleController.text.trim()),
+              CurrencyModel(
+                currencyId: widget.currency?.currencyId,
+                currencyCode: _titleController.text.trim(),
+              ),
             );
           },
-          child: Text(widget.currency == null ? 'Add' : 'Update'),
+          child: Text(isEdit? 'Update' : 'Add'),
         ),
       ],
     );

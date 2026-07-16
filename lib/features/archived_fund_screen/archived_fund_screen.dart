@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_money/features/fund_screen/widgets/archived_fund_list_view.dart';
+import 'package:my_money/features/archived_fund_screen/widgets/archived_fund_list_view.dart';
 import '../../core/constants/app_assets.dart';
 import '../../core/cubit/fund/fund_cubit.dart';
 import '../../core/cubit/fund/fund_state.dart';
