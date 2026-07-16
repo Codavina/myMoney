@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_money/features/fund_screen/widgets/fund_list_view.dart';
+import 'package:my_money/features/fund_screen/widgets/archived_fund_list_view.dart';
 import '../../core/constants/app_assets.dart';
 import '../../core/cubit/fund/fund_cubit.dart';
 import '../../core/cubit/fund/fund_state.dart';
 import '../../core/utils/app_snackbar.dart';
 import '../../core/widgets/empty_state.dart';
-import '../fund_screen/widgets/fund_body.dart';
+
 
 class ArchivedFundScreen extends StatelessWidget {
   const ArchivedFundScreen({super.key});
@@ -51,10 +51,10 @@ class ArchivedFundScreen extends StatelessWidget {
 
             if (state is FundLoaded) {
               if (state.funds.isEmpty) {
-                return const EmptyState(image: AppAssets.emptyFundImage);
+                return const EmptyState(image: AppAssets.emptyArchivedFundImage);
               }
 
-              return FundListView(funds: state.funds);
+              return ArchivedFundListView(funds: state.funds);
             }
 
             return const SizedBox.shrink();

@@ -4,6 +4,7 @@ class AppAssets {
   ///Empty states
   static const String emptyCurrencyImage='assets/images/currency/empty_currency.png';
   static const String emptyFundImage='assets/images/fund/empty_fund.png';
+  static const String emptyArchivedFundImage='assets/images/fund/empty_archived_fund.png';
   static const String emptyTransactionImage='assets/images/transaction/empty_transaction.png';
 
 
@@ -21,9 +22,7 @@ static const String unknownCurrency='assets/images/flags/unknown.svg';
 static const String currency96='assets/images/currency/currency96.png';
 static const String currency48='assets/images/currency/currency48.png';
 
-///Backgrounds
-static const String bgFundCard='assets/images/fund_background/card_background.png';
-static const String bgMoney='assets/images/fund_background/money.png';
+
 
 
 }

@@ -14,8 +14,8 @@ import '../../currency_screen/currency_info.dart';
 import '../fund_helper/fund_dialog_helper.dart';
 import 'fund_card.dart';
 
-class FundListView extends StatelessWidget {
-  const FundListView({super.key, required this.funds});
+class ActiveFundListView extends StatelessWidget {
+  const ActiveFundListView({super.key, required this.funds});
 
   final List<FundModel> funds;
 
@@ -33,13 +33,13 @@ class FundListView extends StatelessWidget {
     );
   }
 
-  Future<bool> _confirmDelete(BuildContext context, FundModel fund) async {
+  Future<bool> _confirmArchive(BuildContext context, FundModel fund) async {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (_) => AppConfirmDialog(
-        title: 'Delete Fund',
+        title: 'Archive Fund',
         message:
-            'Are you sure you want to delete "${fund.title.toUpperCase()}"?',
+            'Are you sure you want to archive "${fund.title.toUpperCase()}"?',
       ),
     );
 
@@ -74,9 +74,9 @@ class FundListView extends StatelessWidget {
               key: ValueKey(fund.fundId),
               direction: DismissDirection.horizontal,
               secondaryBackground: const SwipeBackground(
-                color: Colors.red,
-                icon: Icons.delete,
-                text: 'Delete',
+                color: Colors.grey,
+                icon: Icons.archive,
+                text: 'Archive',
                 alignment: Alignment.centerRight,
               ),
               background: const SwipeBackground(
@@ -87,10 +87,10 @@ class FundListView extends StatelessWidget {
               ),
               confirmDismiss: (direction) async {
                 if (direction == DismissDirection.endToStart) {
-                  final confirmed = await _confirmDelete(context, fund);
+                  final confirmed = await _confirmArchive(context, fund);
 
                   if (confirmed) {
-                    fundCubit.delete(fund.fundId!);
+                    fundCubit.archive(fund.fundId!);
                   }
 
                   return confirmed;
