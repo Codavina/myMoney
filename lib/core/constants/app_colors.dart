@@ -16,9 +16,7 @@ abstract class AppColors {
   static const info = Color(0xFF1565C0);
 
   /// Light
-  //static const lightBackground = Color(0xFFF5F7FA);
-  // static const lightText = Color(0xFF1C1C1E);
-  // static const lightSubtitle = Color(0xFF757575);
+
   static const lightBackground = Color(0xFFF8FAFC);
   static const lightSurface = Colors.white;
   static const lightBorder = Color(0xFFE0E0E0);
@@ -32,23 +30,5 @@ abstract class AppColors {
   static const darkText = Color(0xFFF8FAFC);
   static const darkSubtitle = Color(0xFF94A3B8);
 
-  static List<Color> fundCardColor = [
-    const Color(0xFF2E7D32).withValues(alpha: 0.3), // Sky Blue
-    const Color(0xFF474949).withValues(alpha: 0.3), // Coral
-    const Color(0xFFE1900D).withValues(alpha: 0.3), // Purple
-    const Color(0xFF4169E1).withValues(alpha: 0.3), // Teal
-    const Color(0xFFD32F2F).withValues(alpha: 0.3), // Royal Blue
-    const Color(0xFF5a2f26).withValues(alpha: 0.3), //Dark Brown
-    const Color(0xFF9B59B6).withValues(alpha: 0.3), // Sunflower
-  ];
 
-  static List<Color> fundTextColor = [
-    const Color(0xFF2E7D32), // Sky Blue
-    const Color(0xFF474949), // Purple
-    const Color(0xFFE1900D), // Royal Blue
-    const Color(0xFF4169E1), // Coral
-    const Color(0xFFD32F2F), // Teal
-    const Color(0xFF5a2f26), //Dark Brown
-    const Color(0xFF9B59B6), // Sunflower
-  ];
 }

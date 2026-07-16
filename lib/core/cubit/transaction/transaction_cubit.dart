@@ -1,8 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/core/cubit/transaction/transaction_state.dart';
 import 'package:my_money/core/models/transaction_model.dart';
 import 'package:my_money/core/repositories/transaction_repository.dart';
+
+import '../../errors/app_exception.dart';
 
 class TransactionCubit extends Cubit<TransactionState> {
   final TransactionRepository _repository;
@@ -16,7 +17,13 @@ class TransactionCubit extends Cubit<TransactionState> {
       final transactions = await _repository.getAll();
       emit(TransactionLoaded(transactions));
     } catch (e) {
-      emit(TransactionError(e.toString()));
+      emit(
+        TransactionError(
+          e is AppException
+              ? e.message
+              : 'Unexpected error.',
+        ),
+      );
     }
   }
 
@@ -29,7 +36,14 @@ class TransactionCubit extends Cubit<TransactionState> {
       await _loadTransactions(transaction.fundId);
 
     } catch (e) {
-      emit(TransactionError(e.toString()));
+
+      emit(
+        TransactionError(
+          e is AppException
+              ? e.message
+              : 'Unexpected error.',
+        ),
+      );
     }
   }
 
@@ -56,7 +70,7 @@ class TransactionCubit extends Cubit<TransactionState> {
   }
 
   Future<void> getByFund(int fundId) async {
-    debugPrint("Loading fund: $fundId");
+
     emit(TransactionLoading());
 
     await _loadTransactions(fundId);
@@ -71,9 +85,15 @@ class TransactionCubit extends Cubit<TransactionState> {
       final transactions = await _repository.getByFund(fundId);
 
       emit(TransactionLoaded(transactions));
-      debugPrint("Transactions count = ${transactions.length}");
+
     } catch (e) {
-      emit(TransactionError(e.toString()));
+      emit(
+        TransactionError(
+          e is AppException
+              ? e.message
+              : 'Unexpected error.',
+        ),
+      );
     }
   }
 }

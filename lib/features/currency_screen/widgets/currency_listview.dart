@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_money/core/constants/app_colors.dart';
 import 'package:my_money/core/models/currency_model.dart';
-import 'package:my_money/features/currency_screen/widgets/add_currency_dialog.dart';
 import 'package:my_money/features/currency_screen/widgets/currency_dialog_helper.dart';
 import 'package:svg_flutter/svg.dart';
 import '../../../core/cubit/currency/currency_cubit.dart';

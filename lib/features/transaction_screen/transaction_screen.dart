@@ -8,6 +8,7 @@ import '../../core/cubit/fund/fund_cubit.dart';
 import '../../core/cubit/transaction/transaction_cubit.dart';
 import '../../core/cubit/transaction/transaction_state.dart';
 import '../../core/models/fund_model.dart';
+import '../../core/utils/app_snackbar.dart';
 import '../../core/widgets/empty_state.dart';
 import 'widgets/add_transaction_dialog.dart';
 
@@ -60,7 +61,31 @@ class _TransactionScreenState extends State<TransactionScreen> {
       ),
       body: SafeArea(
         child: BlocConsumer<TransactionCubit, TransactionState>(
-          listener: (context, state) {},
+          listener: (context, state) {
+
+            if (state is TransactionLoaded) {
+              if (state.successMessage != null) {
+                AppSnackBar.success(
+                  context,
+                  state.successMessage!,
+                );
+              }
+
+              if (state.errorMessage != null) {
+                AppSnackBar.error(
+                  context,
+                  state.errorMessage!,
+                );
+              }
+            }
+
+            if (state is TransactionError) {
+              AppSnackBar.error(
+                context,
+                state.errorMessage,
+              );
+            }
+          },
           builder: (context, state) {
             if (state is TransactionLoading) {
               return const Center(child: CircularProgressIndicator());
@@ -74,10 +99,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                 selectedFund: widget.fund,
               );
             }
-            if (state is TransactionError) {
-              return const Text('Transaction State: Error');
-            }
-            return const Text('Transaction State: Initial state');
+            return const SizedBox.shrink();
           },
         ),
       ),
@@ -85,7 +107,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
           ? null
           : FloatingActionButton.extended(
               onPressed: _addTransaction,
-              //shape: const CircleBorder(),
+
               label: const Text(
                 'Add Transaction',
                 style: TextStyle(

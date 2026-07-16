@@ -2,7 +2,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/core/cubit/currency/currency_state.dart';
 import 'package:my_money/core/models/currency_model.dart';
 import 'package:my_money/core/repositories/currency_repository.dart';
-
 import '../../errors/app_exception.dart';
 
 class CurrencyCubit extends Cubit<CurrencyState> {

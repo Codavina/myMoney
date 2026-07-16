@@ -12,8 +12,10 @@ class TransactionEmpty extends TransactionState {}
 
 class TransactionLoaded extends TransactionState {
   final List<TransactionModel> transactions;
+  final String? successMessage;
+  final String? errorMessage;
 
-  TransactionLoaded(this.transactions);
+  TransactionLoaded(this.transactions, {this.successMessage, this.errorMessage});
 }
 
 class TransactionError extends TransactionState {

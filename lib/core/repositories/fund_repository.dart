@@ -1,8 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:my_money/core/database/app_database.dart';
 import 'package:my_money/core/models/fund_model.dart';
 import 'package:sqflite/sqflite.dart';
-
 import '../errors/app_exception.dart';
 import '../errors/database_error_handler.dart';
 
@@ -11,14 +9,11 @@ class FundRepository {
 
   //Insert
   Future<int> insert(FundModel fund) async {
-
     try {
       final db = await _dbProvider.database;
 
       return await db.insert('Funds', fund.toMap());
-    }on DatabaseException catch (e) {
-      debugPrint("Repository Catch");
-      debugPrint(e.runtimeType.toString());
+    } on DatabaseException catch (e) {
       throw DatabaseErrorHandler.handle(e);
     }
   }
@@ -30,7 +25,7 @@ class FundRepository {
       final result = await db.query('Funds');
 
       return result.map((e) => FundModel.fromMap(e)).toList();
-    }on DatabaseException catch (e) {
+    } on DatabaseException catch (e) {
       throw DatabaseErrorHandler.handle(e);
     }
   }
@@ -96,10 +91,7 @@ class FundRepository {
 
       return await db.update(
         'Funds',
-        {
-          'title': fund.title,
-          'currency_id': fund.currencyId,
-        },
+        {'title': fund.title, 'currency_id': fund.currencyId},
         where: 'fund_id = ?',
         whereArgs: [fund.fundId],
       );
@@ -114,8 +106,7 @@ class FundRepository {
       final db = await _dbProvider.database;
 
       return await db.delete('Funds', where: 'fund_id=?', whereArgs: [id]);
-    }on DatabaseException catch (e) {
-
+    } on DatabaseException catch (e) {
       if (e.toString().contains('FOREIGN KEY constraint failed')) {
         throw const AppException(
           'This fund contains transactions and cannot be deleted.',
@@ -131,9 +122,7 @@ class FundRepository {
 
     await db.update(
       'Funds',
-      {
-        'is_archived': 1,
-      },
+      {'is_archived': 1},
       where: 'fund_id = ?',
       whereArgs: [fundId],
     );
@@ -144,13 +133,9 @@ class FundRepository {
 
     await db.update(
       'Funds',
-      {
-        'is_archived': 0,
-      },
+      {'is_archived': 0},
       where: 'fund_id = ?',
       whereArgs: [fundId],
     );
   }
-
-
 }

@@ -20,7 +20,6 @@ static const String unknownCurrency='assets/images/flags/unknown.svg';
 
 ///Currency images
 static const String currency96='assets/images/currency/currency96.png';
-static const String currency48='assets/images/currency/currency48.png';
 
 
 

@@ -45,7 +45,7 @@ class FundScreen extends StatelessWidget {
       body: SafeArea(
         child: BlocConsumer<FundCubit, FundState>(
           listener: (context, state) {
-            debugPrint('Listener in FundScreen');
+
             if (state is FundLoaded) {
               if (state.successMessage != null) {
                 AppSnackBar.success(
@@ -74,7 +74,6 @@ class FundScreen extends StatelessWidget {
               return const Center(child: CircularProgressIndicator());
             }
             if (state is FundLoaded) {
-
 
               if (state.funds.isEmpty) {
                 return const EmptyState(image: AppAssets.emptyFundImage);

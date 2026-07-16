@@ -1,8 +1,3 @@
-enum EnNavigationPages {
-  home,
-  notes,
-  settings,
-}
 
 enum AppMenuAction {
   addCurrency,
