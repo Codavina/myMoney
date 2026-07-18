@@ -15,7 +15,7 @@ class TransactionCubit extends Cubit<TransactionState> {
 
     try {
       final transactions = await _repository.getAll();
-      emit(TransactionLoaded(transactions));
+      emit(TransactionLoaded(transactions:transactions));
     } catch (e) {
       emit(
         TransactionError(
@@ -36,12 +36,12 @@ class TransactionCubit extends Cubit<TransactionState> {
       await _loadTransactions(transaction.fundId);
 
     } catch (e) {
+      final transactions = await _repository.getByFund(transaction.fundId);
 
       emit(
-        TransactionError(
-          e is AppException
-              ? e.message
-              : 'Unexpected error.',
+        TransactionLoaded(
+          transactions:transactions,
+          errorMessage: e is AppException ? e.message : 'Unexpected error.',
         ),
       );
     }
@@ -52,7 +52,7 @@ class TransactionCubit extends Cubit<TransactionState> {
     try {
       await _repository.update(transaction);
       final transactions = await _repository.getAll();
-      emit(TransactionLoaded(transactions));
+      emit(TransactionLoaded(transactions:transactions));
     } catch (e) {
       emit(TransactionError(e.toString()));
     }
@@ -63,7 +63,7 @@ class TransactionCubit extends Cubit<TransactionState> {
     try {
       await _repository.delete(id);
       final transactions = await _repository.getAll();
-      emit(TransactionLoaded(transactions));
+      emit(TransactionLoaded(transactions:transactions));
     } catch (e) {
       emit(TransactionError(e.toString()));
     }
@@ -71,20 +71,21 @@ class TransactionCubit extends Cubit<TransactionState> {
 
   Future<void> getByFund(int fundId) async {
 
+
     emit(TransactionLoading());
 
     await _loadTransactions(fundId);
   }
 
 
-  //we create _loadTransactions method tho avoid calling
+  //we create _loadTransactions method to avoid calling
   //[TransactionLoading()] twice when calling getByFund method
   Future<void> _loadTransactions(int fundId) async {
 
     try {
       final transactions = await _repository.getByFund(fundId);
 
-      emit(TransactionLoaded(transactions));
+      emit(TransactionLoaded(transactions:transactions));
 
     } catch (e) {
       emit(

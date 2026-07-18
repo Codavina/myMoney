@@ -32,7 +32,6 @@ class TransactionModel {
       'transaction_type': transactionType.index,
       'transaction_date': transactionDate.toIso8601String(),
       'description': description,
-     // 'created_at': createdAt.toIso8601String(),
 
       // Don't send created_at when inserting a new transaction.
       // SQLite will fill it automatically using CURRENT_TIMESTAMP.

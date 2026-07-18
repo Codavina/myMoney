@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_money/features/about_screen/about_screen.dart';
 import 'package:my_money/features/archived_fund_screen/archived_fund_screen.dart';
-
+import 'package:my_money/features/settings_screen/settings_screen.dart';
 import '../../features/currency_screen/currency_screen.dart';
 import '../constants/app_enums.dart';
 import '../cubit/fund/fund_cubit.dart';
@@ -45,11 +46,11 @@ class AppPopupMenu extends StatelessWidget {
             break;
 
           case AppMenuAction.settings:
-            // TODO: Navigate to Settings
+           Navigator.push(context, MaterialPageRoute(builder: (context)=>const SettingsScreen()));
             break;
 
           case AppMenuAction.about:
-            // TODO: Show About Dialog
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>const AboutScreen()));
             break;
         }
       },

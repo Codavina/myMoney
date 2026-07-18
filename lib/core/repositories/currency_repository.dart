@@ -9,7 +9,7 @@ class CurrencyRepository {
   //Access singleton database instance
   final _dbProvider = AppDatabase.instance;
 
-  //CREATE (Insert new currency)
+  ///CREATE (Insert new currency)
   Future<int> insert(CurrencyModel currency) async {
     try {
       // Convert object → map before saving to SQLite
@@ -21,7 +21,7 @@ class CurrencyRepository {
     }
   }
 
-  //READ (Get All Currencies)
+  ///READ (Get All Currencies)
   Future<List<CurrencyModel>> getAll() async {
     try {
       final db = await _dbProvider.database;
@@ -29,14 +29,14 @@ class CurrencyRepository {
       // Query returns List<Map<String, dynamic>>
       final result = await db.query('Currencies');
 
-      // Convert each Map → Note object
+      /// Convert each Map → Note object
       return result.map((e) => CurrencyModel.fromMap(e)).toList();
     }on DatabaseException catch (e) {
       throw DatabaseErrorHandler.handle(e);
     }
   }
 
-  //FIND (Get Currency by ID)
+  ///FIND (Get Currency by ID)
   Future<CurrencyModel?> getById(int id) async {
     try {
       final db = await _dbProvider.database;
@@ -58,7 +58,7 @@ class CurrencyRepository {
     }
   }
 
-  //UPDATE (Modify existing currency)
+  ///UPDATE (Modify existing currency)
   Future<int> update(CurrencyModel currency) async {
     try {
       final db = await _dbProvider.database;
@@ -77,7 +77,7 @@ class CurrencyRepository {
     }
   }
 
-  //DELETE (Remove currency by ID)
+  ///DELETE (Remove currency by ID)
   Future<int> delete(int id) async {
     try {
       final db = await _dbProvider.database;

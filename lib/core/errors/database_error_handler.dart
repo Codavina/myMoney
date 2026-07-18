@@ -9,7 +9,7 @@ class DatabaseErrorHandler {
       }
       if (error.toString().contains('Insufficient balance')) {
         return const AppException(
-          'Insufficient balance. You cannot withdraw more than the available balance.',
+          'You cannot withdraw more than the available balance.',
         );
       }
       if (error.toString().contains('FOREIGN KEY')) {

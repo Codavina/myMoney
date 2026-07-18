@@ -7,7 +7,7 @@ import '../errors/database_error_handler.dart';
 class FundRepository {
   final _dbProvider = AppDatabase.instance;
 
-  //Insert
+  ///Insert
   Future<int> insert(FundModel fund) async {
     try {
       final db = await _dbProvider.database;
@@ -18,7 +18,7 @@ class FundRepository {
     }
   }
 
-  //Read all
+  ///Read all
   Future<List<FundModel>> getAll() async {
     try {
       final db = await _dbProvider.database;
@@ -30,7 +30,7 @@ class FundRepository {
     }
   }
 
-  //Read All Active funds
+  ///Read All Active funds
   Future<List<FundModel>> getAllActive() async {
     try {
       final db = await _dbProvider.database;
@@ -48,7 +48,7 @@ class FundRepository {
     }
   }
 
-  //Read ALl Archived funds
+  ///Read ALl Archived funds
   Future<List<FundModel>> getAllArchived() async {
     try {
       final db = await _dbProvider.database;
@@ -66,7 +66,7 @@ class FundRepository {
     }
   }
 
-  //Read by id
+  ///Read by id
   Future<FundModel?> getById(int id) async {
     final db = await _dbProvider.database;
 
@@ -84,7 +84,7 @@ class FundRepository {
     return FundModel.fromMap(result.first);
   }
 
-  //Update
+  ///Update
   Future<int> update(FundModel fund) async {
     try {
       final db = await _dbProvider.database;
@@ -100,7 +100,7 @@ class FundRepository {
     }
   }
 
-  //delete
+  ///delete
   Future<int> delete(int id) async {
     try {
       final db = await _dbProvider.database;

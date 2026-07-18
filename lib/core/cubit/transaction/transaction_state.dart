@@ -15,7 +15,7 @@ class TransactionLoaded extends TransactionState {
   final String? successMessage;
   final String? errorMessage;
 
-  TransactionLoaded(this.transactions, {this.successMessage, this.errorMessage});
+  TransactionLoaded({required this.transactions, this.successMessage, this.errorMessage});
 }
 
 class TransactionError extends TransactionState {

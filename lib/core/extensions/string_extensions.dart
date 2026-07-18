@@ -12,7 +12,7 @@ extension SimpleStringExtension on String {
   }
 }
 
-///use StringBuffer for big articles nad paragraphs
+///use StringBuffer for big articles and paragraphs
 extension BigStringExtension on String {
   String toBigTitleCase() {
     final buffer = StringBuffer();
