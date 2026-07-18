@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/features/fund_screen/widgets/swipe_background.dart';
+import '../../../core/constants/app_colors.dart';
 import '../../../core/cubit/currency/currency_cubit.dart';
 import '../../../core/cubit/currency/currency_state.dart';
 import '../../../core/cubit/fund/fund_cubit.dart';
@@ -83,8 +84,8 @@ class ArchivedFundListView extends StatelessWidget {
             return Dismissible(
               key: ValueKey(fund.fundId),
               direction: DismissDirection.horizontal,
-              secondaryBackground: const SwipeBackground(
-                color: Colors.teal,
+              secondaryBackground:  const SwipeBackground(
+                color: AppColors.primary,
                 icon: Icons.unarchive,
                 text: 'Restore',
                 alignment: Alignment.centerRight,

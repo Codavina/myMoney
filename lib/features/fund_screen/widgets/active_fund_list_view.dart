@@ -92,7 +92,7 @@ class ActiveFundListView extends StatelessWidget {
                 alignment: Alignment.centerRight,
               ),
               background: const SwipeBackground(
-                color: Colors.blue,
+                color: Colors.teal,
                 icon: Icons.edit,
                 text: 'Edit',
                 alignment: Alignment.centerLeft,
