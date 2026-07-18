@@ -14,6 +14,7 @@ class CurrencyPopUpMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton<MenuAction>(
+
       onSelected: onSelected,
       itemBuilder: (context) => [
          const PopupMenuItem(
@@ -26,13 +27,13 @@ class CurrencyPopUpMenu extends StatelessWidget {
             ],
           ),
         ),
-        PopupMenuItem(
+        const PopupMenuItem(
           value: MenuAction.delete,
           child: Row(
             children: [
-              Icon(Icons.delete, color: Colors.red.shade700),
-              const SizedBox(width: 4),
-              const Text('Delete'),
+              Icon(Icons.delete, color: Colors.red),
+              SizedBox(width: 4),
+              Text('Delete'),
             ],
           ),
         ),

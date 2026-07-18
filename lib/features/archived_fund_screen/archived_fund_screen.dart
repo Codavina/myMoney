@@ -7,7 +7,6 @@ import '../../core/cubit/fund/fund_state.dart';
 import '../../core/utils/app_snackbar.dart';
 import '../../core/widgets/empty_state.dart';
 
-
 class ArchivedFundScreen extends StatelessWidget {
   const ArchivedFundScreen({super.key});
 
@@ -31,19 +30,15 @@ class ArchivedFundScreen extends StatelessWidget {
           listener: (context, state) {
             if (state is FundLoaded) {
               if (state.successMessage != null) {
-
-                debugPrint('Restore message from BlocConsumer(listener) in ArchivedFundScreen');
                 AppSnackBar.success(context, state.successMessage!);
               }
 
               if (state.errorMessage != null) {
-                debugPrint('Delete message from BlocConsumer(state.errorMessage != null) in ArchivedFundScreen');
                 AppSnackBar.error(context, state.errorMessage!);
               }
             }
 
             if (state is FundError) {
-              debugPrint('Delete message from BlocConsumer(state is FundError) in ArchivedFundScreen');
               AppSnackBar.error(context, state.errorMessage);
             }
           },
@@ -55,7 +50,9 @@ class ArchivedFundScreen extends StatelessWidget {
 
             if (state is FundLoaded) {
               if (state.funds.isEmpty) {
-                return const EmptyState(image: AppAssets.emptyArchivedFundImage);
+                return const EmptyState(
+                  image: AppAssets.emptyArchivedFundImage,
+                );
               }
 
               return ArchivedFundListView(funds: state.funds);

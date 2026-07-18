@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_money/core/constants/app_colors.dart';
 import 'package:my_money/core/models/currency_model.dart';
 
 import '../../../core/utils/app_validator.dart';
@@ -36,8 +37,17 @@ class _AddCurrencyDialogState extends State<AddCurrencyDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      titlePadding: EdgeInsets.zero,
       backgroundColor: Colors.white,
-      title: Text(isEdit ?'Edit Currency': 'Add Currency'),
+      title: Container(
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color:isEdit?Colors.teal: AppColors.primary,
+            borderRadius: const BorderRadius.only(topRight: Radius.circular(10),topLeft: Radius.circular(10)),
+
+           
+          ),
+          child: Text(isEdit ?'Edit Currency': 'Add Currency',textAlign: TextAlign.center,style: const TextStyle(color: Colors.white),)),
       content: Form(
         key: _formKey,
         child: Column(
@@ -67,6 +77,7 @@ class _AddCurrencyDialogState extends State<AddCurrencyDialog> {
         ),
 
         ElevatedButton(
+          style: ElevatedButton.styleFrom(backgroundColor: isEdit?Colors.teal:AppColors.primary),
           onPressed: () {
             if (!_formKey.currentState!.validate()) return;
 

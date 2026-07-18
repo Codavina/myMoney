@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:my_money/core/constants/app_colors.dart';
 import 'package:my_money/core/utils/app_validator.dart';
+import 'package:my_money/core/widgets/custom_dialog_title.dart';
+import 'package:my_money/core/widgets/dialog_title_decoration.dart';
 import '../../../core/models/currency_model.dart';
 import '../../../core/models/fund_model.dart';
 import '../../../core/widgets/custom_text_form_field.dart';
@@ -62,7 +65,10 @@ class _AddFundDialogState extends State<AddFundDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(isEdit ? 'Edit Fund' : 'Add Fund'),
+      titlePadding: EdgeInsets.zero,
+      title: DialogTitleDecoration(
+          dialogTitle: DialogTitle(title: isEdit ? 'Edit Fund' : 'Add Fund'),
+          color: isEdit?Colors.teal:AppColors.primary),
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
 
       content: SingleChildScrollView(
@@ -100,7 +106,7 @@ class _AddFundDialogState extends State<AddFundDialog> {
 
         FilledButton(
           style: FilledButton.styleFrom(
-            backgroundColor: const Color(0xff0088cc),
+            backgroundColor: isEdit?Colors.teal:AppColors.primary,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),

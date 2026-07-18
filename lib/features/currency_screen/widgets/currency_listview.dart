@@ -14,15 +14,24 @@ class CurrencyListView extends StatelessWidget {
 
   final List<CurrencyModel> currencies;
 
-  Future<void> _confirmDelete(BuildContext context,CurrencyModel currency) async {
+  Future<void> _confirmDelete(
+    BuildContext context,
+    CurrencyModel currency,
+  ) async {
     final cubit = context.read<CurrencyCubit>();
 
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (_) => AppConfirmDialog(
-        title: 'Delete Currency',
-        message: 'Are you sure you want to delete "${currency.currencyCode.toUpperCase()}"?',
-      ),
+      builder: (_) {
+
+        return AppConfirmDialog(
+          title: 'Delete Currency',
+          message:
+              'Are you sure you want to delete ',
+          textToAction: currency.currencyCode.toUpperCase(),
+          color: Colors.red.shade400,
+        );
+      },
     );
 
     if (confirmed == true) {
@@ -30,15 +39,20 @@ class CurrencyListView extends StatelessWidget {
     }
   }
 
-Future<void> _showEditDialog(BuildContext context, CurrencyModel currency) async {
-  final currencyCubit = context.read<CurrencyCubit>();
-  final updatedCurrency = await openCurrencyDialog(context, currency: currency);
+  Future<void> _showEditDialog(
+    BuildContext context,
+    CurrencyModel currency,
+  ) async {
+    final currencyCubit = context.read<CurrencyCubit>();
+    final updatedCurrency = await openCurrencyDialog(
+      context,
+      currency: currency,
+    );
 
-  if (updatedCurrency != null) {
-    currencyCubit.update(updatedCurrency);
+    if (updatedCurrency != null) {
+      currencyCubit.update(updatedCurrency);
+    }
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -53,8 +67,7 @@ Future<void> _showEditDialog(BuildContext context, CurrencyModel currency) async
 
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
-          child:
-          Card(
+          child: Card(
             clipBehavior: Clip.antiAlias,
             shape: RoundedRectangleBorder(
               borderRadius: const BorderRadius.all(Radius.circular(12)),
@@ -66,53 +79,48 @@ Future<void> _showEditDialog(BuildContext context, CurrencyModel currency) async
             color: AppColors.lightBackground,
             elevation: 0,
             child: ListTile(
-                  title: Text(
-                    currency.currencyCode.toUpperCase(),
-                    style: const TextStyle(
-                      color: AppColors.primary,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  subtitle: Text(info.name),
-                  leading: Container(
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: AppColors.primary.withValues(alpha: 0.08),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(6),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(6),
+              title: Text(
+                currency.currencyCode.toUpperCase(),
+                style: const TextStyle(
+                  color: AppColors.primary,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              subtitle: Text(info.name),
+              leading: Container(
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: AppColors.primary.withValues(alpha: 0.08),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(6),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(6),
 
-                        child: SvgPicture.asset(info.flag, fit: BoxFit.contain),
-                      ),
-                    ),
-                  ),
-                  trailing: CurrencyPopUpMenu(
-                    onSelected: (action) async {
-                      switch (action) {
-                        case MenuAction.edit:
-                         _showEditDialog(context,currency);
-                          break;
-
-                        case MenuAction.delete:
-                          _confirmDelete(context, currency);
-                          break;
-                      }
-                    },
+                    child: SvgPicture.asset(info.flag, fit: BoxFit.contain),
                   ),
                 ),
+              ),
+              trailing: CurrencyPopUpMenu(
+                onSelected: (action) async {
+                  switch (action) {
+                    case MenuAction.edit:
+                      _showEditDialog(context, currency);
+                      break;
 
-
+                    case MenuAction.delete:
+                      _confirmDelete(context, currency);
+                      break;
+                  }
+                },
+              ),
+            ),
           ),
-
-
         );
       },
     );
   }
-
 }

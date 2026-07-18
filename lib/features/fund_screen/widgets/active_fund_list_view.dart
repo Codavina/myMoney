@@ -39,7 +39,9 @@ class ActiveFundListView extends StatelessWidget {
       builder: (_) => AppConfirmDialog(
         title: 'Archive Fund',
         message:
-            'Are you sure you want to archive "${fund.title.toUpperCase()}"?',
+            'Are you sure you want to archive ',
+        textToAction: fund.title.toUpperCase(),
+        color: Colors.grey.shade600,
         isArchived: true,
       ),
     );

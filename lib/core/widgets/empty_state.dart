@@ -10,8 +10,8 @@ class EmptyState extends StatelessWidget {
     return Center(
       child: Image.asset(image,
         fit: BoxFit.contain,
-        width: MediaQuery.of(context).size.width * 0.50,
-        height: MediaQuery.of(context).size.height * 0.30,
+        width: MediaQuery.of(context).size.width * 0.55,
+        height: MediaQuery.of(context).size.height * 0.35,
       ),
     );
   }

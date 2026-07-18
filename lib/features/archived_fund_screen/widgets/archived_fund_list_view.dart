@@ -38,7 +38,9 @@ class ArchivedFundListView extends StatelessWidget {
       builder: (_) => AppConfirmDialog(
         title: 'Delete Fund',
         message:
-            'Are you sure you want to delete "${fund.title.toUpperCase()}"?',
+            'Are you sure you want to delete',
+        textToAction: fund.title.toUpperCase(),
+        color: Colors.red.shade400,
         isArchived: false,
       ),
     );

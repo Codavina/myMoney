@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:my_money/core/models/transaction_model.dart';
 import 'package:my_money/core/utils/app_formatter.dart';
 import 'package:my_money/core/utils/app_validator.dart';
+import 'package:my_money/core/widgets/custom_dialog_title.dart';
+import 'package:my_money/core/widgets/dialog_title_decoration.dart';
+import '../../../core/constants/app_colors.dart';
 import '../../../core/utils/amount_formatter.dart';
 import 'operation_selector.dart';
 import '../../../core/widgets/custom_text_form_field.dart';
@@ -55,15 +58,17 @@ class _AddTransactionDialogState extends State<AddTransactionDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Add Transaction'),
+      titlePadding: EdgeInsets.zero,
+      title: const DialogTitleDecoration(dialogTitle: DialogTitle(title: 'Add Transaction'), color: AppColors.primary),
+
       content: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Form(
           key: _formKey,
           child: Column(
             children: [
-              //  const TransactionCategory(),
-              const SizedBox(height: 16),
+
+              const SizedBox(height: 8),
               CustomTextFormField(
                 labelText: 'Amount',
                 controller: _amountController,
@@ -90,7 +95,6 @@ class _AddTransactionDialogState extends State<AddTransactionDialog> {
               ),
               const SizedBox(height: 12),
               OperationSelector(
-
                 selectedType: _selectedType,
                 onChanged: (value) {
                   setState(() {
@@ -98,7 +102,7 @@ class _AddTransactionDialogState extends State<AddTransactionDialog> {
                   });
                 },
               ),
-              const SizedBox(height: 12),
+             const SizedBox(height: 8),
             ],
           ),
         ),
