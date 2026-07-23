@@ -18,8 +18,8 @@ class DialogTitleDecoration extends StatelessWidget {
       decoration: BoxDecoration(
         color:color,//
         borderRadius: const BorderRadius.only(
-          topRight: Radius.circular(10),
-          topLeft: Radius.circular(10),
+          topRight: Radius.circular(25),
+          topLeft: Radius.circular(25),
         ),
         border: Border.all(color: Colors.white,width: 0.4),
       ),

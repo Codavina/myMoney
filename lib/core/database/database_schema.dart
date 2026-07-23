@@ -5,6 +5,7 @@ import 'package:sqflite/sqflite.dart';
 class DatabaseSchema {
   static Future<void> create(Database db) async {
     ///Create Tables
+    await _createUsersTable(db);
     await _createCurrenciesTable(db);
     await _createFundsTable(db);
     await _createTransactionsTable(db);
@@ -23,6 +24,28 @@ class DatabaseSchema {
   // ===========================
   // Tables
   // ===========================
+  static Future<void> _createUsersTable(Database db) async {
+    await db.execute('''
+    CREATE TABLE Users(
+      user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+      auth_id TEXT NOT NULL UNIQUE,
+
+      name TEXT NOT NULL,
+
+      email TEXT NOT NULL UNIQUE,
+
+      role TEXT NOT NULL
+        CHECK(role IN ('admin', 'viewer')),
+
+      created_at TEXT NOT NULL
+        DEFAULT CURRENT_TIMESTAMP
+    );
+  ''');
+
+    log('=========== Users Table created =============');
+  }
+
 
   static Future<void> _createCurrenciesTable(Database db) async {
     await db.execute('''
