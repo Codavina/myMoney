@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_money/core/cubit/auth/login_cubit.dart';
 import 'package:my_money/core/cubit/currency/currency_cubit.dart';
 import 'package:my_money/core/cubit/fund/fund_cubit.dart';
 import 'package:my_money/features/login_screen/login_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'core/config/supabase_config.dart';
+import 'core/cubit/auth/auth_cubit.dart';
+import 'core/cubit/login/login_cubit.dart';
 import 'core/repositories/auth_repository.dart';
 import 'core/repositories/currency_repository.dart';
 import 'core/repositories/fund_repository.dart';
 import 'core/repositories/transaction_repository.dart';
+import 'core/repositories/user_repository.dart';
 import 'core/theme/app_theme.dart';
+import 'features/auth_screen/auth_gate_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,6 +32,7 @@ void main() async {
   final fundRepository = FundRepository();
   final transactionRepository = TransactionRepository();
   final authRepository = AuthRepository();
+  final userRepository = UserRepository();
 
 
   runApp(
@@ -37,6 +41,7 @@ void main() async {
       fundRepository: fundRepository,
       transactionRepository: transactionRepository,
       authRepository: authRepository,
+      userRepository: userRepository,
     ),
   );
 }
@@ -48,12 +53,15 @@ class MyMoneyApp extends StatelessWidget {
     required this.fundRepository,
     required this.transactionRepository,
     required this.authRepository,
+    required this.userRepository,
   });
 
   final CurrencyRepository currencyRepository;
   final FundRepository fundRepository;
   final TransactionRepository transactionRepository;
   final AuthRepository authRepository;
+  final UserRepository userRepository ;
+
 
   // This widget is the root of your application.
   @override
@@ -64,6 +72,7 @@ class MyMoneyApp extends StatelessWidget {
           RepositoryProvider.value(value: fundRepository),
           RepositoryProvider.value(value: transactionRepository),
           RepositoryProvider.value(value: authRepository),
+          RepositoryProvider.value(value: userRepository),
         ],
         child: MultiBlocProvider(
           providers: [
@@ -77,6 +86,10 @@ class MyMoneyApp extends StatelessWidget {
             BlocProvider(
               create: (_) =>LoginCubit(authRepository),
             ),
+            BlocProvider(
+              create: (_) => AuthCubit(userRepository)
+                ..checkSession(),
+            ),
           ],
       child: MaterialApp(
         title: 'My Money App',
@@ -84,7 +97,7 @@ class MyMoneyApp extends StatelessWidget {
         theme: AppTheme.light,
         darkTheme: AppTheme.dark,
         themeMode: ThemeMode.system,
-        home: const LoginScreen(),
+        home: const AuthGateScreen(),
       ),),
     );
   }
