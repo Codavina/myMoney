@@ -31,14 +31,14 @@ class FundRepository {
   }
 
   ///Read All Active funds
-  Future<List<FundModel>> getAllActive() async {
+  Future<List<FundModel>> getAllActive(int ownerId) async {
     try {
       final db = await _dbProvider.database;
 
       final result = await db.query(
         'Funds',
-        where: 'is_archived = ?',
-        whereArgs: [0],
+        where: 'owner_id = ? AND is_archived = ?',
+        whereArgs: [ownerId, 0],
         orderBy: 'created_at DESC',
       );
 
@@ -49,14 +49,14 @@ class FundRepository {
   }
 
   ///Read ALl Archived funds
-  Future<List<FundModel>> getAllArchived() async {
+  Future<List<FundModel>> getAllArchived(int ownerId) async {
     try {
       final db = await _dbProvider.database;
 
       final result = await db.query(
         'Funds',
-        where: 'is_archived = ?',
-        whereArgs: [1],
+        where: 'owner_id = ? AND is_archived = ?',
+        whereArgs: [ownerId, 1],
         orderBy: 'created_at DESC',
       );
 

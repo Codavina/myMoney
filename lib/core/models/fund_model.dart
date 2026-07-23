@@ -1,5 +1,6 @@
 class FundModel {
   final int? fundId;
+  final int ownerId;
   final String title;
   final double balance;
   final int currencyId;
@@ -8,6 +9,7 @@ class FundModel {
 
   const FundModel({
     this.fundId,
+    required this.ownerId,
     required this.title,
     this.balance = 0,
     required this.currencyId,
@@ -20,6 +22,7 @@ class FundModel {
   Map<String, dynamic> toMap() {
     return {
       if (fundId != null) 'fund_id': fundId,
+      'owner_id': ownerId,
       'title': title,
       'balance': balance,
       'currency_id': currencyId,
@@ -34,6 +37,7 @@ class FundModel {
   factory FundModel.fromMap(Map<String, dynamic> map) {
     return FundModel(
       fundId: map['fund_id'] as int?,
+      ownerId: map['owner_id'] as int,
       title: map['title'] as String,
       balance: (map['balance'] as num).toDouble(),
       currencyId: map['currency_id'] as int,
@@ -45,6 +49,7 @@ class FundModel {
   /// Returns a copy of this object with the given fields replaced.
   FundModel copyWith({
     int? fundId,
+    int? ownerId,
     String? title,
     double? balance,
     int? currencyId,
@@ -53,6 +58,7 @@ class FundModel {
   }) {
     return FundModel(
       fundId: fundId ?? this.fundId,
+      ownerId: ownerId ?? this.ownerId,
       title: title ?? this.title,
       balance: balance ?? this.balance,
       currencyId: currencyId ?? this.currencyId,
@@ -67,6 +73,7 @@ class FundModel {
   String toString() {
     return 'FundModel('
         'fund_id: $fundId,'
+        'owner_id: $ownerId,'
         'title: $title,'
         'balance: $balance,'
         'currency_id: $currencyId,'

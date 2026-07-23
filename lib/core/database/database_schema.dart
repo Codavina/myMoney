@@ -63,8 +63,10 @@ class DatabaseSchema {
     await db.execute('''
       CREATE TABLE Funds(
         fund_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        
+        owner_id INTEGER NOT NULL,
 
-        title TEXT NOT NULL UNIQUE,
+        title TEXT NOT NULL,
 
         balance REAL NOT NULL
           DEFAULT 0
@@ -78,11 +80,18 @@ class DatabaseSchema {
 
         created_at TEXT NOT NULL
           DEFAULT CURRENT_TIMESTAMP,
+          
+        FOREIGN KEY(owner_id)
+          REFERENCES Users(user_id)
+          ON UPDATE CASCADE
+          ON DELETE CASCADE,
 
         FOREIGN KEY(currency_id)
           REFERENCES Currencies(currency_id)
           ON UPDATE CASCADE
-          ON DELETE RESTRICT
+          ON DELETE RESTRICT,
+          
+          UNIQUE(owner_id, title)
       );
     ''');
 
