@@ -4,23 +4,31 @@ import 'package:my_money/core/repositories/auth_repository.dart';
 import 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
-  LoginCubit(this._repository) : super(LoginInitial());
-
   final AuthRepository _repository;
+
+  LoginCubit(this._repository) : super(const LoginInitial());
 
   Future<void> signIn({
     required String email,
     required String password,
   }) async {
-    emit(LoginLoading());
+    emit(const LoginLoading());
 
     try {
-      await _repository.signIn(
+      final response = await _repository.signIn(
         email: email,
         password: password,
       );
 
-      emit(LoginSuccess());
+      final user = response.user;
+
+      if (user == null) {
+        emit(const LoginError('Login failed.'));
+        return;
+      }
+
+      // انتهت مهمتنا في هذه المرحلة
+      emit(const LoginSuccess());
     } catch (e) {
       emit(LoginError(e.toString()));
     }
