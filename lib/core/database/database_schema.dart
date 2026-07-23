@@ -31,9 +31,11 @@ class DatabaseSchema {
 
       auth_id TEXT NOT NULL UNIQUE,
 
-      name TEXT NOT NULL,
+      full_name TEXT NOT NULL,
 
       email TEXT NOT NULL UNIQUE,
+      
+      phone TEXT,
 
       role TEXT NOT NULL
         CHECK(role IN ('admin', 'viewer')),
