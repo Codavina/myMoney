@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/core/cubit/currency/currency_cubit.dart';
 import 'package:my_money/core/cubit/fund/fund_cubit.dart';
 import 'package:my_money/features/fund_screen/fund_screen.dart';
-import 'core/database/app_database.dart';
+import 'package:my_money/features/login_screen/login_screen.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'core/config/supabase_config.dart';
 import 'core/repositories/currency_repository.dart';
 import 'core/repositories/fund_repository.dart';
 import 'core/repositories/transaction_repository.dart';
@@ -12,8 +14,13 @@ import 'core/theme/app_theme.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  await Supabase.initialize(
+    url: SupabaseConfig.url,
+    publishableKey: SupabaseConfig.publishableKey,
+  );
 
-  await AppDatabase.instance.database;
+
+  debugPrint('Supabase initialized successfully.');
 
   // Create shared repository instances.
   // They are passed to Cubits instead of being created inside widgets.
@@ -67,7 +74,7 @@ class MyMoneyApp extends StatelessWidget {
         theme: AppTheme.light,
         darkTheme: AppTheme.dark,
         themeMode: ThemeMode.system,
-        home: const FundScreen(),
+        home: const LoginScreen(),
       ),),
     );
   }

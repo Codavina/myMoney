@@ -54,7 +54,8 @@ class _AddFundDialogState extends State<AddFundDialog> {
       context,
       FundModel(
         fundId: widget.fund?.fundId,
-        title: _titleController.text.trim(),
+        ownerId: widget.fund?.ownerId ?? 1,
+       title: _titleController.text.trim(),
         currencyId: _selectedCurrency!.currencyId!,
         createdAt: widget.fund?.createdAt ?? DateTime.now(),
         //balance: widget.fund!.balance,
