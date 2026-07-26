@@ -7,8 +7,10 @@ import 'package:my_money/features/fund_screen/widgets/swipe_background.dart';
 import 'package:my_money/features/transaction_screen/transaction_screen.dart';
 import '../../../core/cubit/currency/currency_state.dart';
 import '../../../core/cubit/transaction/transaction_cubit.dart';
+import '../../../core/extensions/profile_extension.dart';
 import '../../../core/models/currency_model.dart';
 import '../../../core/repositories/transaction_repository.dart';
+import '../../../core/session/current_user.dart';
 import '../../../core/widgets/app_confirm_dialog.dart';
 import '../../currency_screen/currency_info.dart';
 import '../fund_helper/fund_dialog_helper.dart';
@@ -38,8 +40,7 @@ class ActiveFundListView extends StatelessWidget {
       context: context,
       builder: (_) => AppConfirmDialog(
         title: 'Archive Fund',
-        message:
-            'Are you sure you want to archive ',
+        message: 'Are you sure you want to archive ',
         textToAction: fund.title.toUpperCase(),
         color: Colors.grey.shade600,
         isArchived: true,
@@ -57,9 +58,7 @@ class ActiveFundListView extends StatelessWidget {
         // Build a lookup map once instead of searching for every Fund.
 
         if (state is CurrencyLoading) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          return const Center(child: CircularProgressIndicator());
         }
 
         if (state is! CurrencyLoaded) {
@@ -84,7 +83,9 @@ class ActiveFundListView extends StatelessWidget {
             debugPrint(state.runtimeType.toString());
             return Dismissible(
               key: ValueKey(fund.fundId),
-              direction: DismissDirection.horizontal,
+              direction: CurrentUser.value!.isAdmin
+                  ? DismissDirection.horizontal
+                  : DismissDirection.none,
               secondaryBackground: const SwipeBackground(
                 color: Colors.grey,
                 icon: Icons.archive,
@@ -109,7 +110,11 @@ class ActiveFundListView extends StatelessWidget {
                 }
 
                 if (direction == DismissDirection.startToEnd) {
-                  final updatedFund = await openFundDialog(context, fund: fund);
+                  final updatedFund = await openFundDialog(
+                    context,
+                    fund: fund,
+                    ownerId: 1,
+                  );
 
                   if (updatedFund != null) {
                     fundCubit.update(updatedFund);

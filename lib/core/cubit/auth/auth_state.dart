@@ -2,7 +2,8 @@ import '../../models/user_model.dart';
 
 enum AuthStatus {
   initial,
-  loading,
+  signingIn,
+  signingOut,
   authenticated,
   unauthenticated,
   failure,

@@ -4,4 +4,5 @@ enum AppMenuAction {
   archived,
   settings,
   about,
+  logOut,
 }

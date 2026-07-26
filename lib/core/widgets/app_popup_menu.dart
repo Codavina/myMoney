@@ -5,11 +5,13 @@ import 'package:my_money/features/archived_fund_screen/archived_fund_screen.dart
 import 'package:my_money/features/settings_screen/settings_screen.dart';
 import '../../features/currency_screen/currency_screen.dart';
 import '../constants/app_enums.dart';
+import '../cubit/auth/auth_cubit.dart';
 import '../cubit/fund/fund_cubit.dart';
 import '../repositories/fund_repository.dart';
 
 class AppPopupMenu extends StatelessWidget {
-  const AppPopupMenu({super.key});
+  const AppPopupMenu({super.key, this.ownerId});
+  final int? ownerId;
 
   @override
   Widget build(BuildContext context) {
@@ -34,15 +36,15 @@ class AppPopupMenu extends StatelessWidget {
                 builder: (_) => BlocProvider(
                   create: (context) =>
                       FundCubit(context.read<FundRepository>())
-                        ..getAllArchived(),
-                  child: const ArchivedFundScreen(),
+                        ..getAllArchived(ownerId!),
+                  child:  ArchivedFundScreen(ownerId: ownerId!,),
                 ),
               ),
             );
 
             if (!context.mounted) return;
 
-            context.read<FundCubit>().getAllActive();
+        context.read<FundCubit>().getAllActive(ownerId!);
             break;
 
           case AppMenuAction.settings:
@@ -52,6 +54,12 @@ class AppPopupMenu extends StatelessWidget {
           case AppMenuAction.about:
             Navigator.push(context, MaterialPageRoute(builder: (context)=>const AboutScreen()));
             break;
+
+          case AppMenuAction.logOut:
+              context.read<AuthCubit>().signOut();
+              break;
+
+
         }
       },
       itemBuilder: (context) => [
@@ -83,12 +91,20 @@ class AppPopupMenu extends StatelessWidget {
             contentPadding: EdgeInsets.zero,
           ),
         ),
-
+   //
         const PopupMenuItem(
           value: AppMenuAction.about,
           child: ListTile(
             leading: Icon(Icons.info_outline),
             title: Text('About'),
+            contentPadding: EdgeInsets.zero,
+          ),
+        ),
+        const PopupMenuItem(
+          value: AppMenuAction.logOut,
+          child: ListTile(
+            leading: Icon(Icons.logout_outlined),
+            title: Text('LogOut'),
             contentPadding: EdgeInsets.zero,
           ),
         ),

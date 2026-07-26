@@ -80,7 +80,7 @@ class MyMoneyApp extends StatelessWidget {
               create: (_) => CurrencyCubit(currencyRepository)..getAll(),
             ),
             BlocProvider(
-              create: (_) => FundCubit(fundRepository)..getAllActive(),
+              create: (_) => FundCubit(fundRepository),
             ),
 
             BlocProvider(

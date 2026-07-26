@@ -4,6 +4,7 @@ import 'package:my_money/core/cubit/currency/currency_cubit.dart';
 import 'package:my_money/core/cubit/currency/currency_state.dart';
 import 'package:my_money/core/models/currency_model.dart';
 import 'package:my_money/core/utils/app_snackbar.dart';
+import 'package:my_money/core/widgets/admin_only.dart';
 import 'package:my_money/features/currency_screen/widgets/add_currency_dialog.dart';
 import 'package:my_money/features/currency_screen/widgets/currency_body.dart';
 import '../../core/constants/app_assets.dart';
@@ -107,11 +108,13 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _addCurrency,
-        backgroundColor: const Color(0xff0088cc),
-        icon: const Icon(Icons.add,color:Color(0xffFFFFFF),),
-        label: const Text('Add Currency', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700,color: Color(0xffFFFFFF))),
+      floatingActionButton: AdminOnly(
+        child: FloatingActionButton.extended(
+          onPressed: _addCurrency,
+          backgroundColor: const Color(0xff0088cc),
+          icon: const Icon(Icons.add,color:Color(0xffFFFFFF),),
+          label: const Text('Add Currency', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700,color: Color(0xffFFFFFF))),
+        ),
       ),
     );
   }

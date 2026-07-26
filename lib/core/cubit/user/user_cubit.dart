@@ -13,7 +13,7 @@ class UserCubit extends Cubit<UserState> {
     emit(const UserLoading());
 
     try {
-      final users = await _repository.getAllProfiles();
+      final users = await _repository.getAll();
 
       emit(UserLoaded(users));
     } catch (e) {

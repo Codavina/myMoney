@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../core/cubit/fund/fund_cubit.dart';
 import '../../core/cubit/user/user_cubit.dart';
 import '../../core/cubit/user/user_state.dart';
 import '../../core/extensions/profile_extension.dart';
@@ -36,7 +39,11 @@ class UsersScreen extends StatelessWidget {
               itemBuilder: (context, index) {
 
                 final user = state.users[index];
-
+                log(
+                  'userId=${user.userId}, '
+                      'authId=${user.authId}, '
+                      'name=${user.fullName}',
+                );
                 return ListTile(
 
                   leading: Icon(
@@ -55,13 +62,14 @@ class UsersScreen extends StatelessWidget {
 
                     SelectedUser.value = user;
 
+                    context.read<FundCubit>().getAllActive(user.userId!);
+
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => const FundScreen(),
+                        builder: (_) =>  FundScreen(ownerId: user.userId!),
                       ),
                     );
-
                   },
 
                 );

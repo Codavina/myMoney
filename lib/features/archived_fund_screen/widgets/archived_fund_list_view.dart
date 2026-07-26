@@ -6,9 +6,11 @@ import '../../../core/cubit/currency/currency_cubit.dart';
 import '../../../core/cubit/currency/currency_state.dart';
 import '../../../core/cubit/fund/fund_cubit.dart';
 import '../../../core/cubit/transaction/transaction_cubit.dart';
+import '../../../core/extensions/profile_extension.dart';
 import '../../../core/models/currency_model.dart';
 import '../../../core/models/fund_model.dart';
 import '../../../core/repositories/transaction_repository.dart';
+import '../../../core/session/current_user.dart';
 import '../../../core/widgets/app_confirm_dialog.dart';
 import '../../currency_screen/currency_info.dart';
 import '../../transaction_screen/transaction_screen.dart';
@@ -27,7 +29,7 @@ class ArchivedFundListView extends StatelessWidget {
       MaterialPageRoute(
         builder: (_) => BlocProvider(
           create: (_) => TransactionCubit(repository)..getByFund(fund.fundId!),
-          child: TransactionScreen(fund: fund,readOnly: true,),
+          child: TransactionScreen(fund: fund, readOnly: true),
         ),
       ),
     );
@@ -38,8 +40,7 @@ class ArchivedFundListView extends StatelessWidget {
       context: context,
       builder: (_) => AppConfirmDialog(
         title: 'Delete Fund',
-        message:
-            'Are you sure you want to delete',
+        message: 'Are you sure you want to delete',
         textToAction: fund.title.toUpperCase(),
         color: Colors.red.shade400,
         isArchived: false,
@@ -56,9 +57,7 @@ class ArchivedFundListView extends StatelessWidget {
       builder: (context, state) {
         // Build a lookup map once instead of searching for every Fund.
         if (state is CurrencyLoading) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          return const Center(child: CircularProgressIndicator());
         }
 
         if (state is! CurrencyLoaded) {
@@ -83,8 +82,10 @@ class ArchivedFundListView extends StatelessWidget {
 
             return Dismissible(
               key: ValueKey(fund.fundId),
-              direction: DismissDirection.horizontal,
-              secondaryBackground:  const SwipeBackground(
+              direction: CurrentUser.value!.isAdmin
+                  ? DismissDirection.horizontal
+                  : DismissDirection.none,
+              secondaryBackground: const SwipeBackground(
                 color: AppColors.primary,
                 icon: Icons.unarchive,
                 text: 'Restore',
@@ -107,7 +108,7 @@ class ArchivedFundListView extends StatelessWidget {
                   return confirmed;
                 }
 
-                if (direction == DismissDirection.endToStart ) {
+                if (direction == DismissDirection.endToStart) {
                   fundCubit.restore(fund.fundId!);
 
                   return false;

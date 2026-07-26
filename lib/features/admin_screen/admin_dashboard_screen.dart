@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../core/cubit/auth/auth_cubit.dart';
 import '../../core/cubit/user/user_cubit.dart';
 import '../../core/repositories/user_repository.dart';
+
 import '../user_screen/users_screen.dart';
 
 
@@ -14,6 +16,7 @@ class AdminDashboardScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Admin Dashboard'),
+
       ),
       body: ListView(
         children: [
@@ -55,6 +58,12 @@ class AdminDashboardScreen extends StatelessWidget {
             title: const Text('About'),
             trailing: const Icon(Icons.chevron_right),
             onTap: () {},
+          ),
+          ListTile(
+            leading: const Icon(Icons.info_outline),
+            title: const Text('Sign Out'),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: ()=>context.read<AuthCubit>().signOut(),
           ),
         ],
       ),

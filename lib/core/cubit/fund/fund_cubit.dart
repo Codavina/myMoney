@@ -26,11 +26,11 @@ class FundCubit extends Cubit<FundState> {
     return _repository.getById(id);
   }
 
-  Future<void> getAllActive() async {
+  Future<void> getAllActive(int ownerId) async {
     emit(FundLoading());
 
     try {
-      final funds = await _repository.getAllActive(SelectedUser.value!.userId!);
+      final funds = await _repository.getAllActive(ownerId);
 
       emit(FundLoaded(funds: funds));
     } catch (e) {
@@ -38,11 +38,11 @@ class FundCubit extends Cubit<FundState> {
     }
   }
 
-  Future<void> getAllArchived() async {
+  Future<void> getAllArchived(int ownerId) async {
     emit(FundLoading());
 
     try {
-      final funds = await _repository.getAllArchived(SelectedUser.value!.userId!);
+      final funds = await _repository.getAllArchived(ownerId);
 
       emit(FundLoaded(funds: funds));
     } catch (e) {
@@ -50,22 +50,29 @@ class FundCubit extends Cubit<FundState> {
     }
   }
 
-  Future<void> insert(FundModel fund) async {
+  Future<void> insert(FundModel fund, int ownerId) async {
     emit(FundLoading());
 
     try {
       await _repository.insert(fund);
-      final funds = await _repository.getAllActive(SelectedUser.value!.userId!);
-      emit(
-        FundLoaded(funds: funds, successMessage: 'Fund added successfully.'),
-      );
-    } catch (e) {
-      final funds = await _repository.getAllActive(SelectedUser.value!.userId!);
+
+      final funds = await _repository.getAllActive(ownerId);
 
       emit(
         FundLoaded(
           funds: funds,
-          errorMessage: e is AppException ? e.message : 'Unexpected error.',
+          successMessage: 'Fund added successfully.',
+        ),
+      );
+    } catch (e) {
+      final funds = await _repository.getAllActive(ownerId);
+
+      emit(
+        FundLoaded(
+          funds: funds,
+          errorMessage: e is AppException
+              ? e.message
+              : 'Unexpected error.',
         ),
       );
     }

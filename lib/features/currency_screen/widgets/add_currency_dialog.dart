@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_money/core/constants/app_colors.dart';
 import 'package:my_money/core/models/currency_model.dart';
+import 'package:my_money/core/widgets/custom_dialog_title.dart';
+import 'package:my_money/core/widgets/dialog_title_decoration.dart';
 
 import '../../../core/utils/app_validator.dart';
 import '../../../core/widgets/custom_text_form_field.dart';
@@ -39,15 +41,12 @@ class _AddCurrencyDialogState extends State<AddCurrencyDialog> {
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
       backgroundColor: Colors.white,
-      title: Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color:isEdit?Colors.teal: AppColors.primary,
-            borderRadius: const BorderRadius.only(topRight: Radius.circular(10),topLeft: Radius.circular(10)),
-
-           
-          ),
-          child: Text(isEdit ?'Edit Currency': 'Add Currency',textAlign: TextAlign.center,style: const TextStyle(color: Colors.white),)),
+      title: DialogTitleDecoration(
+        dialogTitle: DialogTitle(
+          title: isEdit ? 'Edit Currency' : 'Add Currency',
+        ),
+        color: isEdit ? Colors.teal : AppColors.primary,
+      ),
       content: Form(
         key: _formKey,
         child: Column(
@@ -77,7 +76,9 @@ class _AddCurrencyDialogState extends State<AddCurrencyDialog> {
         ),
 
         ElevatedButton(
-          style: ElevatedButton.styleFrom(backgroundColor: isEdit?Colors.teal:AppColors.primary),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: isEdit ? Colors.teal : AppColors.primary,
+          ),
           onPressed: () {
             if (!_formKey.currentState!.validate()) return;
 
@@ -92,7 +93,7 @@ class _AddCurrencyDialogState extends State<AddCurrencyDialog> {
               ),
             );
           },
-          child: Text(isEdit? 'Update' : 'Add'),
+          child: Text(isEdit ? 'Update' : 'Add'),
         ),
       ],
     );

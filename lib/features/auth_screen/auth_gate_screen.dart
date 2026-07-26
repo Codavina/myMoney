@@ -35,9 +35,14 @@ class AuthGateScreen extends StatelessWidget {
               message: 'Checking session...',
             );
 
-          case AuthStatus.loading:
+          case AuthStatus.signingIn:
             return const SplashScreen(
               message: 'Signing in...',
+            );
+
+          case AuthStatus.signingOut:
+            return const SplashScreen(
+              message: 'Signing out...',
             );
 
           case AuthStatus.unauthenticated:
@@ -48,10 +53,12 @@ class AuthGateScreen extends StatelessWidget {
               return const AdminDashboardScreen();
             }
 
-            return const FundScreen();
+            return FundScreen(ownerId: state.profile!.userId!);
 
           case AuthStatus.failure:
-            return const LoginScreen();
+            return const SplashScreen(
+              message: 'Unexpected error...',
+            );
         }
       },
     );

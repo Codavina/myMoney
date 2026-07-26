@@ -7,9 +7,22 @@ import '../../core/cubit/fund/fund_state.dart';
 import '../../core/utils/app_snackbar.dart';
 import '../../core/widgets/empty_state.dart';
 
-class ArchivedFundScreen extends StatelessWidget {
-  const ArchivedFundScreen({super.key});
+class ArchivedFundScreen extends StatefulWidget {
+  const ArchivedFundScreen({super.key, required this.ownerId});
+  final int ownerId;
 
+  @override
+  State<ArchivedFundScreen> createState() => _ArchivedFundScreenState();
+}
+
+class _ArchivedFundScreenState extends State<ArchivedFundScreen> {
+
+  @override
+  void initState() {
+
+    super.initState();
+    context.read<FundCubit>().getAllArchived(widget.ownerId);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

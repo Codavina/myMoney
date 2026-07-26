@@ -1,10 +1,14 @@
 import 'dart:developer';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
+import 'package:my_money/core/extensions/profile_extension.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide AuthState;
+import '../../models/user_model.dart';
 import '../../repositories/auth_repository.dart';
 import '../../repositories/user_repository.dart';
 import '../../session/current_user.dart';
+import '../../session/selected_user.dart';
 import 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
@@ -17,7 +21,7 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> checkSession() async {
     log("========== checkSession() ==========");
 
-    emit(state.copyWith(status: AuthStatus.loading));
+    emit(state.copyWith(status: AuthStatus.signingIn));
 
     try {
       final session = Supabase.instance.client.auth.currentSession;
@@ -37,30 +41,48 @@ class AuthCubit extends Cubit<AuthState> {
 
         return;
       }
-      final profile = await _authRepository.getCachedUser();
 
-      if (profile == null) {
+      final localUser = await _userRepository.getByAuthId(user.id);
+
+      if (localUser == null) {
         emit(
           state.copyWith(
             status: AuthStatus.failure,
-            message: 'Cached user not found',
+            message: 'Local user not found',
           ),
         );
         return;
       }
 
-      CurrentUser.value = profile;
+      CurrentUser.value = localUser;
 
-      emit(state.copyWith(status: AuthStatus.authenticated, profile: profile));
+      emit(
+        state.copyWith(
+          status: AuthStatus.authenticated,
+          profile: localUser,
+        ),
+      );
     } catch (e) {
       emit(state.copyWith(status: AuthStatus.failure, message: e.toString()));
     }
   }
 
   Future<void> signIn({required String email, required String password}) async {
-    emit(state.copyWith(status: AuthStatus.loading, clearMessage: true));
+
+    emit(state.copyWith(status: AuthStatus.signingIn, clearMessage: true));
 
     try {
+      final hasInternet = await InternetConnection().hasInternetAccess;
+
+      if (!hasInternet) {
+        emit(
+          state.copyWith(
+            status: AuthStatus.unauthenticated,
+            message: 'No internet connection. The first login requires an internet connection.',
+          ),
+        );
+        return;
+      }
       // Login
       await _authRepository.signIn(email: email, password: password);
 
@@ -80,20 +102,52 @@ class AuthCubit extends Cubit<AuthState> {
       if (profile == null) {
         throw Exception('Profile not found.');
       }
-
       log('3- Profile loaded');
 
-      // Current user
-      CurrentUser.value = profile;
+      UserModel? localUser = await _userRepository.getByAuthId(profile.authId);
 
-      log('4- CurrentUser filled');
+      if (profile.isAdmin) {
 
-      // Cache locally
-      await _authRepository.cacheUser(profile);
+        // Admin موجود محلياً؟
+        if (localUser == null) {
+          await _userRepository.insert(profile);
+          localUser = await _userRepository.getByAuthId(profile.authId);
+        }
 
-      log('5- User cached');
+        // مزامنة جميع الـ viewers
+        final users = await _authRepository.getAllProfiles();
 
-      emit(state.copyWith(status: AuthStatus.authenticated, profile: profile));
+        for (final user in users) {
+          await _userRepository.upsert(user);
+        }
+
+      } else {
+
+        // Viewer لا يقوم بأي Insert
+        if (localUser == null) {
+          throw Exception(
+            'Your account is not available on this device. '
+                'Please ask the administrator to synchronize users first.',
+          );
+        }
+      }
+
+      CurrentUser.value = localUser;
+
+      if (localUser!.isAdmin) {
+        final users = await _authRepository.getAllProfiles();
+
+        for (final user in users) {
+          await _userRepository.upsert(user);
+        }
+      }
+      final localUsers = await _userRepository.getAll();
+
+      log('SQLite Users: ${localUsers.length}');
+
+      emit(
+        state.copyWith(status: AuthStatus.authenticated, profile: localUser),
+      );
     } catch (e, s) {
       log("========== SIGN IN ERROR ==========");
       log(e.toString());
@@ -109,18 +163,28 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> signOut() async {
-    emit(state.copyWith(status: AuthStatus.loading, clearMessage: true));
+    emit(state.copyWith(status: AuthStatus.signingOut));
 
     try {
       await _authRepository.signOut();
-      await _authRepository.clearCachedUser();
+
       CurrentUser.value = null;
+      SelectedUser.value = null;
 
       emit(
-        state.copyWith(status: AuthStatus.unauthenticated, clearProfile: true),
+        state.copyWith(
+          status: AuthStatus.unauthenticated,
+          clearProfile: true,
+          clearMessage: true,
+        ),
       );
     } catch (e) {
-      emit(state.copyWith(status: AuthStatus.failure, message: e.toString()));
+      emit(
+        state.copyWith(
+          status: AuthStatus.failure,
+          message: e.toString(),
+        ),
+      );
     }
   }
 }

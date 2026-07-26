@@ -9,10 +9,11 @@ import '../../../core/widgets/custom_text_form_field.dart';
 import 'currency_dropdown_field.dart';
 
 class AddFundDialog extends StatefulWidget {
-  const AddFundDialog({super.key, this.fund, required this.currencies});
+  const AddFundDialog({super.key, this.fund, required this.currencies, required this.ownerId});
 
   final FundModel? fund;
   final List<CurrencyModel> currencies;
+  final int ownerId;
 
   @override
   State<AddFundDialog> createState() => _AddFundDialogState();
@@ -54,11 +55,11 @@ class _AddFundDialogState extends State<AddFundDialog> {
       context,
       FundModel(
         fundId: widget.fund?.fundId,
-        ownerId: widget.fund?.ownerId ?? 1,
+        ownerId: widget.fund?.ownerId ?? widget.ownerId,
        title: _titleController.text.trim(),
         currencyId: _selectedCurrency!.currencyId!,
         createdAt: widget.fund?.createdAt ?? DateTime.now(),
-        //balance: widget.fund!.balance,
+
       ),
     );
   }

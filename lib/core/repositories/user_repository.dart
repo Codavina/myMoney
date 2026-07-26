@@ -33,7 +33,7 @@ class UserRepository {
         'Users',
         orderBy: 'full_name',
       );
-
+      log(result.toString());
       return result.map(UserModel.fromMap).toList();
     } on DatabaseException catch (e) {
       throw DatabaseErrorHandler.handle(e);
@@ -81,19 +81,21 @@ class UserRepository {
   }
 
   /// Update
-  Future<int> update(UserModel user) async {
-    try {
-      final db = await _dbProvider.database;
+  Future<void> update(int userId, UserModel user) async {
+    final db = await _dbProvider.database;
 
-      return await db.update(
-        'Users',
-        user.toMap(),
-        where: 'user_id = ?',
-        whereArgs: [user.userId],
-      );
-    } on DatabaseException catch (e) {
-      throw DatabaseErrorHandler.handle(e);
-    }
+    await db.update(
+      'Users',
+      {
+        'full_name': user.fullName,
+        'email': user.email,
+        'phone': user.phone,
+        'role': user.role,
+      },
+      where: 'user_id = ?',
+      whereArgs: [userId],
+      conflictAlgorithm: ConflictAlgorithm.abort,
+    );
   }
 
   /// Delete
@@ -117,9 +119,19 @@ class UserRepository {
         .select('id, full_name, email, phone, role')
         .eq('role', 'viewer')
         .order('full_name');
-    log(response.toString());
+    //log(response.toString());
     return (response as List)
         .map((e) => UserModel.fromSupabase(e))
         .toList();
+  }
+
+  Future<void> upsert(UserModel user) async {
+    final existing = await getByAuthId(user.authId);
+
+    if (existing == null) {
+      await insert(user);
+    } else {
+      await update(existing.userId!, user);
+    }
   }
 }
