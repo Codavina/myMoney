@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../core/cubit/login/login_cubit.dart';
-import '../../core/cubit/login/login_state.dart';
-import '../../core/session/current_user.dart';
+import 'package:my_money/core/cubit/auth/auth_state.dart';
+import '../../core/cubit/auth/auth_cubit.dart';
+
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -24,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     FocusScope.of(context).unfocus();
 
-    context.read<LoginCubit>().signIn(
+    context.read<AuthCubit>().signIn(
       email: _emailController.text.trim(),
       password:  _passwordController.text,
     );
@@ -42,25 +43,20 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
 
-            body: BlocConsumer<LoginCubit, LoginState>(
+            body: BlocConsumer<AuthCubit, AuthState>(
               listener: (context, state) {
-                if (state is LoginSuccess) {
+
+                if (state.status == AuthStatus.failure) {
+
+                  debugPrint(state.message);
+
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text(CurrentUser.value?.fullName ?? 'No Current User'),
+                      content: Text(state.message ?? 'Unexpected error.'),
                     ),
                   );
                 }
 
-                if (state is LoginError) {
-                  debugPrint("LoginError: ${state.message}");
-
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(state.message),
-                    ),
-                  );
-                }
               },
               builder: (context, state) {
 

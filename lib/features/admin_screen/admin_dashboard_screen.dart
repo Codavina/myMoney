@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../core/cubit/user/user_cubit.dart';
+import '../../core/repositories/user_repository.dart';
+import '../user_screen/users_screen.dart';
 
 
 class AdminDashboardScreen extends StatelessWidget {
@@ -17,7 +22,17 @@ class AdminDashboardScreen extends StatelessWidget {
             title: const Text('Users'),
             trailing: const Icon(Icons.chevron_right),
             onTap: () {
-
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => BlocProvider(
+                    create: (_) => UserCubit(
+                      context.read<UserRepository>(),
+                    )..getAllUsers(),
+                    child: const UsersScreen(),
+                  ),
+                ),
+              );
             },
           ),
 

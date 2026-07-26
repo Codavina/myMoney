@@ -8,13 +8,15 @@ enum AuthStatus {
   failure,
 }
 
-
 class AuthState {
-
   final AuthStatus status;
-  final UserModel? profile;
-  final String? message;
 
+  /// Current logged in user.
+  /// null when the user is not authenticated.
+  final UserModel? profile;
+
+  /// Error message when status == failure.
+  final String? message;
 
   const AuthState({
     required this.status,
@@ -22,26 +24,32 @@ class AuthState {
     this.message,
   });
 
-
   factory AuthState.initial() {
     return const AuthState(
       status: AuthStatus.initial,
     );
   }
 
-
   AuthState copyWith({
     AuthStatus? status,
     UserModel? profile,
     String? message,
+    bool clearProfile = false,
+    bool clearMessage = false,
   }) {
-
     return AuthState(
       status: status ?? this.status,
-      profile: profile ?? this.profile,
-      message: message ?? this.message,
+      profile: clearProfile ? null : (profile ?? this.profile),
+      message: clearMessage ? null : (message ?? this.message),
     );
-
   }
 
+  @override
+  String toString() {
+    return 'AuthState('
+        'status: $status, '
+        'profile: $profile, '
+        'message: $message'
+        ')';
+  }
 }

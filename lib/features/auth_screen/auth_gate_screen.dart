@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/features/auth_screen/splash_screen.dart';
@@ -25,59 +27,33 @@ class AuthGateScreen extends StatelessWidget {
 
 
     return BlocBuilder<AuthCubit, AuthState>(
-
-
-      builder: (context,state){
-
-
-        switch(state.status){
-
-
-
+      builder: (context, state) {
+        log("AuthGate -> ${state.status}");
+        switch (state.status) {
           case AuthStatus.initial:
-
             return const SplashScreen(
               message: 'Checking session...',
             );
 
-
           case AuthStatus.loading:
-
             return const SplashScreen(
               message: 'Signing in...',
             );
 
-
-
           case AuthStatus.unauthenticated:
-
             return const LoginScreen();
 
-
-
           case AuthStatus.authenticated:
-
-
-            if(state.profile!.isAdmin){
-
+            if (state.profile!.isAdmin) {
               return const AdminDashboardScreen();
-
             }
-
 
             return const FundScreen();
 
-
-
           case AuthStatus.failure:
-
             return const LoginScreen();
-
         }
-
-
       },
-
     );
 
 

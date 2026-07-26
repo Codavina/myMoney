@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/core/cubit/currency/currency_cubit.dart';
 import 'package:my_money/core/cubit/fund/fund_cubit.dart';
-import 'package:my_money/features/login_screen/login_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'core/config/supabase_config.dart';
 import 'core/cubit/auth/auth_cubit.dart';
-import 'core/cubit/login/login_cubit.dart';
 import 'core/repositories/auth_repository.dart';
 import 'core/repositories/currency_repository.dart';
 import 'core/repositories/fund_repository.dart';
@@ -17,7 +16,7 @@ import 'features/auth_screen/auth_gate_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await SharedPreferences.getInstance();
   await Supabase.initialize(
     url: SupabaseConfig.url,
     publishableKey: SupabaseConfig.publishableKey,
@@ -83,11 +82,9 @@ class MyMoneyApp extends StatelessWidget {
             BlocProvider(
               create: (_) => FundCubit(fundRepository)..getAllActive(),
             ),
+
             BlocProvider(
-              create: (_) =>LoginCubit(authRepository),
-            ),
-            BlocProvider(
-              create: (_) => AuthCubit(userRepository)
+              create: (_) => AuthCubit(authRepository,userRepository)
                 ..checkSession(),
             ),
           ],

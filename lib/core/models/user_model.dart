@@ -1,3 +1,5 @@
+import 'package:supabase_flutter/supabase_flutter.dart';
+
 class UserModel {
   final int? userId;
   final String authId;
@@ -27,6 +29,19 @@ class UserModel {
       phone: map['phone'] as String?,
       role: map['role'] as String,
       createdAt: DateTime.parse(map['created_at']),
+    );
+  }
+
+///Supabase Map -> UserModel
+  factory UserModel.fromSupabase(Map<String, dynamic> map) {
+    return UserModel(
+      userId: null,
+      authId: map['id'] as String,
+      fullName: map['full_name'] as String,
+      email: map['email'] as String,
+      phone: map['phone'] as String?,
+      role: map['role'] as String,
+      createdAt: DateTime.now(),
     );
   }
 
