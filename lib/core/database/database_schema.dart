@@ -16,6 +16,8 @@ class DatabaseSchema {
     ///Create Triggers
     await _createTriggers(db);
 
+    _insertDefaultCurrencies(db);
+
     log(
       '=========== create method called from DatabaseSchema class =============',
     );
@@ -228,5 +230,27 @@ END;''');
     log(
       '=========== TRIGGER trg_PreventTransactionOnArchivedFund created =============',
     );
+  }
+
+
+  static Future<void> _insertDefaultCurrencies(Database db) async {
+    final batch = db.batch();
+
+    batch.insert('Currencies', {
+      'currency_code': 'USD',
+
+    });
+
+    batch.insert('Currencies', {
+      'currency_code': 'EUR',
+
+    });
+
+    batch.insert('Currencies', {
+      'currency_code': 'DZD',
+
+    });
+
+    await batch.commit(noResult: true);
   }
 }

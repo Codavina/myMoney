@@ -1,6 +1,6 @@
 
 enum AppMenuAction {
-  addCurrency,
+  //addCurrency,
   archived,
   settings,
   about,

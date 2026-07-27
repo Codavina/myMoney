@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/features/about_screen/about_screen.dart';
 import 'package:my_money/features/archived_fund_screen/archived_fund_screen.dart';
 import 'package:my_money/features/settings_screen/settings_screen.dart';
-import '../../features/currency_screen/currency_screen.dart';
 import '../constants/app_enums.dart';
 import '../cubit/auth/auth_cubit.dart';
 import '../cubit/fund/fund_cubit.dart';
@@ -22,14 +21,7 @@ class AppPopupMenu extends StatelessWidget {
       elevation: 3,
       onSelected: (value) async {
         switch (value) {
-          case AppMenuAction.addCurrency:
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const CurrencyScreen()),
-            );
-            break;
-
-          case AppMenuAction.archived:
+                   case AppMenuAction.archived:
             await Navigator.push(
               context,
               MaterialPageRoute(
@@ -63,14 +55,6 @@ class AppPopupMenu extends StatelessWidget {
         }
       },
       itemBuilder: (context) => [
-        const PopupMenuItem(
-          value: AppMenuAction.addCurrency,
-          child: ListTile(
-            leading: Icon(Icons.currency_exchange),
-            title: Text('Add Currency'),
-            contentPadding: EdgeInsets.zero,
-          ),
-        ),
 
         const PopupMenuItem(
           value: AppMenuAction.archived,
@@ -81,7 +65,7 @@ class AppPopupMenu extends StatelessWidget {
           ),
         ),
 
-        const PopupMenuDivider(),
+
 
         const PopupMenuItem(
           value: AppMenuAction.settings,
@@ -100,11 +84,12 @@ class AppPopupMenu extends StatelessWidget {
             contentPadding: EdgeInsets.zero,
           ),
         ),
+        const PopupMenuDivider(),
         const PopupMenuItem(
           value: AppMenuAction.logOut,
           child: ListTile(
-            leading: Icon(Icons.logout_outlined),
-            title: Text('LogOut'),
+            leading: Icon(Icons.logout_outlined,color: Colors.red,),
+            title: Text('Log Out'),
             contentPadding: EdgeInsets.zero,
           ),
         ),

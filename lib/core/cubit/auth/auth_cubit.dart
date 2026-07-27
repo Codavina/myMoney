@@ -120,10 +120,15 @@ class AuthCubit extends Cubit<AuthState> {
         for (final user in users) {
           await _userRepository.upsert(user);
         }
+        final userss= await _userRepository.getAll();
+
+        for (final u in userss) {
+          log("${u.userId} - ${u.fullName}");
+        }
 
       } else {
 
-        // Viewer لا يقوم بأي Insert
+        // viewer can't make any insert
         if (localUser == null) {
           throw Exception(
             'Your account is not available on this device. '
