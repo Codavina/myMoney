@@ -251,6 +251,11 @@ END;''');
 
     });
 
+    batch.insert('Currencies', {
+      'currency_code': 'TND',
+
+    });
+
     await batch.commit(noResult: true);
   }
 }

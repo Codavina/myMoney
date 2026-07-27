@@ -5,6 +5,8 @@ import 'package:my_money/core/cubit/fund/fund_state.dart';
 import 'package:my_money/core/widgets/admin_only.dart';
 import 'package:my_money/features/fund_screen/widgets/active_fund_list_view.dart';
 import '../../core/constants/app_assets.dart';
+import '../../core/repositories/sync_repository.dart';
+import '../../core/repositories/user_repository.dart';
 import '../../core/session/selected_user.dart';
 import '../../core/utils/app_snackbar.dart';
 import '../../core/widgets/app_popup_menu.dart';
@@ -35,11 +37,28 @@ class _FundScreenState extends State<FundScreen> {
     if (fund == null) return;
     context.read<FundCubit>().insert(fund, widget.ownerId);
   }
+
+  Future<void> _pushUpdates() async {
+    final syncRepository = context.read<SyncRepository>();
+
+    final file = await syncRepository.createUserUpdateFile(widget.ownerId);
+
+    final user = await context.read<UserRepository>().getById(widget.ownerId);
+
+    if (user == null) {
+      throw Exception('User not found.');
+    }
+
+    await syncRepository.uploadUserUpdateFile(
+      file,
+      user.authId,
+    );
+  }
+
+
   @override
   void initState() {
     super.initState();
-
-
     context.read<FundCubit>().getAllActive(widget.ownerId);
   }
 
@@ -69,7 +88,16 @@ class _FundScreenState extends State<FundScreen> {
             preferredSize: Size.fromHeight(1),
             child: Divider(height: 1, color: Color(0xffE6EAF0)),
           ),
-          actions: [AppPopupMenu( ownerId: widget.ownerId,),]
+          actions: [
+            
+              AdminOnly(
+                child: IconButton(
+                  onPressed: _pushUpdates,
+                  icon: const Icon(Icons.cloud_upload_outlined),
+                  tooltip: 'Push',
+                ),
+              ),
+            AppPopupMenu( ownerId: widget.ownerId,),]
       
       
       

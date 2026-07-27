@@ -67,78 +67,67 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future<void> signIn({required String email, required String password}) async {
-
-    emit(state.copyWith(status: AuthStatus.signingIn, clearMessage: true));
+  Future<void> signIn({
+    required String email,
+    required String password,
+  }) async {
+    // Emit loading state.
+    emit(
+      state.copyWith(
+        status: AuthStatus.signingIn,
+        clearMessage: true,
+      ),
+    );
 
     try {
+      // Check internet connection.
       final hasInternet = await InternetConnection().hasInternetAccess;
 
       if (!hasInternet) {
         emit(
           state.copyWith(
             status: AuthStatus.unauthenticated,
-            message: 'No internet connection. The first login requires an internet connection.',
+            message:
+            'No internet connection. The first login requires an internet connection.',
           ),
         );
         return;
       }
-      // Login
-      await _authRepository.signIn(email: email, password: password);
 
-      log('1- Login success');
+      // Authenticate the user with Supabase.
+      await _authRepository.signIn(
+        email: email,
+        password: password,
+      );
 
+      // Get the authenticated Supabase user.
       final authUser = Supabase.instance.client.auth.currentUser;
 
       if (authUser == null) {
-        throw Exception('User not found.');
+        throw Exception('Authenticated user not found.');
       }
 
-      log('2- User ID: ${authUser.id}');
-
-      // Load profile from Supabase
+      // Load the user profile from Supabase.
       final profile = await _authRepository.getProfile(authUser.id);
 
       if (profile == null) {
-        throw Exception('Profile not found.');
-      }
-      log('3- Profile loaded');
-
-      UserModel? localUser = await _userRepository.getByAuthId(profile.authId);
-
-      if (profile.isAdmin) {
-
-        // Admin موجود محلياً؟
-        if (localUser == null) {
-          await _userRepository.insert(profile);
-          localUser = await _userRepository.getByAuthId(profile.authId);
-        }
-
-        // مزامنة جميع الـ viewers
-        final users = await _authRepository.getAllProfiles();
-
-        for (final user in users) {
-          await _userRepository.upsert(user);
-        }
-        final userss= await _userRepository.getAll();
-
-        for (final u in userss) {
-          log("${u.userId} - ${u.fullName}");
-        }
-
-      } else {
-
-        // viewer can't make any insert
-        if (localUser == null) {
-          throw Exception(
-            'Your account is not available on this device. '
-                'Please ask the administrator to synchronize users first.',
-          );
-        }
+        throw Exception('User profile not found.');
       }
 
-      CurrentUser.value = localUser;
+      // Try to load the user from the local SQLite database.
+      UserModel? localUser =
+      await _userRepository.getByAuthId(profile.authId);
 
+      // First login on this device.
+      if (localUser == null) {
+        await _userRepository.insert(profile);
+
+        localUser =
+        await _userRepository.getByAuthId(profile.authId);
+      }
+
+      // If the current user is an administrator,
+      // synchronize all viewer accounts.
       if (localUser!.isAdmin) {
         final users = await _authRepository.getAllProfiles();
 
@@ -146,17 +135,19 @@ class AuthCubit extends Cubit<AuthState> {
           await _userRepository.upsert(user);
         }
       }
-      final localUsers = await _userRepository.getAll();
 
-      log('SQLite Users: ${localUsers.length}');
+      // Store the current logged-in user.
+      CurrentUser.value = localUser;
 
+      // Notify the UI that authentication completed successfully.
       emit(
-        state.copyWith(status: AuthStatus.authenticated, profile: localUser),
+        state.copyWith(
+          status: AuthStatus.authenticated,
+          profile: localUser,
+        ),
       );
-    } catch (e, s) {
-      log("========== SIGN IN ERROR ==========");
-      log(e.toString());
-      log(s.toString());
+    } catch (e) {
+      // Notify the UI that authentication failed.
       emit(
         state.copyWith(
           status: AuthStatus.failure,
@@ -166,7 +157,6 @@ class AuthCubit extends Cubit<AuthState> {
       );
     }
   }
-
   Future<void> signOut() async {
     emit(state.copyWith(status: AuthStatus.signingOut));
 

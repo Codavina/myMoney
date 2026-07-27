@@ -94,4 +94,24 @@ class TransactionRepository {
       throw DatabaseErrorHandler.handle(e);
     }
   }
+
+  ///we use this function just for the json file
+  Future<List<TransactionModel>> getAllByOwner(int ownerId) async {
+    try {
+      final db = await _dbProvider.database;
+
+      final result = await db.rawQuery('''
+      SELECT t.*
+      FROM Transactions t
+      INNER JOIN Funds f
+        ON t.fund_id = f.fund_id
+      WHERE f.owner_id = ?
+      ORDER BY t.transaction_date DESC
+    ''', [ownerId]);
+
+      return result.map(TransactionModel.fromMap).toList();
+    } on DatabaseException catch (e) {
+      throw DatabaseErrorHandler.handle(e);
+    }
+  }
 }

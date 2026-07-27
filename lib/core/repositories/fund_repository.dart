@@ -18,13 +18,19 @@ class FundRepository {
     }
   }
 
-  ///Read all
-  Future<List<FundModel>> getAll() async {
+  ///we use this function just for the json file
+  Future<List<FundModel>> getAll(int ownerId) async {
     try {
       final db = await _dbProvider.database;
-      final result = await db.query('Funds');
 
-      return result.map((e) => FundModel.fromMap(e)).toList();
+      final result = await db.query(
+        'Funds',
+        where: 'owner_id = ?',
+        whereArgs: [ownerId],
+        orderBy: 'created_at DESC',
+      );
+
+      return result.map(FundModel.fromMap).toList();
     } on DatabaseException catch (e) {
       throw DatabaseErrorHandler.handle(e);
     }

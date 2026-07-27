@@ -10,17 +10,7 @@ class FundCubit extends Cubit<FundState> {
 
   FundCubit(this._repository) : super(FundInitial());
 
-  Future<void> getAll() async {
-    emit(FundLoading());
 
-    try {
-      final funds = await _repository.getAll();
-
-      emit(FundLoaded(funds: funds));
-    } catch (e) {
-      emit(FundError(e.toString()));
-    }
-  }
 
   Future<FundModel?> getById(int id) {
     return _repository.getById(id);

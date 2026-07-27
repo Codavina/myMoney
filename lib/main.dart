@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/core/cubit/currency/currency_cubit.dart';
 import 'package:my_money/core/cubit/fund/fund_cubit.dart';
+import 'package:my_money/core/repositories/sync_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'core/config/supabase_config.dart';
@@ -41,6 +42,12 @@ void main() async {
       transactionRepository: transactionRepository,
       authRepository: authRepository,
       userRepository: userRepository,
+      syncRepository: SyncRepository(
+        userRepository: userRepository,
+        currencyRepository: currencyRepository,
+        fundRepository: fundRepository,
+        transactionRepository: transactionRepository,
+      ),
     ),
   );
 }
@@ -53,6 +60,7 @@ class MyMoneyApp extends StatelessWidget {
     required this.transactionRepository,
     required this.authRepository,
     required this.userRepository,
+    required this.syncRepository,
   });
 
   final CurrencyRepository currencyRepository;
@@ -60,6 +68,7 @@ class MyMoneyApp extends StatelessWidget {
   final TransactionRepository transactionRepository;
   final AuthRepository authRepository;
   final UserRepository userRepository ;
+  final SyncRepository syncRepository;
 
 
   // This widget is the root of your application.
@@ -72,6 +81,7 @@ class MyMoneyApp extends StatelessWidget {
           RepositoryProvider.value(value: transactionRepository),
           RepositoryProvider.value(value: authRepository),
           RepositoryProvider.value(value: userRepository),
+          RepositoryProvider.value(value: syncRepository),
         ],
         child: MultiBlocProvider(
           providers: [
