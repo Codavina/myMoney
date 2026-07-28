@@ -73,11 +73,17 @@ class _UpdateCheckerState extends State<UpdateChecker> {
                       .read<SyncRepository>()
                       .readUpdateFile();
 
+                  log('===== JSON READ SUCCESS =====');
+                  log(json.keys.toString());
+                  log('User id = ${json['user']['user_id']}');
+                  log('Funds count = ${(json['funds'] as List).length}');
+                  log('Transactions count = ${(json['transactions'] as List).length}');
+
                   if (!mounted) return;
                   await context
                       .read<SyncRepository>()
                       .importUser(json);
-
+                  log('===== IMPORT COMPLETED =====');
                   if (!mounted) return;
                   final user = await context
                       .read<UserRepository>()

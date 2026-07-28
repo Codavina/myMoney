@@ -61,6 +61,7 @@ class AuthGateScreen extends StatelessWidget {
 
 
           case AuthStatus.failure:
+            log(state.message!);
             return const SplashScreen(
               message: 'Unexpected error...',
             );

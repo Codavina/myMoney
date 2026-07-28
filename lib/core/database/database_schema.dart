@@ -9,6 +9,8 @@ class DatabaseSchema {
     await _createCurrenciesTable(db);
     await _createFundsTable(db);
     await _createTransactionsTable(db);
+    await _createAppStateTable(db);
+
 
     ///Create Indexes
     await _createIndexes(db);
@@ -26,6 +28,27 @@ class DatabaseSchema {
   // ===========================
   // Tables
   // ===========================
+  static Future<void> _createAppStateTable(Database db) async {
+    await db.execute('''
+    CREATE TABLE AppState(
+      id INTEGER PRIMARY KEY CHECK(id = 1),
+      sync_mode INTEGER NOT NULL
+        DEFAULT 0
+        CHECK(sync_mode IN (0,1))
+    );
+  ''');
+
+    await db.insert(
+      'AppState',
+      {
+        'id': 1,
+        'sync_mode': 0,
+      },
+    );
+
+    log('=========== AppState Table created =============');
+  }
+
   static Future<void> _createUsersTable(Database db) async {
     await db.execute('''
     CREATE TABLE Users(
@@ -49,7 +72,6 @@ class DatabaseSchema {
 
     log('=========== Users Table created =============');
   }
-
 
   static Future<void> _createCurrenciesTable(Database db) async {
     await db.execute('''
@@ -155,13 +177,17 @@ class DatabaseSchema {
 
   static Future<void> _createTriggers(Database db) async {
 
-
     // ==========================================================
     // 1. Update Fund Balance After Insert Transaction
     // ==========================================================
     await db.execute('''
     CREATE TRIGGER trg_InsertTransaction
     AFTER INSERT ON Transactions
+    WHEN (
+      SELECT sync_mode
+      FROM AppState
+      WHERE id = 1
+    ) = 0
     BEGIN
       UPDATE Funds
       SET balance = balance +
@@ -172,13 +198,20 @@ class DatabaseSchema {
       WHERE fund_id = NEW.fund_id;
     END;
   ''');
+
     log('=========== TRIGGER trg_InsertTransaction created =============');
+
     // ==========================================================
     // 2. Restore Fund Balance After Delete Transaction
     // ==========================================================
     await db.execute('''
     CREATE TRIGGER trg_DeleteTransaction
     AFTER DELETE ON Transactions
+    WHEN (
+      SELECT sync_mode
+      FROM AppState
+      WHERE id = 1
+    ) = 0
     BEGIN
       UPDATE Funds
       SET balance = balance +
@@ -189,14 +222,21 @@ class DatabaseSchema {
       WHERE fund_id = OLD.fund_id;
     END;
   ''');
+
     log('=========== TRIGGER trg_DeleteTransaction created =============');
+
     // ==========================================================
     // 3. Prevent Withdraw If Balance Is Insufficient
     // ==========================================================
     await db.execute('''
     CREATE TRIGGER trg_CheckBalanceBeforeInsert
     BEFORE INSERT ON Transactions
-    WHEN NEW.transaction_type = 1
+    WHEN (
+      SELECT sync_mode
+      FROM AppState
+      WHERE id = 1
+    ) = 0
+    AND NEW.transaction_type = 1
     BEGIN
       SELECT CASE
         WHEN (
@@ -208,28 +248,36 @@ class DatabaseSchema {
       END;
     END;
   ''');
-    log(
-      '=========== TRIGGER trg_CheckBalanceBeforeInsert created =============',
-    );
+
+    log('=========== TRIGGER trg_CheckBalanceBeforeInsert created =============');
+
     // ==========================================================
-    // 4. Prevent transactions on archived fund
+    // 4. Prevent Transactions On Archived Fund
     // ==========================================================
-    await db.execute('''CREATE TRIGGER trg_PreventTransactionOnArchivedFund
-BEFORE INSERT ON Transactions
-FOR EACH ROW
-WHEN EXISTS (
-    SELECT 1
-    FROM Funds
-    WHERE fund_id = NEW.fund_id
+    await db.execute('''
+    CREATE TRIGGER trg_PreventTransactionOnArchivedFund
+    BEFORE INSERT ON Transactions
+    FOR EACH ROW
+    WHEN (
+      SELECT sync_mode
+      FROM AppState
+      WHERE id = 1
+    ) = 0
+    AND EXISTS (
+      SELECT 1
+      FROM Funds
+      WHERE fund_id = NEW.fund_id
       AND is_archived = 1
-)
-BEGIN
-    SELECT RAISE(ABORT,
-        'Cannot add transactions to an archived fund');
-END;''');
-    log(
-      '=========== TRIGGER trg_PreventTransactionOnArchivedFund created =============',
-    );
+    )
+    BEGIN
+      SELECT RAISE(
+        ABORT,
+        'Cannot add transactions to an archived fund'
+      );
+    END;
+  ''');
+
+    log('=========== TRIGGER trg_PreventTransactionOnArchivedFund created =============');
   }
 
 

@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'core/config/supabase_config.dart';
 import 'core/cubit/auth/auth_cubit.dart';
+import 'core/database/app_database.dart';
 import 'core/repositories/auth_repository.dart';
 import 'core/repositories/currency_repository.dart';
 import 'core/repositories/fund_repository.dart';
@@ -18,6 +19,7 @@ import 'features/auth_screen/auth_gate_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SharedPreferences.getInstance();
+  final database = AppDatabase.instance;
   await Supabase.initialize(
     url: SupabaseConfig.url,
     publishableKey: SupabaseConfig.publishableKey,
@@ -47,6 +49,7 @@ void main() async {
         currencyRepository: currencyRepository,
         fundRepository: fundRepository,
         transactionRepository: transactionRepository,
+        database: database,
       ),
     ),
   );

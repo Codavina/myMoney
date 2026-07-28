@@ -45,7 +45,7 @@ class AuthRepository {
   Future<List<UserModel>> getAllProfiles() async {
     final response = await Supabase.instance.client
         .from('profiles')
-        .select('id, full_name, email, phone, role')
+        .select('id,user_id, full_name, email, phone, role')
         .eq('role', 'viewer')
         .order('full_name');
 

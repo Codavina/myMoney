@@ -131,6 +131,9 @@ class AuthCubit extends Cubit<AuthState> {
       if (localUser!.isAdmin) {
         final users = await _authRepository.getAllProfiles();
 
+        log("SUPABASE USERS COUNT = ${users.length}");
+        log(users.toString());
+
         for (final user in users) {
           await _userRepository.upsert(user);
         }

@@ -1,7 +1,5 @@
 import 'dart:developer';
-
 import 'package:sqflite/sqflite.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import '../database/app_database.dart';
 import '../errors/database_error_handler.dart';
 import '../models/user_model.dart';
@@ -33,7 +31,12 @@ class UserRepository {
         'Users',
         orderBy: 'full_name',
       );
+
+
+      log("USERS COUNT = ${result.length}");
       log(result.toString());
+
+
       return result.map(UserModel.fromMap).toList();
     } on DatabaseException catch (e) {
       throw DatabaseErrorHandler.handle(e);
@@ -113,17 +116,6 @@ class UserRepository {
     }
   }
 
-  Future<List<UserModel>> getAllProfiles() async {
-    final response = await Supabase.instance.client
-        .from('profiles')
-        .select('id, full_name, email, phone, role')
-        .eq('role', 'viewer')
-        .order('full_name');
-    //log(response.toString());
-    return (response as List)
-        .map((e) => UserModel.fromSupabase(e))
-        .toList();
-  }
 
   Future<void> upsert(UserModel user) async {
     final existing = await getByAuthId(user.authId);

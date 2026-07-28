@@ -34,7 +34,7 @@ class UserModel {
 ///Supabase Map -> UserModel
   factory UserModel.fromSupabase(Map<String, dynamic> map) {
     return UserModel(
-      userId: null,
+      userId: map['user_id'] as int,
       authId: map['id'] as String,
       fullName: map['full_name'] as String,
       email: map['email'] as String,
