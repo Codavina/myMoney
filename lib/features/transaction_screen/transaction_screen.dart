@@ -5,6 +5,7 @@ import 'package:my_money/core/models/transaction_model.dart';
 import 'package:my_money/core/widgets/admin_only.dart';
 import 'package:my_money/features/transaction_screen/widgets/transaction_body.dart';
 import '../../core/constants/app_assets.dart';
+import '../../core/cubit/fund/fund_cubit.dart';
 import '../../core/cubit/transaction/transaction_cubit.dart';
 import '../../core/cubit/transaction/transaction_state.dart';
 import '../../core/models/fund_model.dart';
@@ -41,7 +42,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
     if (!mounted) return;
 
     // Reload funds to get the updated balance from the trigger.
-   //TODO: fix this line: context.read<FundCubit>().getAllActive();
+  context.read<FundCubit>().getAllActive(widget.fund.ownerId);
   }
 
   @override

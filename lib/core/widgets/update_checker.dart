@@ -84,6 +84,13 @@ class _UpdateCheckerState extends State<UpdateChecker> {
                       .read<SyncRepository>()
                       .importUser(json);
                   log('===== IMPORT COMPLETED =====');
+
+                  // حذف الملف المحلي بعد نجاح الاستيراد
+                  if (!mounted) return;
+                  await context
+                      .read<SyncRepository>()
+                      .deleteLocalUpdateFile();
+
                   if (!mounted) return;
                   final user = await context
                       .read<UserRepository>()
@@ -92,6 +99,8 @@ class _UpdateCheckerState extends State<UpdateChecker> {
                   debugPrint(user.toString());
                   debugPrint(json.toString());
                   log("downloadUserUpdateFile was called");
+
+
 
                   if (!mounted) return;
                   Navigator.pop(context);

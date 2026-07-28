@@ -320,4 +320,29 @@ class SyncRepository {
     log('===== IMPORT COMPLETED =====');
   }
 
+  Future<void> deleteLocalUpdateFile() async {
+    final directory = await getApplicationDocumentsDirectory();
+
+    final file = File('${directory.path}/update.json');
+
+    if (await file.exists()) {
+      await file.delete();
+
+      log('===== Local update.json deleted =====');
+    } else {
+      log('===== No local update.json found =====');
+    }
+  }
+
+  Future<void> deleteRemoteUpdateFile(String authId) async {
+
+    await Supabase.instance.client.storage
+        .from('updates')
+        .remove([
+      '$authId/update.json',
+    ]);
+
+    log('===== Remote update.json deleted =====');
+  }
+
 }
