@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/features/auth_screen/splash_screen.dart';
 import '../../core/cubit/auth/auth_cubit.dart';
 import '../../core/cubit/auth/auth_state.dart';
+import '../../core/cubit/fund/fund_cubit.dart';
 import '../../core/extensions/profile_extension.dart';
 import '../../core/widgets/update_checker.dart';
 import '../admin_screen/admin_dashboard_screen.dart';
@@ -54,6 +55,9 @@ class AuthGateScreen extends StatelessWidget {
               return const AdminDashboardScreen();
             }
             return UpdateChecker(
+              onRefresh: () async {
+                await context.read<FundCubit>().getAllActive(state.profile!.userId!);
+              },
               child: FundScreen(
                 ownerId: state.profile!.userId!,
               ),

@@ -149,8 +149,10 @@ class AuthCubit extends Cubit<AuthState> {
           profile: localUser,
         ),
       );
-    } catch (e) {
+    } catch (e,s) {
       // Notify the UI that authentication failed.
+      log(e.toString());
+      log(s.toString());
       emit(
         state.copyWith(
           status: AuthStatus.failure,

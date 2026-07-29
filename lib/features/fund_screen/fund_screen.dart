@@ -11,6 +11,7 @@ import '../../core/session/selected_user.dart';
 import '../../core/utils/app_snackbar.dart';
 import '../../core/widgets/app_popup_menu.dart';
 import '../../core/widgets/empty_state.dart';
+import '../../core/widgets/loading_dialog.dart';
 import 'fund_helper/fund_dialog_helper.dart';
 
 
@@ -39,21 +40,51 @@ class _FundScreenState extends State<FundScreen> {
   }
 
   Future<void> _pushUpdates() async {
-    final syncRepository = context.read<SyncRepository>();
+    try {
+       LoadingDialog.show(
+        context,
+        message: 'Uploading updates...',
+      );
 
-    final file = await syncRepository.createUserUpdateFile(widget.ownerId);
+      final syncRepository = context.read<SyncRepository>();
 
-    final user = await context.read<UserRepository>().getById(widget.ownerId);
+      final file =
+      await syncRepository.createUserUpdateFile(widget.ownerId);
 
-    if (user == null) {
-      throw Exception('User not found.');
+      final user =
+      await context.read<UserRepository>().getById(widget.ownerId);
+
+      if (user == null) {
+        throw Exception('User not found.');
+      }
+
+      await syncRepository.uploadUserUpdateFile(
+        file,
+        user.authId,
+      );
+
+      if (!mounted) return;
+
+      LoadingDialog.hide(context);
+
+      AppSnackBar.success(
+        context,
+        'Updates pushed successfully.',
+      );
+    } catch (e) {
+      if (mounted) {
+        LoadingDialog.hide(context);
+
+        AppSnackBar.error(
+          context,
+          'Failed to push updates.',
+        );
+      }
+
+      rethrow;
     }
-
-    await syncRepository.uploadUserUpdateFile(
-      file,
-      user.authId,
-    );
   }
+
 
 
   @override
@@ -106,7 +137,7 @@ class _FundScreenState extends State<FundScreen> {
         body: SafeArea(
           child: BlocConsumer<FundCubit, FundState>(
             listener: (context, state) {
-      
+
               if (state is FundLoaded) {
                 if (state.successMessage != null) {
                   AppSnackBar.success(
@@ -114,7 +145,7 @@ class _FundScreenState extends State<FundScreen> {
                     state.successMessage!,
                   );
                 }
-      
+
                 if (state.errorMessage != null) {
                   AppSnackBar.error(
                     context,
@@ -122,7 +153,7 @@ class _FundScreenState extends State<FundScreen> {
                   );
                 }
               }
-      
+
               if (state is FundError) {
                 AppSnackBar.error(
                   context,
@@ -135,7 +166,7 @@ class _FundScreenState extends State<FundScreen> {
                 return const Center(child: CircularProgressIndicator());
               }
               if (state is FundLoaded) {
-      
+
                 if (state.funds.isEmpty) {
                   return const EmptyState(image: AppAssets.emptyFundImage);
                 }

@@ -55,4 +55,18 @@ class AppDatabase {
   Future<void> _upgradeDB(Database db,int oldVersion,int newVersion,) async {
     log("On Upgrade (empty upgrade) ==========================");
   }
+
+
+  Future<void> resetDatabase() async {
+    if (_db != null) {
+      await _db!.close();
+      _db = null;
+    }
+
+    final dbPath = await getDatabasesPath();
+    final path = join(dbPath, 'my_money.db');
+
+    await deleteDatabase(path);
+  }
+
 }

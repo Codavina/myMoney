@@ -335,7 +335,7 @@ class SyncRepository {
   }
 
   Future<void> deleteRemoteUpdateFile(String authId) async {
-
+    log('Deleting remote update file...');
     await Supabase.instance.client.storage
         .from('updates')
         .remove([

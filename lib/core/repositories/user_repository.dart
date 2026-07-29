@@ -67,14 +67,14 @@ class UserRepository {
   Future<UserModel?> getByAuthId(String authId) async {
     try {
       final db = await _dbProvider.database;
-
+      log("Searching authId = $authId");
       final result = await db.query(
         'Users',
         where: 'auth_id = ?',
         whereArgs: [authId],
         limit: 1,
       );
-
+      log("Rows found = ${result.length}");
       if (result.isEmpty) return null;
 
       return UserModel.fromMap(result.first);
