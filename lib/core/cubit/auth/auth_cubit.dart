@@ -71,7 +71,8 @@ class AuthCubit extends Cubit<AuthState> {
     required String email,
     required String password,
   }) async {
-    // Emit loading state.
+    log('========== SIGN IN START ==========');
+
     emit(
       state.copyWith(
         status: AuthStatus.signingIn,
@@ -80,10 +81,16 @@ class AuthCubit extends Cubit<AuthState> {
     );
 
     try {
-      // Check internet connection.
-      final hasInternet = await InternetConnection().hasInternetAccess;
+      log('STEP 1 - Checking internet...');
+
+      final hasInternet =
+      await InternetConnection().hasInternetAccess;
+
+      log('Internet = $hasInternet');
 
       if (!hasInternet) {
+        log('STEP 2 - No internet');
+
         emit(
           state.copyWith(
             status: AuthStatus.unauthenticated,
@@ -91,68 +98,90 @@ class AuthCubit extends Cubit<AuthState> {
             'No internet connection. The first login requires an internet connection.',
           ),
         );
+
         return;
       }
 
-      // Authenticate the user with Supabase.
+      log('STEP 3 - Signing in with Supabase');
+
       await _authRepository.signIn(
         email: email,
         password: password,
       );
 
-      // Get the authenticated Supabase user.
-      final authUser = Supabase.instance.client.auth.currentUser;
+      log('STEP 4 - Sign in succeeded');
+
+      final authUser =
+          Supabase.instance.client.auth.currentUser;
+
+      log('STEP 5 - Current user = ${authUser?.id}');
 
       if (authUser == null) {
         throw Exception('Authenticated user not found.');
       }
 
-      // Load the user profile from Supabase.
-      final profile = await _authRepository.getProfile(authUser.id);
+      log('STEP 6 - Loading profile');
+
+      final profile =
+      await _authRepository.getProfile(authUser.id);
+
+      log('Profile = $profile');
 
       if (profile == null) {
         throw Exception('User profile not found.');
       }
 
-      // Try to load the user from the local SQLite database.
+      log('STEP 7 - Loading local user');
+
       UserModel? localUser =
       await _userRepository.getByAuthId(profile.authId);
 
-      // First login on this device.
+      log('Local user = $localUser');
+
       if (localUser == null) {
+        log('STEP 8 - First login -> insert local user');
+
         await _userRepository.insert(profile);
 
         localUser =
         await _userRepository.getByAuthId(profile.authId);
+
+        log('Inserted local user = $localUser');
       }
 
-      // If the current user is an administrator,
-      // synchronize all viewer accounts.
       if (localUser!.isAdmin) {
-        final users = await _authRepository.getAllProfiles();
+        log('STEP 9 - Loading all viewer accounts');
 
-        log("SUPABASE USERS COUNT = ${users.length}");
-        log(users.toString());
+        final users =
+        await _authRepository.getAllProfiles();
+
+        log('SUPABASE USERS COUNT = ${users.length}');
 
         for (final user in users) {
+          log('UPSERT ${user.fullName}');
           await _userRepository.upsert(user);
         }
       }
 
-      // Store the current logged-in user.
+      log('STEP 10 - Save CurrentUser');
+
       CurrentUser.value = localUser;
 
-      // Notify the UI that authentication completed successfully.
+      log('STEP 11 - Emit authenticated');
+
       emit(
         state.copyWith(
           status: AuthStatus.authenticated,
           profile: localUser,
         ),
       );
-    } catch (e,s) {
-      // Notify the UI that authentication failed.
+
+      log('========== SIGN IN SUCCESS ==========');
+    } catch (e, s) {
+      log('========== SIGN IN FAILED ==========');
       log(e.toString());
       log(s.toString());
+
       emit(
         state.copyWith(
           status: AuthStatus.failure,

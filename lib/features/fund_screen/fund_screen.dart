@@ -14,9 +14,9 @@ import '../../core/widgets/empty_state.dart';
 import '../../core/widgets/loading_dialog.dart';
 import 'fund_helper/fund_dialog_helper.dart';
 
-
 class FundScreen extends StatefulWidget {
   const FundScreen({super.key, required this.ownerId});
+
   final int ownerId;
 
   @override
@@ -24,15 +24,8 @@ class FundScreen extends StatefulWidget {
 }
 
 class _FundScreenState extends State<FundScreen> {
-
-
-
   Future<void> _addFund(BuildContext context) async {
-
-    final fund = await openFundDialog(
-      context,
-      ownerId: widget.ownerId,
-    );
+    final fund = await openFundDialog(context, ownerId: widget.ownerId);
 
     if (!context.mounted) return;
     if (fund == null) return;
@@ -41,51 +34,36 @@ class _FundScreenState extends State<FundScreen> {
 
   Future<void> _pushUpdates() async {
     try {
-       LoadingDialog.show(
-        context,
-        message: 'Uploading updates...',
-      );
+      LoadingDialog.show(context, message: 'Uploading updates...');
 
       final syncRepository = context.read<SyncRepository>();
 
-      final file =
-      await syncRepository.createUserUpdateFile(widget.ownerId);
+      final file = await syncRepository.createUserUpdateFile(widget.ownerId);
 
-      final user =
-      await context.read<UserRepository>().getById(widget.ownerId);
+      if (!mounted) return;
+      final user = await context.read<UserRepository>().getById(widget.ownerId);
 
       if (user == null) {
         throw Exception('User not found.');
       }
 
-      await syncRepository.uploadUserUpdateFile(
-        file,
-        user.authId,
-      );
+      await syncRepository.uploadUserUpdateFile(file, user.authId);
 
       if (!mounted) return;
 
       LoadingDialog.hide(context);
 
-      AppSnackBar.success(
-        context,
-        'Updates pushed successfully.',
-      );
+      AppSnackBar.success(context, 'Updates pushed successfully.');
     } catch (e) {
       if (mounted) {
         LoadingDialog.hide(context);
 
-        AppSnackBar.error(
-          context,
-          'Failed to push updates.',
-        );
+        AppSnackBar.error(context, 'Failed to push updates.');
       }
 
       rethrow;
     }
   }
-
-
 
   @override
   void initState() {
@@ -98,19 +76,17 @@ class _FundScreenState extends State<FundScreen> {
     SelectedUser.value = null;
     super.dispose();
   }
-  
+
   @override
   Widget build(BuildContext context) {
-
     return PopScope(
       onPopInvokedWithResult: (didPop, result) {
         SelectedUser.value = null;
       },
       child: Scaffold(
-
         backgroundColor: const Color(0xffF1F5F9),
         appBar: AppBar(
-          title:  const Text('Funds'),
+          title: const Text('Funds'),
           backgroundColor: const Color(0xffF8FAFC),
           foregroundColor: const Color(0xff1F2937),
           centerTitle: true,
@@ -120,45 +96,32 @@ class _FundScreenState extends State<FundScreen> {
             child: Divider(height: 1, color: Color(0xffE6EAF0)),
           ),
           actions: [
-            
-              AdminOnly(
-                child: IconButton(
-                  onPressed: _pushUpdates,
-                  icon: const Icon(Icons.cloud_upload_outlined),
-                  tooltip: 'Push',
-                ),
+            AdminOnly(
+              child: IconButton(
+                onPressed: _pushUpdates,
+                icon: const Icon(Icons.cloud_upload_outlined),
+                tooltip: 'Push',
               ),
-            AppPopupMenu( ownerId: widget.ownerId,),]
-      
-      
-      
+            ),
+            AppPopupMenu(ownerId: widget.ownerId),
+          ],
         ),
-      
+
         body: SafeArea(
           child: BlocConsumer<FundCubit, FundState>(
             listener: (context, state) {
-
               if (state is FundLoaded) {
                 if (state.successMessage != null) {
-                  AppSnackBar.success(
-                    context,
-                    state.successMessage!,
-                  );
+                  AppSnackBar.success(context, state.successMessage!);
                 }
 
                 if (state.errorMessage != null) {
-                  AppSnackBar.error(
-                    context,
-                    state.errorMessage!,
-                  );
+                  AppSnackBar.error(context, state.errorMessage!);
                 }
               }
 
               if (state is FundError) {
-                AppSnackBar.error(
-                  context,
-                  state.errorMessage,
-                );
+                AppSnackBar.error(context, state.errorMessage);
               }
             },
             builder: (context, state) {
@@ -166,9 +129,11 @@ class _FundScreenState extends State<FundScreen> {
                 return const Center(child: CircularProgressIndicator());
               }
               if (state is FundLoaded) {
-
                 if (state.funds.isEmpty) {
-                  return const EmptyState(image: AppAssets.emptyFundImage);
+                  return const EmptyState(
+                    image: AppAssets.emptyFundImage,
+                    scrollable: true,
+                  );
                 }
                 return ActiveFundListView(funds: state.funds);
               }
@@ -197,5 +162,3 @@ class _FundScreenState extends State<FundScreen> {
     );
   }
 }
-
-

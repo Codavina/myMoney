@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/core/cubit/auth/auth_state.dart';
@@ -21,14 +23,29 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _obscurePassword = true;
 
   void _login() {
-    if (!_formKey.currentState!.validate()) return;
+    log('LOGIN 1');
+
+    if (!_formKey.currentState!.validate()) {
+      log('LOGIN 2 - INVALID');
+      return;
+    }
+
+    log('LOGIN 3');
 
     FocusScope.of(context).unfocus();
 
-    context.read<AuthCubit>().signIn(
+    log('LOGIN 4');
+
+    final cubit = context.read<AuthCubit>();
+
+    log('LOGIN 5 - Cubit = $cubit');
+
+    cubit.signIn(
       email: _emailController.text.trim(),
-      password:  _passwordController.text,
+      password: _passwordController.text,
     );
+
+    log('LOGIN 6');
   }
 
 
