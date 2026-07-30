@@ -1,5 +1,5 @@
-import 'dart:developer';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/core/cubit/transaction/transaction_state.dart';
 import 'package:my_money/core/models/transaction_model.dart';
@@ -39,8 +39,8 @@ class TransactionCubit extends Cubit<TransactionState> {
 
     } catch (e,stackTrace) {
       final transactions = await _repository.getByFund(transaction.fundId);
-      log('INSERT TRANSACTION ERROR: $e');
-      log(stackTrace.toString());
+      debugPrint('INSERT TRANSACTION ERROR: $e');
+      debugPrint(stackTrace.toString());
       emit(
         TransactionLoaded(
           transactions:transactions,

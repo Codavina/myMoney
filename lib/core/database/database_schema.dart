@@ -1,5 +1,4 @@
-import 'dart:developer';
-
+import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseSchema {
@@ -20,7 +19,7 @@ class DatabaseSchema {
 
     _insertDefaultCurrencies(db);
 
-    log(
+    debugPrint(
       '=========== create method called from DatabaseSchema class =============',
     );
   }
@@ -46,7 +45,7 @@ class DatabaseSchema {
       },
     );
 
-    log('=========== AppState Table created =============');
+    debugPrint('=========== AppState Table created =============');
   }
 
   static Future<void> _createUsersTable(Database db) async {
@@ -70,7 +69,7 @@ class DatabaseSchema {
     );
   ''');
 
-    log('=========== Users Table created =============');
+    debugPrint('=========== Users Table created =============');
   }
 
   static Future<void> _createCurrenciesTable(Database db) async {
@@ -82,7 +81,7 @@ class DatabaseSchema {
       );
     ''');
 
-    log('=========== Currencies Table created =============');
+    debugPrint('=========== Currencies Table created =============');
   }
 
   static Future<void> _createFundsTable(Database db) async {
@@ -121,7 +120,7 @@ class DatabaseSchema {
       );
     ''');
 
-    log('=========== Funds Table created =============');
+    debugPrint('=========== Funds Table created =============');
   }
 
   static Future<void> _createTransactionsTable(Database db) async {
@@ -150,7 +149,7 @@ class DatabaseSchema {
           ON DELETE RESTRICT
       );
     ''');
-    log('=========== Transactions Table created =============');
+    debugPrint('=========== Transactions Table created =============');
   }
 
   // ===========================
@@ -168,7 +167,7 @@ class DatabaseSchema {
       ON Transactions(transaction_date);
     ''');
 
-    log('=========== Indexes created =============');
+    debugPrint('=========== Indexes created =============');
   }
 
   // ===========================
@@ -199,7 +198,7 @@ class DatabaseSchema {
     END;
   ''');
 
-    log('=========== TRIGGER trg_InsertTransaction created =============');
+    debugPrint('=========== TRIGGER trg_InsertTransaction created =============');
 
     // ==========================================================
     // 2. Restore Fund Balance After Delete Transaction
@@ -223,7 +222,7 @@ class DatabaseSchema {
     END;
   ''');
 
-    log('=========== TRIGGER trg_DeleteTransaction created =============');
+    debugPrint('=========== TRIGGER trg_DeleteTransaction created =============');
 
     // ==========================================================
     // 3. Prevent Withdraw If Balance Is Insufficient
@@ -249,7 +248,7 @@ class DatabaseSchema {
     END;
   ''');
 
-    log('=========== TRIGGER trg_CheckBalanceBeforeInsert created =============');
+    debugPrint('=========== TRIGGER trg_CheckBalanceBeforeInsert created =============');
 
     // ==========================================================
     // 4. Prevent Transactions On Archived Fund
@@ -277,7 +276,7 @@ class DatabaseSchema {
     END;
   ''');
 
-    log('=========== TRIGGER trg_PreventTransactionOnArchivedFund created =============');
+    debugPrint('=========== TRIGGER trg_PreventTransactionOnArchivedFund created =============');
   }
 
 

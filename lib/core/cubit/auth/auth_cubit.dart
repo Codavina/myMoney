@@ -1,5 +1,4 @@
-import 'dart:developer';
-
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:my_money/core/extensions/profile_extension.dart';
@@ -19,13 +18,13 @@ class AuthCubit extends Cubit<AuthState> {
     : super(AuthState.initial());
 
   Future<void> checkSession() async {
-    log("========== checkSession() ==========");
+    debugPrint("========== checkSession() ==========");
 
     emit(state.copyWith(status: AuthStatus.signingIn));
 
     try {
       final session = Supabase.instance.client.auth.currentSession;
-      log("Session: $session");
+      debugPrint("Session: $session");
 
       if (session == null) {
         emit(state.copyWith(status: AuthStatus.unauthenticated));
@@ -34,7 +33,7 @@ class AuthCubit extends Cubit<AuthState> {
       }
 
       final user = Supabase.instance.client.auth.currentUser;
-      log("User: ${user?.id}");
+      debugPrint("User: ${user?.id}");
 
       if (user == null) {
         emit(state.copyWith(status: AuthStatus.unauthenticated));
@@ -71,7 +70,7 @@ class AuthCubit extends Cubit<AuthState> {
     required String email,
     required String password,
   }) async {
-    log('========== SIGN IN START ==========');
+    debugPrint('========== SIGN IN START ==========');
 
     emit(
       state.copyWith(
@@ -81,15 +80,15 @@ class AuthCubit extends Cubit<AuthState> {
     );
 
     try {
-      log('STEP 1 - Checking internet...');
+      debugPrint('STEP 1 - Checking internet...');
 
       final hasInternet =
       await InternetConnection().hasInternetAccess;
 
-      log('Internet = $hasInternet');
+      debugPrint('Internet = $hasInternet');
 
       if (!hasInternet) {
-        log('STEP 2 - No internet');
+        debugPrint('STEP 2 - No internet');
 
         emit(
           state.copyWith(
@@ -102,72 +101,72 @@ class AuthCubit extends Cubit<AuthState> {
         return;
       }
 
-      log('STEP 3 - Signing in with Supabase');
+      debugPrint('STEP 3 - Signing in with Supabase');
 
       await _authRepository.signIn(
         email: email,
         password: password,
       );
 
-      log('STEP 4 - Sign in succeeded');
+      debugPrint('STEP 4 - Sign in succeeded');
 
       final authUser =
           Supabase.instance.client.auth.currentUser;
 
-      log('STEP 5 - Current user = ${authUser?.id}');
+      debugPrint('STEP 5 - Current user = ${authUser?.id}');
 
       if (authUser == null) {
         throw Exception('Authenticated user not found.');
       }
 
-      log('STEP 6 - Loading profile');
+      debugPrint('STEP 6 - Loading profile');
 
       final profile =
       await _authRepository.getProfile(authUser.id);
 
-      log('Profile = $profile');
+      debugPrint('Profile = $profile');
 
       if (profile == null) {
         throw Exception('User profile not found.');
       }
 
-      log('STEP 7 - Loading local user');
+      debugPrint('STEP 7 - Loading local user');
 
       UserModel? localUser =
       await _userRepository.getByAuthId(profile.authId);
 
-      log('Local user = $localUser');
+      debugPrint('Local user = $localUser');
 
       if (localUser == null) {
-        log('STEP 8 - First login -> insert local user');
+        debugPrint('STEP 8 - First login -> insert local user');
 
         await _userRepository.insert(profile);
 
         localUser =
         await _userRepository.getByAuthId(profile.authId);
 
-        log('Inserted local user = $localUser');
+        debugPrint('Inserted local user = $localUser');
       }
 
       if (localUser!.isAdmin) {
-        log('STEP 9 - Loading all viewer accounts');
+        debugPrint('STEP 9 - Loading all viewer accounts');
 
         final users =
         await _authRepository.getAllProfiles();
 
-        log('SUPABASE USERS COUNT = ${users.length}');
+        debugPrint('SUPABASE USERS COUNT = ${users.length}');
 
         for (final user in users) {
-          log('UPSERT ${user.fullName}');
+          debugPrint('UPSERT ${user.fullName}');
           await _userRepository.upsert(user);
         }
       }
 
-      log('STEP 10 - Save CurrentUser');
+      debugPrint('STEP 10 - Save CurrentUser');
 
       CurrentUser.value = localUser;
 
-      log('STEP 11 - Emit authenticated');
+      debugPrint('STEP 11 - Emit authenticated');
 
       emit(
         state.copyWith(
@@ -176,11 +175,11 @@ class AuthCubit extends Cubit<AuthState> {
         ),
       );
 
-      log('========== SIGN IN SUCCESS ==========');
+      debugPrint('========== SIGN IN SUCCESS ==========');
     } catch (e, s) {
-      log('========== SIGN IN FAILED ==========');
-      log(e.toString());
-      log(s.toString());
+      debugPrint('========== SIGN IN FAILED ==========');
+      debugPrint(e.toString());
+      debugPrint(s.toString());
 
       emit(
         state.copyWith(

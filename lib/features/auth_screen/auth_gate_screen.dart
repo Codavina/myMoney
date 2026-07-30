@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/features/auth_screen/splash_screen.dart';
@@ -30,7 +28,7 @@ class AuthGateScreen extends StatelessWidget {
 
     return BlocBuilder<AuthCubit, AuthState>(
       builder: (context, state) {
-        log("AuthGate -> ${state.status}");
+        debugPrint("AuthGate -> ${state.status}");
         switch (state.status) {
           case AuthStatus.initial:
             return const SplashScreen(
@@ -65,7 +63,7 @@ class AuthGateScreen extends StatelessWidget {
 
 
           case AuthStatus.failure:
-            log(state.message!);
+            debugPrint(state.message!);
             return const SplashScreen(
               message: 'Unexpected error...',
             );

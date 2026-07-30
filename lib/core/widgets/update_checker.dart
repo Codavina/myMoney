@@ -1,4 +1,4 @@
-import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/core/repositories/sync_repository.dart';
@@ -64,31 +64,34 @@ class _UpdateCheckerState extends State<UpdateChecker> {
         message: 'Updating...',
       );
 
-      log('===== START USER UPDATE =====');
-      log('AuthId = $authId');
-
+      debugPrint('===== START USER UPDATE =====');
+      debugPrint('AuthId = $authId');
+      debugPrint('STEP 1 has file');
       await syncRepository.downloadUserUpdateFile(authId);
 
+      debugPrint('STEP 2 downloaded');
       final json = await syncRepository.readUpdateFile();
-
-      log('===== JSON READ SUCCESS =====');
-      log('Keys = ${json.keys}');
-      log('User id = ${json['user']['user_id']}');
-      log('Funds = ${(json['funds'] as List).length}');
-      log('Transactions = ${(json['transactions'] as List).length}');
+      debugPrint('STEP 3 read');
+      debugPrint('===== JSON READ SUCCESS =====');
+      debugPrint('Keys = ${json.keys}');
+      debugPrint('User id = ${json['user']['user_id']}');
+      debugPrint('Funds = ${(json['funds'] as List).length}');
+      debugPrint('Transactions = ${(json['transactions'] as List).length}');
 
       await syncRepository.importUser(json);
 
-      log('===== IMPORT COMPLETED =====');
+      debugPrint('===== IMPORT COMPLETED =====');
 
+
+      debugPrint('STEP 4 imported');
       await fundCubit.getAllActive(
         CurrentUser.value!.userId!,
       );
-
+      debugPrint('STEP 5 reload');
       await syncRepository.deleteLocalUpdateFile();
-
+      debugPrint('STEP 6 local deleted');
       await syncRepository.deleteRemoteUpdateFile(authId);
-
+      debugPrint('STEP 7 remote deleted');
       if (!mounted) return;
 
       LoadingDialog.hide(context);
@@ -97,9 +100,10 @@ class _UpdateCheckerState extends State<UpdateChecker> {
         context,
         'Updates imported successfully.',
       );
-    } catch (e) {
-      log('===== UPDATE ERROR =====');
-      log(e.toString());
+    } catch (e,s) {
+      debugPrint('===== UPDATE ERROR =====');
+      debugPrint('UPDATE ERROR: $e');
+      debugPrint(s.toString());
 
       if (!mounted) return;
 
