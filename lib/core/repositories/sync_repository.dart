@@ -71,6 +71,7 @@ class SyncRepository {
           ),
         );
   }
+
   Future<bool> hasUpdate(String authId) async {
     debugPrint('sync_repository => hasUpdate beginning');
 
@@ -91,19 +92,7 @@ class SyncRepository {
       return false;
     }
   }
-  // Future<bool> hasUpdate(String authId) async {
-  //   debugPrint('sync_repository => hasUpdate beginning');
-  //   try {
-  //     await Supabase.instance.client.storage
-  //         .from('updates')
-  //         .download('$authId/update.json');
-  //     debugPrint('sync_repository => hasUpdate return true');
-  //     return true;
-  //   } catch (_) {
-  //     debugPrint('sync_repository => hasUpdate return false');
-  //     return false;
-  //   }
-  // }
+
 
   Future<File> downloadUserUpdateFile(String authId) async {
     debugPrint('sync_repository => downloadUserUpdateFile beginning');

@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:my_money/core/repositories/sync_repository.dart';
 import '../cubit/fund/fund_cubit.dart';
 import '../extensions/profile_extension.dart';
@@ -38,6 +39,8 @@ class _UpdateCheckerState extends State<UpdateChecker> {
   Future<void> _checkForUpdates() async {
     final authId = CurrentUser.value!.authId;
 
+
+    if (!mounted) return;
        final hasUpdate =
     await context.read<SyncRepository>().hasUpdate(authId);
 
@@ -148,6 +151,19 @@ class _UpdateCheckerState extends State<UpdateChecker> {
 
     return RefreshIndicator(
       onRefresh: () async {
+
+        final hasInternet =
+        await InternetConnection().hasInternetAccess;
+
+        if (!hasInternet) {
+          if (!context.mounted) return;
+
+          AppSnackBar.error(
+            context,
+            'No internet connection.',
+          );
+          return;
+        }
         await _checkForUpdates();
 
         if (widget.onRefresh != null) {

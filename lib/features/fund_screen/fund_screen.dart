@@ -24,6 +24,7 @@ class FundScreen extends StatefulWidget {
 }
 
 class _FundScreenState extends State<FundScreen> {
+
   Future<void> _addFund(BuildContext context) async {
     final fund = await openFundDialog(context, ownerId: widget.ownerId);
 

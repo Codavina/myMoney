@@ -7,10 +7,25 @@ import '../constants/app_enums.dart';
 import '../cubit/auth/auth_cubit.dart';
 import '../cubit/fund/fund_cubit.dart';
 import '../repositories/fund_repository.dart';
+import 'confirm_signout_dialog.dart';
 
 class AppPopupMenu extends StatelessWidget {
   const AppPopupMenu({super.key, this.ownerId});
   final int? ownerId;
+
+  Future<void> _confirmSignOut(BuildContext context)async{
+    final confirmed = await showConfirmDialog(
+      context,
+      title: 'Sign Out',
+      message: 'Are you sure you want to sign out?',
+      confirmText: 'Sign Out',
+      cancelText: 'Cancel',
+    );
+
+    if (!context.mounted || !confirmed) return;
+
+    context.read<AuthCubit>().signOut();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +63,7 @@ class AppPopupMenu extends StatelessWidget {
             break;
 
           case AppMenuAction.logOut:
-              context.read<AuthCubit>().signOut();
+           await _confirmSignOut(context);
               break;
 
 

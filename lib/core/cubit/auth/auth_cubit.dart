@@ -191,7 +191,11 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
   Future<void> signOut() async {
-    emit(state.copyWith(status: AuthStatus.signingOut));
+    emit(
+      state.copyWith(
+        status: AuthStatus.signingOut,
+      ),
+    );
 
     try {
       await _authRepository.signOut();
@@ -206,7 +210,11 @@ class AuthCubit extends Cubit<AuthState> {
           clearMessage: true,
         ),
       );
-    } catch (e) {
+    } catch (e, s) {
+      debugPrint('========== SIGN OUT ERROR ==========');
+      debugPrint(e.toString());
+      debugPrint(s.toString());
+
       emit(
         state.copyWith(
           status: AuthStatus.failure,
