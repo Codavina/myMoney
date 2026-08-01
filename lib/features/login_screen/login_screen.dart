@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_money/core/constants/app_assets.dart';
 import 'package:my_money/core/cubit/auth/auth_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../core/cubit/auth/auth_cubit.dart';
+import '../../core/theme/app_color_extension.dart';
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -68,18 +71,24 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocConsumer<AuthCubit, AuthState>(
+        listenWhen: (previous, current) =>
+        previous.message != current.message &&
+            current.message != null,
         listener: (context, state) {
-          if (state.status == AuthStatus.failure) {
-            debugPrint(state.message);
+          if (state.status == AuthStatus.unauthenticated) {
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
 
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.message ?? 'Unexpected error.')),
+              SnackBar(
+                content: Text(
+                  state.message ?? 'Unable to sign in.',
+                ),
+              ),
             );
           }
-
         },
         builder: (context, state) {
-          // final isLoading = state.status == AuthStatus.loading;
+          final isLoading = state.status == AuthStatus.signingIn;
           return SafeArea(
             child: Center(
               child: SingleChildScrollView(
@@ -91,31 +100,34 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Icon(
-                          Icons.account_balance_wallet_rounded,
-                          size: 72,
+                        ConstrainedBox(
+                          constraints: const BoxConstraints(
+                            maxWidth: 280,
+                            maxHeight: 180,
+                          ),
+                          child: Image.asset(
+                            AppAssets.logo,
+                            fit: BoxFit.contain,
+                          ),
                         ),
 
                         const SizedBox(height: 24),
 
-                        Text(
-                          'Welcome Back',
-                          style: Theme.of(context).textTheme.headlineMedium,
-                        ),
 
-                        const SizedBox(height: 8),
-
-                        Text(
+                        const Text(
                           'Sign in to continue',
-                          style: Theme.of(context).textTheme.bodyMedium,
+
                         ),
 
-                        const SizedBox(height: 40),
+                        const SizedBox(height: 30),
 
                         TextFormField(
                           controller: _emailController,
                           keyboardType: TextInputType.emailAddress,
                           textInputAction: TextInputAction.next,
+                          autofillHints: const [
+                            AutofillHints.email,
+                          ],
                           decoration: const InputDecoration(
                             labelText: 'Email',
                             prefixIcon: Icon(Icons.email_outlined),
@@ -135,6 +147,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           controller: _passwordController,
                           obscureText: _obscurePassword,
                           textInputAction: TextInputAction.done,
+                          autofillHints: const [
+                            AutofillHints.password,
+                          ],
                           decoration: InputDecoration(
                             labelText: 'Password',
                             prefixIcon: const Icon(Icons.lock_outline),
@@ -167,8 +182,17 @@ class _LoginScreenState extends State<LoginScreen> {
                           width: double.infinity,
                           height: 52,
                           child: FilledButton(
-                            onPressed: _login,
-                            child: const Text('Login'),
+                            style: FilledButton.styleFrom(backgroundColor: context.appColors.primary,),
+                            onPressed: isLoading ? null : _login,
+                            child: isLoading
+                                ? const SizedBox(
+                              width: 22,
+                              height: 22,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                              ),
+                            )
+                                : const Text('Login'),
                           ),
                         ),
                       ],

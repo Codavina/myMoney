@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_money/core/widgets/custom_app_bar.dart';
 import 'package:my_money/features/archived_fund_screen/widgets/archived_fund_list_view.dart';
 import '../../core/constants/app_assets.dart';
 import '../../core/cubit/fund/fund_cubit.dart';
 import '../../core/cubit/fund/fund_state.dart';
+import '../../core/theme/app_color_extension.dart';
 import '../../core/utils/app_snackbar.dart';
 import '../../core/widgets/empty_state.dart';
 
@@ -26,18 +28,8 @@ class _ArchivedFundScreenState extends State<ArchivedFundScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffF1F5F9),
-      appBar: AppBar(
-        title: const Text('Archived Funds'),
-        backgroundColor: const Color(0xffF8FAFC),
-        foregroundColor: const Color(0xff1F2937),
-        centerTitle: true,
-        elevation: 1,
-        bottom: const PreferredSize(
-          preferredSize: Size.fromHeight(1),
-          child: Divider(height: 1, color: Color(0xffE6EAF0)),
-        ),
-      ),
+      backgroundColor: context.appColors.background,
+      appBar:const CustomAppBar(title: 'Archived Funds'),
       body: SafeArea(
         child: BlocConsumer<FundCubit, FundState>(
           listener: (context, state) {

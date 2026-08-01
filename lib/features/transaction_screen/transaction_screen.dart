@@ -3,12 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/core/extensions/string_extensions.dart';
 import 'package:my_money/core/models/transaction_model.dart';
 import 'package:my_money/core/widgets/admin_only.dart';
+import 'package:my_money/core/widgets/custom_app_bar.dart';
 import 'package:my_money/features/transaction_screen/widgets/transaction_body.dart';
 import '../../core/constants/app_assets.dart';
 import '../../core/cubit/fund/fund_cubit.dart';
 import '../../core/cubit/transaction/transaction_cubit.dart';
 import '../../core/cubit/transaction/transaction_state.dart';
 import '../../core/models/fund_model.dart';
+import '../../core/theme/app_color_extension.dart';
 import '../../core/utils/app_snackbar.dart';
 import '../../core/widgets/empty_state.dart';
 import 'widgets/add_transaction_dialog.dart';
@@ -48,18 +50,8 @@ class _TransactionScreenState extends State<TransactionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffF1F5F9),
-      appBar: AppBar(
-        backgroundColor: const Color(0xffF8FAFC),
-        foregroundColor: const Color(0xff1F2937),
-        elevation: 1,
-        bottom: const PreferredSize(
-          preferredSize: Size.fromHeight(1),
-          child: Divider(height: 1, color: Color(0xffE6EAF0)),
-        ),
-
-        title: Text(widget.fund.title.toSimpleTitleCase()),
-      ),
+      backgroundColor:  context.appColors.background,
+      appBar: CustomAppBar(title: widget.fund.title.toSimpleTitleCase()),
       body: SafeArea(
         child: BlocConsumer<TransactionCubit, TransactionState>(
           listener: (context, state) {

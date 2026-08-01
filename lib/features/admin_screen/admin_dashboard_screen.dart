@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_money/core/widgets/custom_app_bar.dart';
 import 'package:my_money/features/admin_screen/widgets/custom_admin_card.dart';
 import 'package:my_money/features/settings_screen/settings_screen.dart';
 import '../../core/cubit/auth/auth_cubit.dart';
 import '../../core/cubit/user/user_cubit.dart';
 import '../../core/repositories/user_repository.dart';
+import '../../core/theme/app_color_extension.dart';
 import '../currency_screen/currency_screen.dart';
 import '../user_screen/users_screen.dart';
 
@@ -14,14 +16,8 @@ class AdminDashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffF1F5F9),
-      appBar: AppBar(
-        title: const Text('Admin Dashboard'),
-        backgroundColor: const Color(0xffF8FAFC),
-        foregroundColor: const Color(0xff1F2937),
-        centerTitle: true,
-        elevation: 1,
-      ),
+      backgroundColor: context.appColors.background,
+      appBar: const CustomAppBar(title: 'Admin Dashboard'),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
         child: GridView(

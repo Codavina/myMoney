@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/theme/app_color_extension.dart';
+
+
 class CustomAdminCard extends StatelessWidget {
   const CustomAdminCard({
     super.key,
@@ -7,14 +10,12 @@ class CustomAdminCard extends StatelessWidget {
     required this.icon,
     required this.borderColor,
     required this.onTap,
-
   });
 
   final String title;
   final IconData icon;
   final Color borderColor;
   final Function()? onTap;
-
 
   @override
   Widget build(BuildContext context) {
@@ -26,19 +27,23 @@ class CustomAdminCard extends StatelessWidget {
           height: 150,
           width: 150,
           decoration: BoxDecoration(
-            color: const Color(0xffF1F5F9),
+            color: context.appColors.background,
             borderRadius: BorderRadius.circular(20),
             border: Border.all(color: borderColor),
           ),
-          child:  Column(
+          child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(icon, size: 36,color: Colors.grey.shade700,),
+              Icon(icon, size: 36, color: context.appColors.text),
               const SizedBox(height: 10),
               Text(
                 title,
-                style:  TextStyle(fontSize: 18, fontWeight: FontWeight.w700,color: Colors.grey.shade600),
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: context.appColors.subtitle,
+                ),
               ),
             ],
           ),

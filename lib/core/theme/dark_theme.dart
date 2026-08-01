@@ -8,99 +8,82 @@ ThemeData darkTheme = ThemeData(
   brightness: Brightness.dark,
 
   colorScheme: ColorScheme.fromSeed(
-    seedColor: AppColors.primary,
+    seedColor: AppColors.dark.primary,
     brightness: Brightness.dark,
   ),
 
-  scaffoldBackgroundColor:
-  AppColors.darkBackground,
+  scaffoldBackgroundColor: AppColors.dark.background,
 
-  appBarTheme: const AppBarTheme(
+  appBarTheme: AppBarTheme(
     elevation: 0,
     centerTitle: false,
-    backgroundColor:
-    AppColors.darkBackground,
-    foregroundColor:
-    AppColors.darkText,
-    surfaceTintColor:
-    Colors.transparent,
+    backgroundColor: AppColors.dark.background,
+    foregroundColor: AppColors.dark.text,
+    surfaceTintColor: Colors.transparent,
   ),
 
   cardTheme: CardThemeData(
     elevation: 0,
-    color: AppColors.darkSurface,
+    color: AppColors.dark.surface,
     margin: EdgeInsets.zero,
     shape: RoundedRectangleBorder(
-      borderRadius:
-      BorderRadius.circular(20),
-      side: const BorderSide(
-        color: AppColors.darkBorder,
+      borderRadius: BorderRadius.circular(20),
+      side: BorderSide(
+        color: AppColors.dark.border,
       ),
     ),
   ),
 
-  floatingActionButtonTheme:
-  const FloatingActionButtonThemeData(
-    backgroundColor: AppColors.primary,
-    foregroundColor: Colors.white,
+  floatingActionButtonTheme: FloatingActionButtonThemeData(
+    backgroundColor: AppColors.dark.primary,
+    foregroundColor: AppColors.dark.onPrimary,
   ),
 
-  navigationBarTheme:
-  NavigationBarThemeData(
+  navigationBarTheme: NavigationBarThemeData(
     indicatorColor:
-    AppColors.primary.withValues(alpha: .25),
-    labelTextStyle:
-    WidgetStateProperty.all(
+    AppColors.dark.primary.withValues(alpha: 0.25),
+    labelTextStyle: WidgetStateProperty.all(
       const TextStyle(
         fontWeight: FontWeight.w600,
       ),
     ),
   ),
 
-  elevatedButtonTheme:
-  ElevatedButtonThemeData(
+  elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       elevation: 0,
-      backgroundColor: AppColors.primary,
-      foregroundColor: Colors.white,
-      minimumSize:
-      const Size(double.infinity, 52),
+      backgroundColor: AppColors.dark.primary,
+      foregroundColor: AppColors.dark.onPrimary,
+      minimumSize: const Size(double.infinity, 52),
       shape: RoundedRectangleBorder(
-        borderRadius:
-        BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16),
       ),
     ),
   ),
 
-  inputDecorationTheme:
-  InputDecorationTheme(
+  inputDecorationTheme: InputDecorationTheme(
     filled: true,
-    fillColor:
-    AppColors.darkSurface,
-    contentPadding:
-    const EdgeInsets.symmetric(
+    fillColor: AppColors.dark.surface,
+    contentPadding: const EdgeInsets.symmetric(
       horizontal: 16,
       vertical: 16,
     ),
     border: OutlineInputBorder(
-      borderRadius:
-      BorderRadius.circular(16),
-      borderSide: const BorderSide(
-        color: AppColors.darkBorder,
+      borderRadius: BorderRadius.circular(16),
+      borderSide: BorderSide(
+        color: AppColors.dark.border,
       ),
     ),
     enabledBorder: OutlineInputBorder(
-      borderRadius:
-      BorderRadius.circular(16),
-      borderSide: const BorderSide(
-        color: AppColors.darkBorder,
+      borderRadius: BorderRadius.circular(16),
+      borderSide: BorderSide(
+        color: AppColors.dark.border,
       ),
     ),
     focusedBorder: OutlineInputBorder(
-      borderRadius:
-      BorderRadius.circular(16),
-      borderSide: const BorderSide(
-        color: AppColors.primary,
+      borderRadius: BorderRadius.circular(16),
+      borderSide: BorderSide(
+        color: AppColors.dark.primary,
         width: 2,
       ),
     ),
@@ -109,27 +92,22 @@ ThemeData darkTheme = ThemeData(
   snackBarTheme: SnackBarThemeData(
     behavior: SnackBarBehavior.floating,
     shape: RoundedRectangleBorder(
-      borderRadius:
-      BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(16),
     ),
   ),
 
   dialogTheme: DialogThemeData(
     shape: RoundedRectangleBorder(
-      borderRadius:
-      BorderRadius.circular(24),
+      borderRadius: BorderRadius.circular(24),
     ),
   ),
 
-  listTileTheme:
-  const ListTileThemeData(
-    contentPadding:
-    EdgeInsets.symmetric(
+  listTileTheme: ListTileThemeData(
+    contentPadding: const EdgeInsets.symmetric(
       horizontal: 16,
       vertical: 8,
     ),
-    iconColor:
-    AppColors.primary,
+    iconColor: AppColors.dark.primary,
   ),
 
   textTheme: const TextTheme(

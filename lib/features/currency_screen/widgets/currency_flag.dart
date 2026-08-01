@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../../core/constants/app_colors.dart';
+import '../../../core/theme/app_color_extension.dart';
+
 
 class CurrencyFlag extends StatelessWidget {
   const CurrencyFlag({
@@ -17,7 +18,7 @@ class CurrencyFlag extends StatelessWidget {
       width: 32,
       height: 22,
       decoration: BoxDecoration(
-        color: AppColors.primary.withValues(alpha: 0.08),
+        color: context.appColors.primary.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(6),
       ),
       child: Padding(

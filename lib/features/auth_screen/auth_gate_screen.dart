@@ -10,25 +10,15 @@ import '../admin_screen/admin_dashboard_screen.dart';
 import '../login_screen/login_screen.dart';
 import '../fund_screen/fund_screen.dart';
 
-
-
-
 class AuthGateScreen extends StatelessWidget {
-
-
-  const AuthGateScreen({
-    super.key,
-  });
-
-
+  const AuthGateScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-
-
     return BlocBuilder<AuthCubit, AuthState>(
       builder: (context, state) {
-        debugPrint("AuthGate -> ${state.status}");
+
+
         switch (state.status) {
           case AuthStatus.initial:
             return const SplashScreen(
@@ -36,9 +26,7 @@ class AuthGateScreen extends StatelessWidget {
             );
 
           case AuthStatus.signingIn:
-            return const SplashScreen(
-              message: 'Signing in...',
-            );
+            return const LoginScreen();
 
           case AuthStatus.signingOut:
             return const SplashScreen(
@@ -52,26 +40,24 @@ class AuthGateScreen extends StatelessWidget {
             if (state.profile!.isAdmin) {
               return const AdminDashboardScreen();
             }
+
             return UpdateChecker(
               onRefresh: () async {
-                await context.read<FundCubit>().getAllActive(state.profile!.userId!);
+                await context
+                    .read<FundCubit>()
+                    .getAllActive(state.profile!.userId!);
               },
               child: FundScreen(
                 ownerId: state.profile!.userId!,
               ),
             );
 
-
           case AuthStatus.failure:
-            debugPrint(state.message!);
-            return const SplashScreen(
-              message: 'Unexpected error...',
-            );
+            return const LoginScreen();
         }
       },
     );
-
-
   }
-
 }
+
+

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/features/fund_screen/widgets/swipe_background.dart';
-import '../../../core/constants/app_colors.dart';
 import '../../../core/cubit/currency/currency_cubit.dart';
 import '../../../core/cubit/currency/currency_state.dart';
 import '../../../core/cubit/fund/fund_cubit.dart';
@@ -11,6 +10,7 @@ import '../../../core/models/currency_model.dart';
 import '../../../core/models/fund_model.dart';
 import '../../../core/repositories/transaction_repository.dart';
 import '../../../core/session/current_user.dart';
+import '../../../core/theme/app_color_extension.dart';
 import '../../../core/widgets/app_confirm_dialog.dart';
 import '../../currency_screen/currency_info.dart';
 import '../../transaction_screen/transaction_screen.dart';
@@ -85,8 +85,8 @@ class ArchivedFundListView extends StatelessWidget {
               direction: CurrentUser.value!.isAdmin
                   ? DismissDirection.horizontal
                   : DismissDirection.none,
-              secondaryBackground: const SwipeBackground(
-                color: AppColors.primary,
+              secondaryBackground:  SwipeBackground(
+                color: context.appColors.primary,
                 icon: Icons.unarchive,
                 text: 'Restore',
                 alignment: Alignment.centerRight,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_money/core/models/transaction_model.dart';
 import 'package:my_money/features/transaction_screen/widgets/table_header.dart';
+import '../../../core/theme/app_color_extension.dart';
 import 'empty_operations.dart';
 import 'operations_list.dart';
 
@@ -16,10 +17,10 @@ class OperationsTable extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white54,
+        color: context.appColors.tableBackground,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: Colors.grey.shade300,
+          color: context.appColors.border,
           width: .8,
         ),
       ),

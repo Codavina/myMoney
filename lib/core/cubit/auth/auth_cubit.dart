@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:my_money/core/extensions/profile_extension.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide AuthState;
 import '../../models/user_model.dart';
 import '../../repositories/auth_repository.dart';
@@ -167,6 +168,12 @@ class AuthCubit extends Cubit<AuthState> {
       CurrentUser.value = localUser;
 
       debugPrint('STEP 11 - Emit authenticated');
+      final prefs = await SharedPreferences.getInstance();
+
+      await prefs.setString(
+        'last_email',
+        email,
+      );
 
       emit(
         state.copyWith(
@@ -181,10 +188,17 @@ class AuthCubit extends Cubit<AuthState> {
       debugPrint(e.toString());
       debugPrint(s.toString());
 
+      String message = 'Unable to sign in.';
+
+      if (e is AuthApiException &&
+          e.code == 'invalid_credentials') {
+        message = 'Invalid email or password.';
+      }
+
       emit(
         state.copyWith(
-          status: AuthStatus.failure,
-          message: e.toString(),
+          status: AuthStatus.unauthenticated,
+          message: message,
           clearProfile: true,
         ),
       );

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:my_money/core/constants/app_colors.dart';
 import 'package:my_money/core/models/currency_model.dart';
 import 'package:my_money/core/widgets/custom_dialog_title.dart';
 import 'package:my_money/core/widgets/dialog_title_decoration.dart';
-
+import '../../../core/theme/app_color_extension.dart';
 import '../../../core/utils/app_validator.dart';
 import '../../../core/widgets/custom_text_form_field.dart';
 
@@ -45,7 +44,7 @@ class _AddCurrencyDialogState extends State<AddCurrencyDialog> {
         dialogTitle: DialogTitle(
           title: isEdit ? 'Edit Currency' : 'Add Currency',
         ),
-        color: isEdit ? Colors.teal : AppColors.primary,
+        color: isEdit ? context.appColors.success : context.appColors.primary,
       ),
       content: Form(
         key: _formKey,
@@ -77,7 +76,7 @@ class _AddCurrencyDialogState extends State<AddCurrencyDialog> {
 
         ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: isEdit ? Colors.teal : AppColors.primary,
+            backgroundColor: isEdit ? context.appColors.success : context.appColors.primary,
           ),
           onPressed: () {
             if (!_formKey.currentState!.validate()) return;

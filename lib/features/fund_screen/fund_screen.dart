@@ -3,11 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/core/cubit/fund/fund_cubit.dart';
 import 'package:my_money/core/cubit/fund/fund_state.dart';
 import 'package:my_money/core/widgets/admin_only.dart';
+import 'package:my_money/core/widgets/custom_app_bar.dart';
 import 'package:my_money/features/fund_screen/widgets/active_fund_list_view.dart';
 import '../../core/constants/app_assets.dart';
 import '../../core/repositories/sync_repository.dart';
 import '../../core/repositories/user_repository.dart';
 import '../../core/session/selected_user.dart';
+import '../../core/theme/app_color_extension.dart';
 import '../../core/utils/app_snackbar.dart';
 import '../../core/widgets/app_popup_menu.dart';
 import '../../core/widgets/empty_state.dart';
@@ -85,28 +87,17 @@ class _FundScreenState extends State<FundScreen> {
         SelectedUser.value = null;
       },
       child: Scaffold(
-        backgroundColor: const Color(0xffF1F5F9),
-        appBar: AppBar(
-          title: const Text('Funds'),
-          backgroundColor: const Color(0xffF8FAFC),
-          foregroundColor: const Color(0xff1F2937),
-          centerTitle: true,
-          elevation: 1,
-          bottom: const PreferredSize(
-            preferredSize: Size.fromHeight(1),
-            child: Divider(height: 1, color: Color(0xffE6EAF0)),
-          ),
-          actions: [
-            AdminOnly(
-              child: IconButton(
-                onPressed: _pushUpdates,
-                icon: const Icon(Icons.cloud_upload_outlined),
-                tooltip: 'Push',
-              ),
+        backgroundColor: context.appColors.background,
+        appBar: CustomAppBar(title: 'Funds', actions: [
+          AdminOnly(
+            child: IconButton(
+              onPressed: _pushUpdates,
+              icon: const Icon(Icons.cloud_upload_outlined),
+              tooltip: 'Push',
             ),
-            AppPopupMenu(ownerId: widget.ownerId),
-          ],
-        ),
+          ),
+          AppPopupMenu(ownerId: widget.ownerId),
+        ],),
 
         body: SafeArea(
           child: BlocConsumer<FundCubit, FundState>(
@@ -155,7 +146,7 @@ class _FundScreenState extends State<FundScreen> {
                 color: Color(0xffFFFFFF),
               ),
             ),
-            backgroundColor: const Color(0xff0088cc),
+            backgroundColor: context.appColors.primary,
             icon: const Icon(Icons.add, color: Color(0xffFFFFFF)),
           ),
         ),

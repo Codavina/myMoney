@@ -5,9 +5,11 @@ import 'package:my_money/core/cubit/currency/currency_state.dart';
 import 'package:my_money/core/models/currency_model.dart';
 import 'package:my_money/core/utils/app_snackbar.dart';
 import 'package:my_money/core/widgets/admin_only.dart';
+import 'package:my_money/core/widgets/custom_app_bar.dart';
 import 'package:my_money/features/currency_screen/widgets/add_currency_dialog.dart';
 import 'package:my_money/features/currency_screen/widgets/currency_body.dart';
 import '../../core/constants/app_assets.dart';
+import '../../core/theme/app_color_extension.dart';
 import '../../core/widgets/empty_state.dart';
 
 
@@ -42,24 +44,8 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffF1F5F9),
-      appBar: AppBar(
-        backgroundColor: const Color(0xffF8FAFC),
-        foregroundColor: const Color(0xff1F2937),
-        title: const Text(
-          'Currencies',
-          style: TextStyle(color: Colors.black),
-        ),
-        elevation: 1,
-        bottom: const PreferredSize(
-          preferredSize: Size.fromHeight(1),
-          child: Divider(
-            height: 1,
-            color: Color(0xffE6EAF0),
-          ),
-        ),
-
-      ),
+      backgroundColor: context.appColors.background,
+      appBar: const CustomAppBar(title: 'Currencies'),
       body: SafeArea(
         child: BlocConsumer<CurrencyCubit, CurrencyState>(
           listener: (context, state) {

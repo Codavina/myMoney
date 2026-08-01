@@ -16,12 +16,12 @@ class DialogTitleDecoration extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 10),
       decoration: BoxDecoration(
-        color:color,//
+        color:color,
         borderRadius: const BorderRadius.only(
-          topRight: Radius.circular(25),
-          topLeft: Radius.circular(25),
+          topRight: Radius.circular(24),
+          topLeft: Radius.circular(24),
         ),
-        border: Border.all(color: Colors.white,width: 0.4),
+      //  border: Border.all(color: Colors.white,width: 0.4),
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 4.0),

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:my_money/core/constants/app_colors.dart';
 import 'package:my_money/core/utils/app_validator.dart';
 import 'package:my_money/core/widgets/custom_dialog_title.dart';
 import 'package:my_money/core/widgets/dialog_title_decoration.dart';
 import '../../../core/models/currency_model.dart';
 import '../../../core/models/fund_model.dart';
+import '../../../core/theme/app_color_extension.dart';
 import '../../../core/widgets/custom_text_form_field.dart';
 import 'currency_dropdown_field.dart';
 
@@ -70,7 +70,7 @@ class _AddFundDialogState extends State<AddFundDialog> {
       titlePadding: EdgeInsets.zero,
       title: DialogTitleDecoration(
           dialogTitle: DialogTitle(title: isEdit ? 'Edit Fund' : 'Add Fund'),
-          color: isEdit?Colors.teal:AppColors.primary),
+          color: isEdit?context.appColors.success:context.appColors.primary),
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
 
       content: SingleChildScrollView(
@@ -108,7 +108,7 @@ class _AddFundDialogState extends State<AddFundDialog> {
 
         FilledButton(
           style: FilledButton.styleFrom(
-            backgroundColor: isEdit?Colors.teal:AppColors.primary,
+            backgroundColor: isEdit?context.appColors.success:context.appColors.primary,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),

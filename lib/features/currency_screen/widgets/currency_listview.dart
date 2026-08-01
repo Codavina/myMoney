@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:my_money/core/constants/app_colors.dart';
 import 'package:my_money/core/models/currency_model.dart';
 import 'package:my_money/features/currency_screen/widgets/currency_dialog_helper.dart';
 import 'package:svg_flutter/svg.dart';
 import '../../../core/cubit/currency/currency_cubit.dart';
+import '../../../core/theme/app_color_extension.dart';
 import '../../../core/widgets/app_confirm_dialog.dart';
 import '../../../core/widgets/currency_popup_menu.dart';
 import '../currency_info.dart';
@@ -29,7 +29,7 @@ class CurrencyListView extends StatelessWidget {
           message:
               'Are you sure you want to delete ',
           textToAction: currency.currencyCode.toUpperCase(),
-          color: Colors.red.shade400,
+          color: context.appColors.error,
         );
       },
     );
@@ -72,17 +72,17 @@ class CurrencyListView extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: const BorderRadius.all(Radius.circular(12)),
               side: BorderSide(
-                color: AppColors.primary.withValues(alpha: 0.3),
+                color: context.appColors.primary.withValues(alpha: 0.3),
                 width: 1,
               ),
             ),
-            color: AppColors.lightBackground,
+            color: context.appColors.surface,
             elevation: 0,
             child: ListTile(
               title: Text(
                 currency.currencyCode.toUpperCase(),
-                style: const TextStyle(
-                  color: AppColors.primary,
+                style: TextStyle(
+                  color: context.appColors.primary,
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
                 ),
@@ -92,7 +92,7 @@ class CurrencyListView extends StatelessWidget {
                 width: 50,
                 height: 50,
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withValues(alpha: 0.08),
+                  color: context.appColors.primary.withValues(alpha: 0.08),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Padding(

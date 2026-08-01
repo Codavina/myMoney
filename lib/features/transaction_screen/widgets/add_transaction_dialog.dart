@@ -4,7 +4,7 @@ import 'package:my_money/core/utils/app_formatter.dart';
 import 'package:my_money/core/utils/app_validator.dart';
 import 'package:my_money/core/widgets/custom_dialog_title.dart';
 import 'package:my_money/core/widgets/dialog_title_decoration.dart';
-import '../../../core/constants/app_colors.dart';
+import '../../../core/theme/app_color_extension.dart';
 import '../../../core/utils/amount_formatter.dart';
 import 'operation_selector.dart';
 import '../../../core/widgets/custom_text_form_field.dart';
@@ -59,7 +59,7 @@ class _AddTransactionDialogState extends State<AddTransactionDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
-      title: const DialogTitleDecoration(dialogTitle: DialogTitle(title: 'Add Transaction'), color: AppColors.primary),
+      title: DialogTitleDecoration(dialogTitle: const DialogTitle(title: 'Add Transaction'), color: context.appColors.primary,),
 
       content: SingleChildScrollView(
         scrollDirection: Axis.vertical,

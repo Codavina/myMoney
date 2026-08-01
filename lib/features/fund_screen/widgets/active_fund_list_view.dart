@@ -11,6 +11,7 @@ import '../../../core/extensions/profile_extension.dart';
 import '../../../core/models/currency_model.dart';
 import '../../../core/repositories/transaction_repository.dart';
 import '../../../core/session/current_user.dart';
+import '../../../core/theme/app_color_extension.dart';
 import '../../../core/widgets/app_confirm_dialog.dart';
 import '../../currency_screen/currency_info.dart';
 import '../fund_helper/fund_dialog_helper.dart';
@@ -42,7 +43,7 @@ class ActiveFundListView extends StatelessWidget {
         title: 'Archive Fund',
         message: 'Are you sure you want to archive ',
         textToAction: fund.title.toUpperCase(),
-        color: Colors.grey.shade600,
+        color: context.appColors.subtitle,
         isArchived: true,
       ),
     );

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../theme/app_color_extension.dart';
+
+
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({
     super.key,
@@ -8,47 +11,27 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.actions,
   });
 
-  final Widget title;
+  final String title;
   final Widget? leading;
   final List<Widget>? actions;
 
   @override
-  Size get preferredSize => const Size.fromHeight(120);
+  Size get preferredSize => const Size.fromHeight(56);
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      elevation: 0,
-      color: Colors.orange,
-      borderRadius: const BorderRadius.only(
-        bottomLeft: Radius.circular(24),
-        bottomRight: Radius.circular(24),
+    return AppBar(
+      title: Text(title),
+      backgroundColor: context.appColors.surface,
+      foregroundColor: context.appColors.text,
+      centerTitle: true,
+      elevation: 1,
+      bottom: PreferredSize(
+        preferredSize: const Size.fromHeight(1),
+        child: Divider(height: 1, color: context.appColors.border,),
       ),
-      child: SafeArea(
-        child: Container(
-          height: preferredSize.height,
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          decoration: const BoxDecoration(
-            color: Colors.amber,
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(24),
-              bottomRight: Radius.circular(24),
-            ),
-
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              if (leading != null) ...[
-                leading!,
-                const SizedBox(width: 12),
-              ],
-              Expanded(child: title),
-              if (actions != null) ...actions!,
-            ],
-          ),
-        ),
-      ),
+      leading: leading,
+      actions: actions,
     );
   }
 }

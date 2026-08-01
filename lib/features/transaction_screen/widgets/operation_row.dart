@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_money/core/extensions/string_extensions.dart';
 import 'package:my_money/core/models/transaction_model.dart';
 import 'package:my_money/core/utils/app_formatter.dart';
+import '../../../core/theme/app_color_extension.dart';
 
 
 
@@ -63,8 +64,8 @@ class OperationRow extends StatelessWidget {
                   fontSize: 12,
 
                   color: transaction.transactionType==TransactionType.deposit
-                      ? Colors.green.shade700
-                      : Colors.red.shade700,
+                      ? context.appColors.success
+                      : context.appColors.error,
 
                 ),
               ),

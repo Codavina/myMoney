@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../theme/app_color_extension.dart';
 import 'custom_dialog_title.dart';
 import 'dialog_title_decoration.dart';
 
@@ -25,7 +26,7 @@ class AppConfirmDialog extends StatelessWidget {
       titlePadding: EdgeInsets.zero,
       backgroundColor: Colors.white,
       title: DialogTitleDecoration(
-        color: isArchived ? Colors.grey.shade600 : Colors.red.shade400,
+        color: isArchived ? context.appColors.subtitle : context.appColors.error,
         dialogTitle: DialogTitle(title: title),
       ),
       content: Text.rich(
@@ -49,8 +50,8 @@ class AppConfirmDialog extends StatelessWidget {
         FilledButton(
           style: FilledButton.styleFrom(
             backgroundColor: isArchived
-                ? Colors.grey.shade600
-                : Colors.red.shade400,
+                ? context.appColors.subtitle
+                : context.appColors.error,
           ),
           onPressed: () => Navigator.pop(context, true),
           child: Text(isArchived ? 'Archive' : 'Delete'),

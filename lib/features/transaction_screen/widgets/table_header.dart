@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_money/core/constants/app_colors.dart';
+import '../../../core/theme/app_color_extension.dart';
 
 class TableHeader extends StatelessWidget {
   const TableHeader({super.key});
@@ -7,8 +7,8 @@ class TableHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: Row(
         children: [
           Expanded(
@@ -16,7 +16,7 @@ class TableHeader extends StatelessWidget {
             child: Text(
               "Date",
               style: TextStyle(
-                color: AppColors.primary,
+                color: context.appColors.primary,
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
               ),
@@ -28,7 +28,7 @@ class TableHeader extends StatelessWidget {
             child: Text(
               "Description",
               style: TextStyle(
-                color: AppColors.primary,
+                color: context.appColors.primary,
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
               ),
@@ -42,7 +42,7 @@ class TableHeader extends StatelessWidget {
               child: Text(
                 "Amount",
                 style: TextStyle(
-                  color: AppColors.primary,
+                  color: context.appColors.primary,
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
                 ),

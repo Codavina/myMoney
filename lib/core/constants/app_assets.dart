@@ -22,6 +22,8 @@ static const String unknownCurrency='assets/images/flags/unknown.svg';
 static const String currency96='assets/images/currency/currency96.png';
 
 
-
+///App Logo
+static const String logoTransparent ='assets/images/logo/logo_trns.png';
+static const String logo ='assets/images/logo/logo.png';
 
 }

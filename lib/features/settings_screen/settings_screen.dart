@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:my_money/core/widgets/custom_app_bar.dart';
+import '../../core/theme/app_color_extension.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -6,18 +8,8 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffF1F5F9),
-      appBar: AppBar(
-        title: const Text('Settings'),
-        backgroundColor: const Color(0xffF8FAFC),
-        foregroundColor: const Color(0xff1F2937),
-        centerTitle: true,
-        elevation: 1,
-        bottom: const PreferredSize(
-          preferredSize: Size.fromHeight(1),
-          child: Divider(height: 1, color: Color(0xffE6EAF0)),
-        ),
-      ),
+      backgroundColor: context.appColors.background,
+      appBar: const CustomAppBar(title: 'Settings'),
       body: const Center(
         child: Text('Setting Screen', style: TextStyle(fontSize: 30)),
       ),

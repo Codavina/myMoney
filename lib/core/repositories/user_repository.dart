@@ -29,6 +29,8 @@ class UserRepository {
 
       final result = await db.query(
         'Users',
+        where: 'role = ?',
+        whereArgs: ['viewer'],
         orderBy: 'full_name',
       );
 

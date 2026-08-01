@@ -8,106 +8,90 @@ ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
 
   colorScheme: ColorScheme.fromSeed(
-    seedColor: AppColors.primary,
+    seedColor: AppColors.light.primary,
     brightness: Brightness.light,
   ),
 
-  scaffoldBackgroundColor: AppColors.lightBackground,
+  scaffoldBackgroundColor: AppColors.light.background,
 
-  appBarTheme: const AppBarTheme(
+  appBarTheme: AppBarTheme(
     centerTitle: false,
     elevation: 0,
-    backgroundColor: AppColors.primary,
-    foregroundColor: AppColors.lightSurface,
+    backgroundColor: AppColors.light.primary,
+    foregroundColor: AppColors.light.surface,
     surfaceTintColor: Colors.transparent,
-   
   ),
 
   cardTheme: CardThemeData(
     elevation: 0,
-    color: AppColors.lightSurface,
+    color: AppColors.light.surface,
     margin: EdgeInsets.zero,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(20),
-      side: const BorderSide(
-        color: AppColors.lightBorder,
+      side: BorderSide(
+        color: AppColors.light.border,
       ),
     ),
   ),
 
-  floatingActionButtonTheme:
-  const FloatingActionButtonThemeData(
-    backgroundColor: AppColors.primary,
-    foregroundColor: Colors.white,
+  floatingActionButtonTheme: FloatingActionButtonThemeData(
+    backgroundColor: AppColors.light.primary,
+    foregroundColor: AppColors.light.onPrimary,
   ),
 
-  navigationBarTheme:
-  NavigationBarThemeData(
+  navigationBarTheme: NavigationBarThemeData(
     indicatorColor:
-    AppColors.primary.withValues(alpha: 0.15),
-    labelTextStyle:
-    WidgetStateProperty.all(
+    AppColors.light.primary.withValues(alpha: 0.15),
+    labelTextStyle: WidgetStateProperty.all(
       const TextStyle(
         fontWeight: FontWeight.w600,
       ),
     ),
   ),
 
-  elevatedButtonTheme:
-  ElevatedButtonThemeData(
+  elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       elevation: 0,
-      backgroundColor: AppColors.primary,
-      foregroundColor: Colors.white,
-      // minimumSize:
-      // const Size(double.infinity, 52),
+      backgroundColor: AppColors.light.primary,
+      foregroundColor: AppColors.light.onPrimary,
       shape: RoundedRectangleBorder(
-        borderRadius:
-        BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16),
       ),
     ),
   ),
 
-  outlinedButtonTheme:
-  OutlinedButtonThemeData(
+  outlinedButtonTheme: OutlinedButtonThemeData(
     style: OutlinedButton.styleFrom(
-      minimumSize:
-      const Size(double.infinity, 52),
+      minimumSize: const Size(double.infinity, 52),
       shape: RoundedRectangleBorder(
-        borderRadius:
-        BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16),
       ),
     ),
   ),
 
-  inputDecorationTheme:
-  InputDecorationTheme(
+  inputDecorationTheme: InputDecorationTheme(
     filled: true,
-    fillColor: Colors.white,
-    contentPadding:
-    const EdgeInsets.symmetric(
+    fillColor: AppColors.light.surface,
+    contentPadding: const EdgeInsets.symmetric(
       horizontal: 16,
       vertical: 16,
     ),
     border: OutlineInputBorder(
-      borderRadius:
-      BorderRadius.circular(16),
-      borderSide: const BorderSide(
-        color: AppColors.lightBorder,
+      borderRadius: BorderRadius.circular(16),
+      borderSide: BorderSide(
+        color: AppColors.light.border,
       ),
     ),
     enabledBorder: OutlineInputBorder(
-      borderRadius:
-      BorderRadius.circular(16),
-      borderSide: const BorderSide(
-        color: AppColors.lightBorder,
+      borderRadius: BorderRadius.circular(16),
+      borderSide: BorderSide(
+        color: AppColors.light.border,
       ),
     ),
     focusedBorder: OutlineInputBorder(
-      borderRadius:
-      BorderRadius.circular(16),
-      borderSide: const BorderSide(
-        color: AppColors.primary,
+      borderRadius: BorderRadius.circular(16),
+      borderSide: BorderSide(
+        color: AppColors.light.primary,
         width: 2,
       ),
     ),
@@ -116,29 +100,25 @@ ThemeData lightTheme = ThemeData(
   snackBarTheme: SnackBarThemeData(
     behavior: SnackBarBehavior.floating,
     shape: RoundedRectangleBorder(
-      borderRadius:
-      BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(16),
     ),
   ),
 
   dialogTheme: DialogThemeData(
     shape: RoundedRectangleBorder(
-      borderRadius:
-      BorderRadius.circular(24),
+      borderRadius: BorderRadius.circular(24),
     ),
   ),
 
-  listTileTheme: const ListTileThemeData(
-    contentPadding:
-    EdgeInsets.symmetric(
+  listTileTheme: ListTileThemeData(
+    contentPadding: const EdgeInsets.symmetric(
       horizontal: 16,
       vertical: 8,
     ),
-    iconColor: AppColors.primary,
+    iconColor: AppColors.light.primary,
   ),
 
   textTheme: const TextTheme(
-
     displayLarge: TextStyle(
       fontSize: 32,
       fontWeight: FontWeight.w700,
@@ -147,13 +127,11 @@ ThemeData lightTheme = ThemeData(
     titleLarge: TextStyle(
       fontSize: 22,
       fontWeight: FontWeight.w700,
-
     ),
 
     titleMedium: TextStyle(
       fontSize: 18,
       fontWeight: FontWeight.w700,
-
     ),
 
     bodyLarge: TextStyle(
@@ -174,6 +152,6 @@ ThemeData lightTheme = ThemeData(
     displayMedium: TextStyle(
       fontSize: 16,
       fontWeight: FontWeight.w700,
-    )
+    ),
   ),
 );
