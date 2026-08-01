@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_money/core/theme/app_color_extension.dart';
 
 import '../../../core/models/transaction_model.dart';
 
@@ -23,9 +24,9 @@ class OperationSelector extends StatelessWidget {
           onSelected: (_) => onChanged(TransactionType.withdrawal),
           color: WidgetStateProperty.resolveWith((states) {
             if (states.contains(WidgetState.selected)) {
-              return Colors.red.shade100;
+              return context.appColors.withdraw;
             }
-            return Colors.grey.shade100;
+            return context.appColors.unSelected;
           }),
 
         ),
@@ -38,9 +39,9 @@ class OperationSelector extends StatelessWidget {
           onSelected: (_) => onChanged(TransactionType.deposit),
           color: WidgetStateProperty.resolveWith((states) {
             if (states.contains(WidgetState.selected)) {
-              return Colors.green.shade100;
+              return context.appColors.deposit;
             }
-            return Colors.grey.shade100;
+            return context.appColors.unSelected;
           }),
         ),
       ],

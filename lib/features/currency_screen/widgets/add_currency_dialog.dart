@@ -38,8 +38,9 @@ class _AddCurrencyDialogState extends State<AddCurrencyDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      actionsAlignment: MainAxisAlignment.end,
       titlePadding: EdgeInsets.zero,
-      backgroundColor: Colors.white,
+      backgroundColor: context.appColors.surface,
       title: DialogTitleDecoration(
         dialogTitle: DialogTitle(
           title: isEdit ? 'Edit Currency' : 'Add Currency',
@@ -71,7 +72,7 @@ class _AddCurrencyDialogState extends State<AddCurrencyDialog> {
           onPressed: () {
             Navigator.pop(context);
           },
-          child: const Text('Cancel', style: TextStyle(color: Colors.black)),
+          child: Text('Cancel', style: TextStyle(color: context.appColors.text,)),
         ),
 
         ElevatedButton(

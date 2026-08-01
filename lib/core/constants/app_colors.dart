@@ -33,6 +33,14 @@ class AppColors {
     avatarIcon: Color(0xFF0284C7),
 
     onPrimary: Colors.white,
+
+    deposit:  Color(0xffC8E6C9),
+    withdraw: Color(0xffFFCDD2),
+    unSelected: Color(0xffF5F5F5),
+
+    balanceCardBackground: Color(0xFFEAF5FC),
+    balanceCardBorder: Color(0xffBDBDBD),
+    balanceCardLabel: Color(0xff616161),
   );
 
   // ============================================================
@@ -66,6 +74,14 @@ class AppColors {
     avatarIcon: Color(0xFF38BDF8),
 
     onPrimary: Colors.white,
+
+    unSelected: Color(0xFF374151),
+    withdraw: Color(0xFF7F1D1D),
+    deposit: Color(0xFF2E7D32),
+
+    balanceCardBackground: Color(0xFF163447),
+    balanceCardBorder: Color(0xFF6B7280),
+    balanceCardLabel: Color(0xFFD1D5DB),
   );
 }
 
@@ -99,6 +115,14 @@ class AppColorPalette {
 
   final Color onPrimary;
 
+  final Color unSelected;
+  final Color withdraw;
+  final Color deposit;
+
+  final Color balanceCardBackground;
+  final Color balanceCardBorder;
+  final Color balanceCardLabel;
+
   const AppColorPalette({
     required this.primary,
     required this.secondary,
@@ -127,5 +151,8 @@ class AppColorPalette {
     required this.avatarIcon,
 
     required this.onPrimary,
+    required this.unSelected,
+    required this.withdraw,
+    required this.deposit, required this.balanceCardBackground, required this.balanceCardBorder, required this.balanceCardLabel,
   });
 }

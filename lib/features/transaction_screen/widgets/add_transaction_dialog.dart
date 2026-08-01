@@ -116,7 +116,7 @@ class _AddTransactionDialogState extends State<AddTransactionDialog> {
           onPressed: () {
             Navigator.pop(context);
           },
-          child: const Text('Cancel', style: TextStyle(color: Colors.black)),
+          child: Text('Cancel', style: TextStyle(color: context.appColors.text,)),
         ),
         ElevatedButton(
           onPressed: () {
