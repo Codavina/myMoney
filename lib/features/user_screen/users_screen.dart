@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/core/widgets/custom_app_bar.dart';
@@ -17,7 +18,7 @@ class UsersScreen extends StatelessWidget {
     return Scaffold(
      backgroundColor:  context.appColors.background,
       appBar: CustomAppBar(
-        title: 'Users',
+        title: 'users'.tr(),
         actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.search))],
       ),
       body: BlocBuilder<UserCubit, UserState>(

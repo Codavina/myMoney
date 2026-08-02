@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/core/widgets/custom_app_bar.dart';
+import 'package:my_money/features/about_screen/about_screen.dart';
 import 'package:my_money/features/admin_screen/widgets/custom_admin_card.dart';
 import 'package:my_money/features/settings_screen/settings_screen.dart';
 import '../../core/cubit/user/user_cubit.dart';
@@ -17,7 +19,7 @@ class AdminDashboardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: context.appColors.background,
-      appBar: const CustomAppBar(title: 'Admin Dashboard'),
+      appBar: CustomAppBar(title: 'admin_dashboard'.tr()),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
         child: GridView(
@@ -29,7 +31,7 @@ class AdminDashboardScreen extends StatelessWidget {
           ),
           children: [
             CustomAdminCard(
-              title: 'Users',
+              title: 'users'.tr(),
               icon: Icons.people,
               borderColor: Colors.teal,
               onTap: () {
@@ -47,7 +49,7 @@ class AdminDashboardScreen extends StatelessWidget {
               },
             ),
             CustomAdminCard(
-              title: 'Currencies',
+              title: 'currencies'.tr(),
               icon: Icons.currency_exchange,
               borderColor: Colors.amber,
               onTap: () {
@@ -60,7 +62,7 @@ class AdminDashboardScreen extends StatelessWidget {
               },
             ),
             CustomAdminCard(
-              title: 'Settings',
+              title: 'settings'.tr(),
               icon: Icons.settings,
               borderColor: Colors.purple,
               onTap: () {
@@ -73,14 +75,14 @@ class AdminDashboardScreen extends StatelessWidget {
               },
             ),
             CustomAdminCard(
-              title: 'About',
+              title: 'about'.tr(),
               icon: Icons.info_outline,
               borderColor: Colors.blue,
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const SettingsScreen(),
+                    builder: (context) => const AboutAppScreen(),
                   ),
                 );
               },
@@ -92,7 +94,7 @@ class AdminDashboardScreen extends StatelessWidget {
               onTap: () {},
             ),
             CustomAdminCard(
-              title: 'Sign Out',
+              title: 'sign_out'.tr(),
               icon: Icons.logout,
               borderColor: Colors.red,
               onTap: () async {

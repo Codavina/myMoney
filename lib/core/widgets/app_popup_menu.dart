@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/features/archived_fund_screen/archived_fund_screen.dart';
@@ -57,34 +58,27 @@ class AppPopupMenu extends StatelessWidget {
         }
       },
       itemBuilder: (context) => [
-        const PopupMenuItem(
+        PopupMenuItem(
           value: AppMenuAction.archived,
           child: ListTile(
-            leading: Icon(Icons.archive_outlined),
-            title: Text('Archived Funds'),
+            leading: const Icon(Icons.archive_outlined),
+            title: Text('archived_funds'.tr()),
             contentPadding: EdgeInsets.zero,
           ),
         ),
 
-        const PopupMenuItem(
+        PopupMenuItem(
           value: AppMenuAction.settings,
           child: ListTile(
-            leading: Icon(Icons.settings_outlined),
-            title: Text('Settings'),
+            leading: const Icon(Icons.settings_outlined),
+            title: Text('settings'.tr()),
             contentPadding: EdgeInsets.zero,
           ),
         ),
         //
 
-        const PopupMenuDivider(),
-        const PopupMenuItem(
-          value: AppMenuAction.logOut,
-          child: ListTile(
-            leading: Icon(Icons.logout_outlined, color: Colors.red),
-            title: Text('Log Out'),
-            contentPadding: EdgeInsets.zero,
-          ),
-        ),
+
+
       ],
     );
   }

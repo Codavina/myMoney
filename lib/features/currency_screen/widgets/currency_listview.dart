@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:my_money/core/models/currency_model.dart';
 import 'package:my_money/features/currency_screen/widgets/currency_dialog_helper.dart';
@@ -25,9 +26,9 @@ class CurrencyListView extends StatelessWidget {
       builder: (_) {
 
         return AppConfirmDialog(
-          title: 'Delete Currency',
+          title: 'delete_currency'.tr(),
           message:
-              'Are you sure you want to delete ',
+              'are_you_sure_you_want_to_delete'.tr(),
           textToAction: currency.currencyCode.toUpperCase(),
           color: context.appColors.error,
         );

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/core/cubit/fund/fund_cubit.dart';
@@ -37,7 +38,7 @@ class _FundScreenState extends State<FundScreen> {
 
   Future<void> _pushUpdates() async {
     try {
-      LoadingDialog.show(context, message: 'Uploading updates...');
+      LoadingDialog.show(context, message: 'uploading_updates'.tr());
 
       final syncRepository = context.read<SyncRepository>();
 
@@ -47,7 +48,7 @@ class _FundScreenState extends State<FundScreen> {
       final user = await context.read<UserRepository>().getById(widget.ownerId);
 
       if (user == null) {
-        throw Exception('User not found.');
+        throw Exception('user_not_found'.tr());
       }
 
       await syncRepository.uploadUserUpdateFile(file, user.authId);
@@ -56,12 +57,12 @@ class _FundScreenState extends State<FundScreen> {
 
       LoadingDialog.hide(context);
 
-      AppSnackBar.success(context, 'Updates pushed successfully.');
+      AppSnackBar.success(context, 'updates_pushed_successfully'.tr());
     } catch (e) {
       if (mounted) {
         LoadingDialog.hide(context);
 
-        AppSnackBar.error(context, 'Failed to push updates.');
+        AppSnackBar.error(context, 'failed_to_push_updates'.tr());
       }
 
       rethrow;
@@ -88,12 +89,12 @@ class _FundScreenState extends State<FundScreen> {
       },
       child: Scaffold(
         backgroundColor: context.appColors.background,
-        appBar: CustomAppBar(title: 'Funds', actions: [
+        appBar: CustomAppBar(title: 'funds'.tr(), actions: [
           AdminOnly(
             child: IconButton(
               onPressed: _pushUpdates,
               icon: const Icon(Icons.cloud_upload_outlined),
-              tooltip: 'Push',
+              tooltip: 'push'.tr(),
             ),
           ),
           AppPopupMenu(ownerId: widget.ownerId),
@@ -138,9 +139,9 @@ class _FundScreenState extends State<FundScreen> {
             onPressed: () {
               _addFund(context);
             },
-            label: const Text(
-              'Add Fund',
-              style: TextStyle(
+            label:  Text(
+              'add_fund'.tr(),
+              style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
                 color: Color(0xffFFFFFF),

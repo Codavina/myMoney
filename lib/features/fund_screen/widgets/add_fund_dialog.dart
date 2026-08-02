@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:my_money/core/utils/app_validator.dart';
 import 'package:my_money/core/widgets/custom_dialog_title.dart';
@@ -69,7 +70,7 @@ class _AddFundDialogState extends State<AddFundDialog> {
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
       title: DialogTitleDecoration(
-          dialogTitle: DialogTitle(title: isEdit ? 'Edit Fund' : 'Add Fund'),
+          dialogTitle: DialogTitle(title: isEdit ? 'edit_fund'.tr() : 'add_fund'.tr()),
           color: isEdit?context.appColors.success:context.appColors.primary),
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
 
@@ -80,7 +81,7 @@ class _AddFundDialogState extends State<AddFundDialog> {
             mainAxisSize: MainAxisSize.min,
             children: [
               CustomTextFormField(
-                labelText: 'Fund Name',
+                labelText: 'fund_name'.tr(),
                 controller: _titleController,
                 validator: AppValidators.title,
               ),
@@ -103,7 +104,7 @@ class _AddFundDialogState extends State<AddFundDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text('Cancel'),
+          child: Text('cancel'.tr()),
         ),
 
         FilledButton(
@@ -114,7 +115,7 @@ class _AddFundDialogState extends State<AddFundDialog> {
             ),
           ),
           onPressed: _save,
-          child: Text(isEdit ? 'Update' : 'Add'),
+          child: Text(isEdit ? 'update'.tr() : 'add'.tr()),
         ),
       ],
     );

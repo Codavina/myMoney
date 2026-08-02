@@ -2,9 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/core/widgets/custom_app_bar.dart';
+import 'package:my_money/features/about_screen/about_screen.dart';
 import '../../core/theme/app_color_extension.dart';
 import '../../core/theme/theme_cubit.dart';
-
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -13,7 +13,7 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: context.appColors.background,
-      appBar:  CustomAppBar(title: 'settings'.tr()),
+      appBar: CustomAppBar(title: 'settings'.tr()),
 
       body: SafeArea(
         child: ListView(
@@ -22,28 +22,29 @@ class SettingsScreen extends StatelessWidget {
             // =========================================================
             // Appearance
             // =========================================================
-
             BlocBuilder<ThemeCubit, ThemeMode>(
               builder: (context, themeMode) {
                 final isDark = themeMode == ThemeMode.dark;
 
                 return _SettingsSection(
-                 title: 'theme'.tr(),
-                 children: [ _SettingsTile(
-                    icon: Icons.palette_outlined,
-                    title: 'theme'.tr(),
-                    subtitle: isDark ? 'dark'.tr() : 'light'.tr(),
-                    trailing: Switch(
-                      value: isDark,
-                      onChanged: (_) {
+                  title: 'theme'.tr(),
+                  children: [
+                    _SettingsTile(
+                      icon: Icons.palette_outlined,
+                      title: 'theme'.tr(),
+                      subtitle: isDark ? 'dark'.tr() : 'light'.tr(),
+                      trailing: Switch(
+                        value: isDark,
+                        onChanged: (_) {
+                          context.read<ThemeCubit>().toggleTheme();
+                        },
+                      ),
+                      onTap: () {
                         context.read<ThemeCubit>().toggleTheme();
                       },
                     ),
-                    onTap: () {
-                      context.read<ThemeCubit>().toggleTheme();
-                    },
-                  ),
-                ]);
+                  ],
+                );
               },
             ),
 
@@ -52,7 +53,6 @@ class SettingsScreen extends StatelessWidget {
             // =========================================================
             // Language
             // =========================================================
-
             _SettingsSection(
               title: 'language'.tr(),
               children: [
@@ -62,10 +62,8 @@ class SettingsScreen extends StatelessWidget {
                   subtitle: context.locale.languageCode == 'fr'
                       ? 'french'.tr()
                       : 'english'.tr(),
-                  trailing: const Icon(
-                    Icons.chevron_right,
-                  ),
-                  onTap:() => _showLanguageDialog(context),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () => _showLanguageDialog(context),
                 ),
               ],
             ),
@@ -75,7 +73,6 @@ class SettingsScreen extends StatelessWidget {
             // =========================================================
             // Account
             // =========================================================
-
             _SettingsSection(
               title: 'account'.tr(),
               children: [
@@ -86,10 +83,7 @@ class SettingsScreen extends StatelessWidget {
                   onTap: null,
                 ),
 
-                Divider(
-                  height: 1,
-                  color: context.appColors.border,
-                ),
+                Divider(height: 1, color: context.appColors.border),
 
                 _SettingsTile(
                   icon: Icons.logout_outlined,
@@ -108,7 +102,6 @@ class SettingsScreen extends StatelessWidget {
             // =========================================================
             // About
             // =========================================================
-
             _SettingsSection(
               title: 'about'.tr(),
               children: [
@@ -116,11 +109,12 @@ class SettingsScreen extends StatelessWidget {
                   icon: Icons.info_outline,
                   title: 'about My Money'.tr(),
                   subtitle: 'Version 1.0.0',
-                  trailing: const Icon(
-                    Icons.chevron_right,
-                  ),
+                  trailing: const Icon(Icons.chevron_right),
                   onTap: () {
-                    // About dialog/screen later
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const AboutAppScreen()),
+                    );
                   },
                 ),
               ],
@@ -137,10 +131,7 @@ class SettingsScreen extends StatelessWidget {
 // =====================================================================
 
 class _SettingsSection extends StatelessWidget {
-  const _SettingsSection({
-    required this.title,
-    required this.children,
-  });
+  const _SettingsSection({required this.title, required this.children});
 
   final String title;
   final List<Widget> children;
@@ -151,10 +142,7 @@ class _SettingsSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(
-            left: 4,
-            bottom: 8,
-          ),
+          padding: const EdgeInsets.only(left: 4, bottom: 8),
           child: Text(
             title,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -166,9 +154,7 @@ class _SettingsSection extends StatelessWidget {
 
         Card(
           margin: EdgeInsets.zero,
-          child: Column(
-            children: children,
-          ),
+          child: Column(children: children),
         ),
       ],
     );
@@ -201,15 +187,9 @@ class _SettingsTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      contentPadding: const EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 8,
-      ),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
 
-      leading: Icon(
-        icon,
-        color: iconColor ?? context.appColors.primary,
-      ),
+      leading: Icon(icon, color: iconColor ?? context.appColors.primary),
 
       title: Text(
         title,
@@ -222,11 +202,11 @@ class _SettingsTile extends StatelessWidget {
       subtitle: subtitle == null
           ? null
           : Text(
-        subtitle!,
-        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-          color: context.appColors.subtitle,
-        ),
-      ),
+              subtitle!,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: context.appColors.subtitle,
+              ),
+            ),
 
       trailing: trailing,
 
@@ -234,7 +214,6 @@ class _SettingsTile extends StatelessWidget {
     );
   }
 }
-
 
 Future<void> _showLanguageDialog(BuildContext context) async {
   final currentLocale = context.locale;

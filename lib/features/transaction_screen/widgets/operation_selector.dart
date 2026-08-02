@@ -1,6 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:my_money/core/theme/app_color_extension.dart';
-
 import '../../../core/models/transaction_model.dart';
 
 class OperationSelector extends StatelessWidget {
@@ -19,7 +19,7 @@ class OperationSelector extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         ChoiceChip(
-          label: const Text('Withdraw'),
+          label: Text('withdraw'.tr()),
           selected: selectedType == TransactionType.withdrawal,
           onSelected: (_) => onChanged(TransactionType.withdrawal),
           color: WidgetStateProperty.resolveWith((states) {
@@ -34,7 +34,7 @@ class OperationSelector extends StatelessWidget {
         const SizedBox(width: 12),
 
         ChoiceChip(
-          label: const Text('Deposit'),
+          label:  Text('deposit'.tr()),
           selected: selectedType == TransactionType.deposit,
           onSelected: (_) => onChanged(TransactionType.deposit),
           color: WidgetStateProperty.resolveWith((states) {

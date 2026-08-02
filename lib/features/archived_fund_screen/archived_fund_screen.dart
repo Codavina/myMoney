@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/core/widgets/custom_app_bar.dart';
@@ -29,7 +30,7 @@ class _ArchivedFundScreenState extends State<ArchivedFundScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: context.appColors.background,
-      appBar:const CustomAppBar(title: 'Archived Funds'),
+      appBar:CustomAppBar(title: 'archived_funds'.tr()),
       body: SafeArea(
         child: BlocConsumer<FundCubit, FundState>(
           listener: (context, state) {

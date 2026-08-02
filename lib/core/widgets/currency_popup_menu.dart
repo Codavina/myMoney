@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 enum MenuAction { edit, delete,}
@@ -17,23 +18,23 @@ class CurrencyPopUpMenu extends StatelessWidget {
 
       onSelected: onSelected,
       itemBuilder: (context) => [
-         const PopupMenuItem(
+         PopupMenuItem(
           value: MenuAction.edit,
           child: Row(
             children: [
-              Icon(Icons.edit),
-              SizedBox(width: 4),
-              Text('Edit'),
+              const Icon(Icons.edit),
+              const SizedBox(width: 4),
+              Text('edit'.tr()),
             ],
           ),
         ),
-        const PopupMenuItem(
+        PopupMenuItem(
           value: MenuAction.delete,
           child: Row(
             children: [
-              Icon(Icons.delete, color: Colors.red),
-              SizedBox(width: 4),
-              Text('Delete'),
+              const Icon(Icons.delete, color: Colors.red),
+              const SizedBox(width: 4),
+              Text('delete'.tr()),
             ],
           ),
         ),

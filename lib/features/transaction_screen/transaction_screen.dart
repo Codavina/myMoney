@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/core/extensions/string_extensions.dart';
@@ -30,6 +31,7 @@ class TransactionScreen extends StatefulWidget {
 }
 
 class _TransactionScreenState extends State<TransactionScreen> {
+
   Future<void> _addTransaction() async {
     final transaction = await showDialog<TransactionModel>(
       context: context,
@@ -102,9 +104,9 @@ class _TransactionScreenState extends State<TransactionScreen> {
             child: FloatingActionButton.extended(
                 onPressed: _addTransaction,
 
-                label: const Text(
-                  'Add Transaction',
-                  style: TextStyle(
+                label:  Text(
+                  'add_transaction'.tr(),
+                  style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
                     color: Color(0xffFFFFFF),

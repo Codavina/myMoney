@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -27,20 +28,20 @@ class CurrencyDropdownField extends StatelessWidget {
         }
 
         if (state is! CurrencyLoaded) {
-          return const Text('Unable to load currencies.');
+          return  Text('unable_to_load_currencies'.tr());
         }
 
         return DropdownButtonFormField<CurrencyModel>(
           initialValue: selectedCurrency,
 
-          decoration: const InputDecoration(
-            labelText: 'Currency',
-            border: OutlineInputBorder(),
+          decoration:  InputDecoration(
+            labelText: 'currency'.tr(),
+            border: const OutlineInputBorder(),
           ),
 
           validator: (value) {
             if (value == null) {
-              return 'Please select a currency';
+              return 'please_select_a_currency'.tr();
             }
             return null;
           },

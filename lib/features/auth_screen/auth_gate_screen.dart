@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/features/auth_screen/splash_screen.dart';
@@ -21,16 +22,16 @@ class AuthGateScreen extends StatelessWidget {
 
         switch (state.status) {
           case AuthStatus.initial:
-            return const SplashScreen(
-              message: 'Checking session...',
+            return SplashScreen(
+              message: 'checking_session'.tr(),
             );
 
           case AuthStatus.signingIn:
             return const LoginScreen();
 
           case AuthStatus.signingOut:
-            return const SplashScreen(
-              message: 'Signing out...',
+            return SplashScreen(
+              message: 'signing_out'.tr(),
             );
 
           case AuthStatus.unauthenticated:

@@ -1,6 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:my_money/core/utils/app_formatter.dart';
-
 import '../../../core/theme/app_color_extension.dart';
 
 class BalanceCard extends StatelessWidget {
@@ -32,7 +32,7 @@ class BalanceCard extends StatelessWidget {
         child: Row(
           children: [
             Text(
-              'Sold:',
+              'balance'.tr(),
               style: text.titleMedium!.copyWith(
                 color: context.appColors.balanceCardLabel,
               ),

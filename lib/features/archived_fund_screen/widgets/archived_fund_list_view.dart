@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/features/fund_screen/widgets/swipe_background.dart';
@@ -39,10 +40,10 @@ class ArchivedFundListView extends StatelessWidget {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (_) => AppConfirmDialog(
-        title: 'Delete Fund',
-        message: 'Are you sure you want to delete',
+        title: 'delete_fund'.tr(),
+        message: 'are_you_sure_you_want_to_delete'.tr(),
         textToAction: fund.title.toUpperCase(),
-        color: Colors.red.shade400,
+        color: context.appColors.error,
         isArchived: false,
       ),
     );
@@ -88,13 +89,13 @@ class ArchivedFundListView extends StatelessWidget {
               secondaryBackground:  SwipeBackground(
                 color: context.appColors.primary,
                 icon: Icons.unarchive,
-                text: 'Restore',
+                text: 'restore'.tr(),
                 alignment: Alignment.centerRight,
               ),
-              background: const SwipeBackground(
+              background: SwipeBackground(
                 color: Colors.red,
                 icon: Icons.delete,
-                text: 'Delete',
+                text: 'delete'.tr(),
                 alignment: Alignment.centerLeft,
               ),
               confirmDismiss: (direction) async {

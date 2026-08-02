@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:my_money/core/constants/app_assets.dart';
 
 class CurrencyInfo {
@@ -14,22 +15,22 @@ class CurrencyInfo {
   });
 }
 
-const Map<String, CurrencyInfo> currenciesInfo = {
+final Map<String, CurrencyInfo> currenciesInfo = {
   'DZD': CurrencyInfo(
     code: 'DZD',
-    name: 'Algerian Dinar',
+    name: 'algerian_dinar'.tr(),
     flag: AppAssets.algerianFlag,
     symbol: 'DA',
   ),
 
-  'USD': CurrencyInfo(
+  'USD':  CurrencyInfo(
     code: 'USD',
-    name: 'US Dollar',
+    name: 'us_dollar'.tr(),
     flag: AppAssets.usFlag,
     symbol: '\$',
   ),
 
-  'EUR': CurrencyInfo(
+  'EUR': const CurrencyInfo(
     code: 'EUR',
     name: 'Euro',
     flag: AppAssets.eurFlag,
@@ -38,36 +39,36 @@ const Map<String, CurrencyInfo> currenciesInfo = {
 
   'AED': CurrencyInfo(
     code: 'AED',
-    name: 'UAE Dirham',
+    name: 'uAE_dirham'.tr(),
     flag: AppAssets.uaeFlag,
     symbol: 'AE',
   ),
 
-  'TND': CurrencyInfo(
+  'TND':  CurrencyInfo(
     code: 'TND',
-    name: 'Tunisian Dinar',
+    name: 'tunisian_dinar'.tr(),
     flag: AppAssets.tunisiaFlag,
     symbol: 'TN',
   ),
 
   'TRY': CurrencyInfo(
     code: 'TRY',
-    name: 'Turkish Lira',
+    name: 'turkish_lira'.tr(),
     flag: AppAssets.turkeyFlag,
     symbol: '₺',
   ),
 
   'SAR': CurrencyInfo(
     code: 'SAR',
-    name: 'Saudi Riyal',
+    name: 'saudi_riyal'.tr(),
     flag: AppAssets.saudiArabiaFlag,
     symbol: 'SR',
   ),
 };
 
-const unknownCurrency = CurrencyInfo(
+final unknownCurrency = CurrencyInfo(
   code: '',
-  name: 'Unknown Currency',
+  name: 'unknown_currency'.tr(),
   flag: AppAssets.unknownCurrency,
   symbol: 'U',
 );

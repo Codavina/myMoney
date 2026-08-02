@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../theme/app_color_extension.dart';
@@ -48,7 +49,7 @@ class AppConfirmDialog extends StatelessWidget {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context, false),
-          child: const Text('Cancel'),
+          child: Text('cancel'.tr()),
         ),
         FilledButton(
           style: FilledButton.styleFrom(
@@ -57,7 +58,7 @@ class AppConfirmDialog extends StatelessWidget {
                 : context.appColors.error,
           ),
           onPressed: () => Navigator.pop(context, true),
-          child: Text(isArchived ? 'Archive' : 'Delete'),
+          child: Text(isArchived ? 'archive'.tr() : 'delete'.tr()),
         ),
       ],
     );

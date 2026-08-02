@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class EmptyOperations extends StatelessWidget {
@@ -9,10 +10,10 @@ class EmptyOperations extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return const Center(
+    return  Center(
 
       child: Text(
-        "No transactions yet",
+        'no_transactions_yet'.tr(),
       ),
 
     );

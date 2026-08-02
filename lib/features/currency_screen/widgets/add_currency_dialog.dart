@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:my_money/core/models/currency_model.dart';
 import 'package:my_money/core/widgets/custom_dialog_title.dart';
@@ -43,7 +44,7 @@ class _AddCurrencyDialogState extends State<AddCurrencyDialog> {
       backgroundColor: context.appColors.surface,
       title: DialogTitleDecoration(
         dialogTitle: DialogTitle(
-          title: isEdit ? 'Edit Currency' : 'Add Currency',
+          title: isEdit ? 'edit_currency'.tr() : 'add_currency'.tr(),
         ),
         color: isEdit ? context.appColors.success : context.appColors.primary,
       ),
@@ -54,7 +55,7 @@ class _AddCurrencyDialogState extends State<AddCurrencyDialog> {
           children: [
             const SizedBox(height: 12),
             CustomTextFormField(
-              labelText: 'Currency Code',
+              labelText: 'currency_code'.tr(),
               controller: _titleController,
               validator: AppValidators.currencyCode,
             ),
@@ -72,7 +73,7 @@ class _AddCurrencyDialogState extends State<AddCurrencyDialog> {
           onPressed: () {
             Navigator.pop(context);
           },
-          child: Text('Cancel', style: TextStyle(color: context.appColors.text,)),
+          child: Text('cancel'.tr(), style: TextStyle(color: context.appColors.text,)),
         ),
 
         ElevatedButton(
@@ -93,7 +94,7 @@ class _AddCurrencyDialogState extends State<AddCurrencyDialog> {
               ),
             );
           },
-          child: Text(isEdit ? 'Update' : 'Add'),
+          child: Text(isEdit ? 'update'.tr() : 'add'.tr()),
         ),
       ],
     );

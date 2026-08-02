@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/core/constants/app_assets.dart';
@@ -23,30 +24,24 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _obscurePassword = true;
 
   void _login() {
-    debugPrint('LOGIN 1');
 
     if (!_formKey.currentState!.validate()) {
-      debugPrint('LOGIN 2 - INVALID');
-
-      return;
+           return;
     }
 
-    debugPrint('LOGIN 3');
-    FocusScope.of(context).unfocus();
+       FocusScope.of(context).unfocus();
 
-    debugPrint('LOGIN 4');
+
 
     final cubit = context.read<AuthCubit>();
 
-    debugPrint('LOGIN 5 - Cubit = $cubit');
 
     cubit.signIn(
       email: _emailController.text.trim(),
       password: _passwordController.text,
     );
 
-    debugPrint('LOGIN 6');
-  }
+    }
 
   Future<void> _loadLastEmail() async {
     final prefs = await SharedPreferences.getInstance();
@@ -81,7 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
-                  state.message ?? 'Unable to sign in.',
+                  state.message ?? 'unable_to_sign_in'.tr(),
                 ),
               ),
             );
@@ -113,11 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                         const SizedBox(height: 24),
 
-
-                        const Text(
-                          'Sign in to continue',
-
-                        ),
+                         Text('sign_in_to_continue'.tr()),
 
                         const SizedBox(height: 30),
 
@@ -128,14 +119,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           autofillHints: const [
                             AutofillHints.email,
                           ],
-                          decoration: const InputDecoration(
-                            labelText: 'Email',
-                            prefixIcon: Icon(Icons.email_outlined),
-                            border: OutlineInputBorder(),
+                          decoration:  InputDecoration(
+                            labelText: 'email'.tr(),
+                            prefixIcon: const Icon(Icons.email_outlined),
+                            border: const OutlineInputBorder(),
                           ),
                           validator: (value) {
                             if (value == null || value.trim().isEmpty) {
-                              return 'Email is required.';
+                              return 'email_is_required'.tr();
                             }
                             return null;
                           },
@@ -151,7 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             AutofillHints.password,
                           ],
                           decoration: InputDecoration(
-                            labelText: 'Password',
+                            labelText: 'password'.tr(),
                             prefixIcon: const Icon(Icons.lock_outline),
                             border: const OutlineInputBorder(),
                             suffixIcon: IconButton(
@@ -169,7 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           validator: (value) {
                             if (value == null || value.trim().isEmpty) {
-                              return 'Password is required.';
+                              return 'password_is_required'.tr();
                             }
                             return null;
                           },
@@ -192,7 +183,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 strokeWidth: 2,
                               ),
                             )
-                                : const Text('Login'),
+                                :  Text('login'.tr()),
                           ),
                         ),
                       ],

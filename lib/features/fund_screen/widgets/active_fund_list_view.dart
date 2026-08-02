@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/core/cubit/currency/currency_cubit.dart';
@@ -40,8 +41,8 @@ class ActiveFundListView extends StatelessWidget {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (_) => AppConfirmDialog(
-        title: 'Archive Fund',
-        message: 'Are you sure you want to archive ',
+        title: 'archive_fund'.tr(),
+        message: 'are_you_sure_you_want_to_archive'.tr(),
         textToAction: fund.title.toUpperCase(),
         color: context.appColors.subtitle,
         isArchived: true,
@@ -87,16 +88,16 @@ class ActiveFundListView extends StatelessWidget {
               direction: CurrentUser.value!.isAdmin
                   ? DismissDirection.horizontal
                   : DismissDirection.none,
-              secondaryBackground: const SwipeBackground(
+              secondaryBackground: SwipeBackground(
                 color: Colors.grey,
                 icon: Icons.archive,
-                text: 'Archive',
+                text: 'archive'.tr(),
                 alignment: Alignment.centerRight,
               ),
-              background: const SwipeBackground(
+              background: SwipeBackground(
                 color: Colors.teal,
                 icon: Icons.edit,
-                text: 'Edit',
+                text: 'edit'.tr(),
                 alignment: Alignment.centerLeft,
               ),
               confirmDismiss: (direction) async {

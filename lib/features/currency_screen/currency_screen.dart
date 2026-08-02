@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/core/cubit/currency/currency_cubit.dart';
@@ -45,7 +46,7 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: context.appColors.background,
-      appBar: const CustomAppBar(title: 'Currencies'),
+      appBar: CustomAppBar(title: 'currencies'.tr()),
       body: SafeArea(
         child: BlocConsumer<CurrencyCubit, CurrencyState>(
           listener: (context, state) {
@@ -99,7 +100,7 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
           onPressed: _addCurrency,
           backgroundColor: const Color(0xff0088cc),
           icon: const Icon(Icons.add,color:Color(0xffFFFFFF),),
-          label: const Text('Add Currency', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700,color: Color(0xffFFFFFF))),
+          label: Text('add_currency'.tr(), style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700,color: Color(0xffFFFFFF))),
         ),
       ),
     );

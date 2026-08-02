@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:my_money/core/models/transaction_model.dart';
 import 'package:my_money/core/utils/app_formatter.dart';
@@ -59,7 +60,7 @@ class _AddTransactionDialogState extends State<AddTransactionDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
-      title: DialogTitleDecoration(dialogTitle: const DialogTitle(title: 'Add Transaction'), color: context.appColors.primary,),
+      title: DialogTitleDecoration(dialogTitle:  DialogTitle(title: 'add_transaction'.tr()), color: context.appColors.primary,),
 
       content: SingleChildScrollView(
         scrollDirection: Axis.vertical,
@@ -70,7 +71,7 @@ class _AddTransactionDialogState extends State<AddTransactionDialog> {
 
               const SizedBox(height: 8),
               CustomTextFormField(
-                labelText: 'Amount',
+                labelText: 'amount'.tr(),
                 controller: _amountController,
                 validator: AppValidators.amount,
                 keyboardType: const TextInputType.numberWithOptions(
@@ -80,13 +81,13 @@ class _AddTransactionDialogState extends State<AddTransactionDialog> {
               ),
               const SizedBox(height: 12),
               CustomTextFormField(
-                labelText: 'Description',
+                labelText: 'description'.tr(),
                 controller: _descriptionController,
                 validator: AppValidators.description,
               ),
               const SizedBox(height: 12),
               CustomTextFormField(
-                labelText: 'Date',
+                labelText: 'date'.tr(),
                 controller: _dateController,
                 keyboardType: TextInputType.datetime,
                 readOnly: true,
@@ -116,7 +117,7 @@ class _AddTransactionDialogState extends State<AddTransactionDialog> {
           onPressed: () {
             Navigator.pop(context);
           },
-          child: Text('Cancel', style: TextStyle(color: context.appColors.text,)),
+          child: Text('cancel'.tr(), style: TextStyle(color: context.appColors.text,)),
         ),
         ElevatedButton(
           onPressed: () {
@@ -136,7 +137,7 @@ class _AddTransactionDialogState extends State<AddTransactionDialog> {
               Navigator.pop(context, transaction);
             }
           },
-          child: const Text('Save'),
+          child: Text('save'.tr()),
         ),
       ],
     );

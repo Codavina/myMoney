@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_color_extension.dart';
 
@@ -14,7 +15,7 @@ class TableHeader extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Text(
-              "Date",
+              'date'.tr(),
               style: TextStyle(
                 color: context.appColors.primary,
                 fontSize: 14,
@@ -26,7 +27,7 @@ class TableHeader extends StatelessWidget {
           Expanded(
             flex: 5,
             child: Text(
-              "Description",
+              'description'.tr(),
               style: TextStyle(
                 color: context.appColors.primary,
                 fontSize: 14,
@@ -40,7 +41,7 @@ class TableHeader extends StatelessWidget {
             child: Align(
               alignment: Alignment.centerRight,
               child: Text(
-                "Amount",
+                'amount'.tr(),
                 style: TextStyle(
                   color: context.appColors.primary,
                   fontSize: 14,
