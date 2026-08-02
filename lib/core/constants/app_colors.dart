@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 
 
 class AppColors {
-  // ============================================================
-  // LIGHT
-  // ============================================================
 
+  /// LIGHT
   static const light = AppColorPalette(
     primary: Color(0xFF0088CC),
     secondary: Color(0xFF64748B),
@@ -46,10 +44,7 @@ class AppColors {
     deleteDialogContent: Color(0xFF1E293B),
   );
 
-  // ============================================================
-  // DARK
-  // ============================================================
-
+  /// DARK
   static const dark = AppColorPalette(
     primary: Color(0xFF38BDF8),
     secondary: Color(0xFF94A3B8),

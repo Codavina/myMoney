@@ -1,4 +1,3 @@
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:my_money/core/extensions/profile_extension.dart';
@@ -84,10 +83,7 @@ class AuthCubit extends Cubit<AuthState> {
       final hasInternet =
       await InternetConnection().hasInternetAccess;
 
-
-
       if (!hasInternet) {
-
 
         emit(
           state.copyWith(
@@ -100,55 +96,38 @@ class AuthCubit extends Cubit<AuthState> {
         return;
       }
 
-
-
       await _authRepository.signIn(
         email: email,
         password: password,
       );
 
-
-
       final authUser =
           Supabase.instance.client.auth.currentUser;
-
-
 
       if (authUser == null) {
         throw Exception('Authenticated user not found.');
       }
 
-
-
       final profile =
       await _authRepository.getProfile(authUser.id);
-
-
 
       if (profile == null) {
         throw Exception('User profile not found.');
       }
 
-
-
       UserModel? localUser =
       await _userRepository.getByAuthId(profile.authId);
 
-
-
       if (localUser == null) {
-
 
         await _userRepository.insert(profile);
 
         localUser =
         await _userRepository.getByAuthId(profile.authId);
 
-
       }
 
       if (localUser!.isAdmin) {
-
 
         final users =
         await _authRepository.getAllProfiles();
@@ -158,7 +137,6 @@ class AuthCubit extends Cubit<AuthState> {
           await _userRepository.upsert(user);
         }
       }
-
 
       CurrentUser.value = localUser;
 

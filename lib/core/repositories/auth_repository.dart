@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/user_model.dart';
 
@@ -21,8 +21,8 @@ class AuthRepository {
     try {
       await _client.auth.signOut();
     } on AuthRetryableFetchException catch (e) {
-      debugPrint('Ignoring signOut network error: $e');
-    }
+      debugPrint(e.toString());
+          }
   }
 
 

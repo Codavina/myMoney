@@ -6,8 +6,6 @@ import 'package:my_money/features/settings_screen/settings_screen.dart';
 import '../constants/app_enums.dart';
 import '../cubit/fund/fund_cubit.dart';
 import '../repositories/fund_repository.dart';
-import '../utils/app_confirm_signout.dart';
-
 
 class AppPopupMenu extends StatelessWidget {
   const AppPopupMenu({super.key, this.ownerId});
@@ -20,8 +18,8 @@ class AppPopupMenu extends StatelessWidget {
       MaterialPageRoute(
         builder: (_) => BlocProvider(
           create: (context) =>
-          FundCubit(context.read<FundRepository>())
-            ..getAllArchived(ownerId!),
+              FundCubit(context.read<FundRepository>())
+                ..getAllArchived(ownerId!),
           child: ArchivedFundScreen(ownerId: ownerId!),
         ),
       ),
@@ -29,7 +27,7 @@ class AppPopupMenu extends StatelessWidget {
 
     if (!context.mounted) return;
 
-    context.read<FundCubit>().getAllActive(ownerId!);
+    await context.read<FundCubit>().getAllActive(ownerId!);
   }
 
   @override
@@ -51,10 +49,6 @@ class AppPopupMenu extends StatelessWidget {
               MaterialPageRoute(builder: (context) => const SettingsScreen()),
             );
             break;
-
-          case AppMenuAction.logOut:
-            await confirmSignOut(context);
-            break;
         }
       },
       itemBuilder: (context) => [
@@ -75,10 +69,6 @@ class AppPopupMenu extends StatelessWidget {
             contentPadding: EdgeInsets.zero,
           ),
         ),
-        //
-
-
-
       ],
     );
   }

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseSchema {
@@ -10,7 +9,6 @@ class DatabaseSchema {
     await _createTransactionsTable(db);
     await _createAppStateTable(db);
 
-
     ///Create Indexes
     await _createIndexes(db);
 
@@ -18,10 +16,6 @@ class DatabaseSchema {
     await _createTriggers(db);
 
     _insertDefaultCurrencies(db);
-
-    debugPrint(
-      '=========== create method called from DatabaseSchema class =============',
-    );
   }
 
   // ===========================
@@ -37,15 +31,7 @@ class DatabaseSchema {
     );
   ''');
 
-    await db.insert(
-      'AppState',
-      {
-        'id': 1,
-        'sync_mode': 0,
-      },
-    );
-
-    debugPrint('=========== AppState Table created =============');
+    await db.insert('AppState', {'id': 1, 'sync_mode': 0});
   }
 
   static Future<void> _createUsersTable(Database db) async {
@@ -68,8 +54,6 @@ class DatabaseSchema {
         DEFAULT CURRENT_TIMESTAMP
     );
   ''');
-
-    debugPrint('=========== Users Table created =============');
   }
 
   static Future<void> _createCurrenciesTable(Database db) async {
@@ -80,8 +64,6 @@ class DatabaseSchema {
           CHECK(length(currency_code) BETWEEN 3 AND 10)
       );
     ''');
-
-    debugPrint('=========== Currencies Table created =============');
   }
 
   static Future<void> _createFundsTable(Database db) async {
@@ -119,8 +101,6 @@ class DatabaseSchema {
           UNIQUE(owner_id, title)
       );
     ''');
-
-    debugPrint('=========== Funds Table created =============');
   }
 
   static Future<void> _createTransactionsTable(Database db) async {
@@ -149,7 +129,6 @@ class DatabaseSchema {
           ON DELETE RESTRICT
       );
     ''');
-    debugPrint('=========== Transactions Table created =============');
   }
 
   // ===========================
@@ -166,8 +145,6 @@ class DatabaseSchema {
       CREATE INDEX IX_Transactions_Date
       ON Transactions(transaction_date);
     ''');
-
-    debugPrint('=========== Indexes created =============');
   }
 
   // ===========================
@@ -175,7 +152,6 @@ class DatabaseSchema {
   // ===========================
 
   static Future<void> _createTriggers(Database db) async {
-
     // ==========================================================
     // 1. Update Fund Balance After Insert Transaction
     // ==========================================================
@@ -198,8 +174,6 @@ class DatabaseSchema {
     END;
   ''');
 
-    debugPrint('=========== TRIGGER trg_InsertTransaction created =============');
-
     // ==========================================================
     // 2. Restore Fund Balance After Delete Transaction
     // ==========================================================
@@ -221,8 +195,6 @@ class DatabaseSchema {
       WHERE fund_id = OLD.fund_id;
     END;
   ''');
-
-    debugPrint('=========== TRIGGER trg_DeleteTransaction created =============');
 
     // ==========================================================
     // 3. Prevent Withdraw If Balance Is Insufficient
@@ -247,8 +219,6 @@ class DatabaseSchema {
       END;
     END;
   ''');
-
-    debugPrint('=========== TRIGGER trg_CheckBalanceBeforeInsert created =============');
 
     // ==========================================================
     // 4. Prevent Transactions On Archived Fund
@@ -275,33 +245,18 @@ class DatabaseSchema {
       );
     END;
   ''');
-
-    debugPrint('=========== TRIGGER trg_PreventTransactionOnArchivedFund created =============');
   }
-
 
   static Future<void> _insertDefaultCurrencies(Database db) async {
     final batch = db.batch();
 
-    batch.insert('Currencies', {
-      'currency_code': 'USD',
+    batch.insert('Currencies', {'currency_code': 'USD'});
 
-    });
+    batch.insert('Currencies', {'currency_code': 'EUR'});
 
-    batch.insert('Currencies', {
-      'currency_code': 'EUR',
+    batch.insert('Currencies', {'currency_code': 'DZD'});
 
-    });
-
-    batch.insert('Currencies', {
-      'currency_code': 'DZD',
-
-    });
-
-    batch.insert('Currencies', {
-      'currency_code': 'TND',
-
-    });
+    batch.insert('Currencies', {'currency_code': 'TND'});
 
     await batch.commit(noResult: true);
   }

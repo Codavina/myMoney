@@ -68,6 +68,7 @@
   "saudi_riyal": "Riyal saoudien",
   "unknown_currency": "Devise inconnue",
   "are_you_sure_you_want_to_delete": "Êtes-vous sûr de vouloir supprimer ",
+  "are_you_sure_you_want_to_sign_out":"Êtes-vous sûr de vouloir vous déconnecter ?",
   "checking_session": "Vérification de la session...",
   "signing_out": "Déconnexion...",
   "admin_dashboard": "Tableau de bord",
