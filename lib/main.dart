@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,9 +22,9 @@ import 'core/theme/app_theme.dart';
 import 'core/theme/theme_cubit.dart';
 import 'features/auth_screen/auth_gate_screen.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await SharedPreferences.getInstance();
   final database = AppDatabase.instance;
@@ -31,7 +32,6 @@ void main() async {
     url: SupabaseConfig.url,
     publishableKey: SupabaseConfig.publishableKey,
   );
-
 
   debugPrint('Supabase initialized successfully.');
 
@@ -44,25 +44,30 @@ void main() async {
   final userRepository = UserRepository();
 
   // تهيئة SQLite للمنصات المكتبية فقط.
-  if (!kIsWeb &&
-      (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
+  if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
     sqfliteFfiInit();
     databaseFactory = databaseFactoryFfi;
   }
 
   runApp(
-    MyMoneyApp(
-      currencyRepository: currencyRepository,
-      fundRepository: fundRepository,
-      transactionRepository: transactionRepository,
-      authRepository: authRepository,
-      userRepository: userRepository,
-      syncRepository: SyncRepository(
-        userRepository: userRepository,
+    EasyLocalization(
+      supportedLocales: const [Locale('fr'), Locale('en')],
+      path: 'assets/translations',
+      fallbackLocale: const Locale('fr'),
+      startLocale: const Locale('fr'),
+      child: MyMoneyApp(
         currencyRepository: currencyRepository,
         fundRepository: fundRepository,
         transactionRepository: transactionRepository,
-        database: database,
+        authRepository: authRepository,
+        userRepository: userRepository,
+        syncRepository: SyncRepository(
+          userRepository: userRepository,
+          currencyRepository: currencyRepository,
+          fundRepository: fundRepository,
+          transactionRepository: transactionRepository,
+          database: database,
+        ),
       ),
     ),
   );
@@ -83,55 +88,54 @@ class MyMoneyApp extends StatelessWidget {
   final FundRepository fundRepository;
   final TransactionRepository transactionRepository;
   final AuthRepository authRepository;
-  final UserRepository userRepository ;
-  final SyncRepository syncRepository;
+  final UserRepository userRepository;
 
+  final SyncRepository syncRepository;
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider.value(value: currencyRepository),
+        RepositoryProvider.value(value: fundRepository),
+        RepositoryProvider.value(value: transactionRepository),
+        RepositoryProvider.value(value: authRepository),
+        RepositoryProvider.value(value: userRepository),
+        RepositoryProvider.value(value: syncRepository),
+      ],
+      child: MultiBlocProvider(
         providers: [
-          RepositoryProvider.value(value: currencyRepository),
-          RepositoryProvider.value(value: fundRepository),
-          RepositoryProvider.value(value: transactionRepository),
-          RepositoryProvider.value(value: authRepository),
-          RepositoryProvider.value(value: userRepository),
-          RepositoryProvider.value(value: syncRepository),
+          BlocProvider(
+            create: (_) => CurrencyCubit(currencyRepository)..getAll(),
+          ),
+          BlocProvider(create: (_) => FundCubit(fundRepository)),
+
+          BlocProvider(
+            create: (_) =>
+                AuthCubit(authRepository, userRepository)..checkSession(),
+          ),
+
+          BlocProvider(create: (_) => ThemeCubit()..loadTheme()),
         ],
-        child: MultiBlocProvider(
-          providers: [
+        child: BlocBuilder<ThemeCubit, ThemeMode>(
+          builder: (context, themeMode) {
+            return MaterialApp(
+              title: 'My Money',
+              debugShowCheckedModeBanner: false,
+              theme: AppTheme.light,
+              darkTheme: AppTheme.dark,
+              themeMode: themeMode,
 
-            BlocProvider(
-              create: (_) => CurrencyCubit(currencyRepository)..getAll(),
-            ),
-            BlocProvider(
-              create: (_) => FundCubit(fundRepository),
-            ),
+              localizationsDelegates: context.localizationDelegates,
+              supportedLocales: context.supportedLocales,
+              locale: context.locale,
 
-            BlocProvider(
-              create: (_) => AuthCubit(authRepository,userRepository)
-                ..checkSession(),
-            ),
-
-            BlocProvider(
-              create: (_) => ThemeCubit()..loadTheme(),
-            ),
-          ],
-      child: BlocBuilder<ThemeCubit, ThemeMode>(
-        builder: (context, themeMode) {
-          return MaterialApp(
-          title: 'My Money',
-          debugShowCheckedModeBanner: false,
-          theme: AppTheme.light,
-          darkTheme: AppTheme.dark,
-          themeMode: themeMode,
-          home: const AuthGateScreen(),
-          );
-        },
-
-      ),
+              home: const AuthGateScreen(),
+            );
+          },
         ),
+      ),
     );
   }
 }

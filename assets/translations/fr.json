@@ -1,0 +1,15 @@
+{
+  "settings": "Paramètres",
+  "theme": "Thème",
+  "language": "Langue",
+  "light": "Clair",
+  "dark": "Sombre",
+  "french": "Français",
+  "english": "Anglais",
+  "select_language": "Choisir la langue",
+  "cancel": "Annuler",
+  "sign_out": "Se déconnecter",
+  "account": "Compte",
+  "about": "À propos",
+  "about My Money": "À propos de My Money"
+}

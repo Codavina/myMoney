@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/core/widgets/custom_app_bar.dart';
@@ -12,7 +13,7 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: context.appColors.background,
-      appBar: const CustomAppBar(title: 'Settings'),
+      appBar:  CustomAppBar(title: 'settings'.tr()),
 
       body: SafeArea(
         child: ListView(
@@ -27,11 +28,11 @@ class SettingsScreen extends StatelessWidget {
                 final isDark = themeMode == ThemeMode.dark;
 
                 return _SettingsSection(
-                 title: 'Theme',
+                 title: 'theme'.tr(),
                  children: [ _SettingsTile(
                     icon: Icons.palette_outlined,
-                    title: 'Theme',
-                    subtitle: isDark ? 'Dark' : 'Light',
+                    title: 'theme'.tr(),
+                    subtitle: isDark ? 'dark'.tr() : 'light'.tr(),
                     trailing: Switch(
                       value: isDark,
                       onChanged: (_) {
@@ -53,18 +54,18 @@ class SettingsScreen extends StatelessWidget {
             // =========================================================
 
             _SettingsSection(
-              title: 'Language',
+              title: 'language'.tr(),
               children: [
                 _SettingsTile(
                   icon: Icons.language_outlined,
-                  title: 'Language',
-                  subtitle: 'English',
+                  title: 'language'.tr(),
+                  subtitle: context.locale.languageCode == 'fr'
+                      ? 'french'.tr()
+                      : 'english'.tr(),
                   trailing: const Icon(
                     Icons.chevron_right,
                   ),
-                  onTap: () {
-                    // Language selection logic later
-                  },
+                  onTap:() => _showLanguageDialog(context),
                 ),
               ],
             ),
@@ -76,11 +77,11 @@ class SettingsScreen extends StatelessWidget {
             // =========================================================
 
             _SettingsSection(
-              title: 'Account',
+              title: 'account'.tr(),
               children: [
-                const _SettingsTile(
+                _SettingsTile(
                   icon: Icons.person_outline,
-                  title: 'Account',
+                  title: 'account'.tr(),
                   subtitle: 'admin@gmail.com',
                   onTap: null,
                 ),
@@ -92,7 +93,7 @@ class SettingsScreen extends StatelessWidget {
 
                 _SettingsTile(
                   icon: Icons.logout_outlined,
-                  title: 'Sign Out',
+                  title: 'sign_out'.tr(),
                   titleColor: context.appColors.error,
                   iconColor: context.appColors.error,
                   onTap: () {
@@ -109,11 +110,11 @@ class SettingsScreen extends StatelessWidget {
             // =========================================================
 
             _SettingsSection(
-              title: 'About',
+              title: 'about'.tr(),
               children: [
                 _SettingsTile(
                   icon: Icons.info_outline,
-                  title: 'About My Money',
+                  title: 'about My Money'.tr(),
                   subtitle: 'Version 1.0.0',
                   trailing: const Icon(
                     Icons.chevron_right,
@@ -232,4 +233,51 @@ class _SettingsTile extends StatelessWidget {
       onTap: onTap,
     );
   }
+}
+
+
+Future<void> _showLanguageDialog(BuildContext context) async {
+  final currentLocale = context.locale;
+
+  final selectedLocale = await showDialog<Locale>(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: Text('select_language'.tr()),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            RadioGroup<Locale>(
+              groupValue: currentLocale,
+              onChanged: (locale) {
+                if (locale != null) {
+                  Navigator.pop(context, locale);
+                }
+              },
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  RadioListTile<Locale>(
+                    value: const Locale('fr'),
+                    title: Text('french'.tr()),
+                  ),
+
+                  RadioListTile<Locale>(
+                    value: const Locale('en'),
+                    title: Text('english'.tr()),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    },
+  );
+
+  if (!context.mounted || selectedLocale == null) {
+    return;
+  }
+
+  await context.setLocale(selectedLocale);
 }
