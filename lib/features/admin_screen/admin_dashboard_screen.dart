@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/core/widgets/custom_app_bar.dart';
 import 'package:my_money/features/admin_screen/widgets/custom_admin_card.dart';
 import 'package:my_money/features/settings_screen/settings_screen.dart';
-import '../../core/cubit/auth/auth_cubit.dart';
 import '../../core/cubit/user/user_cubit.dart';
 import '../../core/repositories/user_repository.dart';
 import '../../core/theme/app_color_extension.dart';
+import '../../core/utils/app_confirm_signout.dart';
 import '../currency_screen/currency_screen.dart';
 import '../user_screen/users_screen.dart';
 
@@ -89,15 +89,15 @@ class AdminDashboardScreen extends StatelessWidget {
               title: 'Backup',
               icon: Icons.dataset_outlined,
               borderColor: Colors.brown,
-              onTap: () {
-
-              },
+              onTap: () {},
             ),
             CustomAdminCard(
               title: 'Sign Out',
               icon: Icons.logout,
               borderColor: Colors.red,
-              onTap: () => context.read<AuthCubit>().signOut(),
+              onTap: () async {
+                await confirmSignOut(context);
+              },
             ),
           ],
         ),

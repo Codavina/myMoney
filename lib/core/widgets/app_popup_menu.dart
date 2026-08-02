@@ -3,28 +3,32 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/features/archived_fund_screen/archived_fund_screen.dart';
 import 'package:my_money/features/settings_screen/settings_screen.dart';
 import '../constants/app_enums.dart';
-import '../cubit/auth/auth_cubit.dart';
 import '../cubit/fund/fund_cubit.dart';
 import '../repositories/fund_repository.dart';
-import 'confirm_signout_dialog.dart';
+import '../utils/app_confirm_signout.dart';
+
 
 class AppPopupMenu extends StatelessWidget {
   const AppPopupMenu({super.key, this.ownerId});
 
   final int? ownerId;
 
-  Future<void> _confirmSignOut(BuildContext context) async {
-    final confirmed = await showConfirmDialog(
+  Future<void> _openArchivedFunds(BuildContext context) async {
+    await Navigator.push(
       context,
-      title: 'Sign Out',
-      message: 'Are you sure you want to sign out?',
-      confirmText: 'Sign Out',
-      cancelText: 'Cancel',
+      MaterialPageRoute(
+        builder: (_) => BlocProvider(
+          create: (context) =>
+          FundCubit(context.read<FundRepository>())
+            ..getAllArchived(ownerId!),
+          child: ArchivedFundScreen(ownerId: ownerId!),
+        ),
+      ),
     );
 
-    if (!context.mounted || !confirmed) return;
+    if (!context.mounted) return;
 
-    context.read<AuthCubit>().signOut();
+    context.read<FundCubit>().getAllActive(ownerId!);
   }
 
   @override
@@ -37,21 +41,7 @@ class AppPopupMenu extends StatelessWidget {
       onSelected: (value) async {
         switch (value) {
           case AppMenuAction.archived:
-            await Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => BlocProvider(
-                  create: (context) =>
-                      FundCubit(context.read<FundRepository>())
-                        ..getAllArchived(ownerId!),
-                  child: ArchivedFundScreen(ownerId: ownerId!),
-                ),
-              ),
-            );
-
-            if (!context.mounted) return;
-
-            context.read<FundCubit>().getAllActive(ownerId!);
+            await _openArchivedFunds(context);
             break;
 
           case AppMenuAction.settings:
@@ -62,7 +52,7 @@ class AppPopupMenu extends StatelessWidget {
             break;
 
           case AppMenuAction.logOut:
-            await _confirmSignOut(context);
+            await confirmSignOut(context);
             break;
         }
       },

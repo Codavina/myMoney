@@ -41,6 +41,9 @@ class AppColors {
     balanceCardBackground: Color(0xFFEAF5FC),
     balanceCardBorder: Color(0xffBDBDBD),
     balanceCardLabel: Color(0xff616161),
+
+    deleteDialogBackground: Color(0xFFF8FAFC),
+    deleteDialogContent: Color(0xFF1E293B),
   );
 
   // ============================================================
@@ -51,7 +54,7 @@ class AppColors {
     primary: Color(0xFF38BDF8),
     secondary: Color(0xFF94A3B8),
 
-    success: Color(0xFF4ADE80),
+    success: Color(0xFF009688),
     error: Color(0xFFF87171),
     warning: Color(0xFFFACC15),
     info: Color(0xFF60A5FA),
@@ -82,6 +85,11 @@ class AppColors {
     balanceCardBackground: Color(0xFF163447),
     balanceCardBorder: Color(0xFF6B7280),
     balanceCardLabel: Color(0xFFD1D5DB),
+
+    deleteDialogBackground: Color(0xFF1E293B),
+    deleteDialogContent: Color(0xFFF8FAFC),
+
+
   );
 }
 
@@ -123,6 +131,9 @@ class AppColorPalette {
   final Color balanceCardBorder;
   final Color balanceCardLabel;
 
+  final Color deleteDialogBackground;
+  final Color deleteDialogContent;
+
   const AppColorPalette({
     required this.primary,
     required this.secondary,
@@ -153,6 +164,10 @@ class AppColorPalette {
     required this.onPrimary,
     required this.unSelected,
     required this.withdraw,
-    required this.deposit, required this.balanceCardBackground, required this.balanceCardBorder, required this.balanceCardLabel,
+    required this.deposit,
+    required this.balanceCardBackground,
+    required this.balanceCardBorder,
+    required this.balanceCardLabel, required this.deleteDialogContent, required this.deleteDialogBackground,
+
   });
 }

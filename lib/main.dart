@@ -18,6 +18,7 @@ import 'core/repositories/fund_repository.dart';
 import 'core/repositories/transaction_repository.dart';
 import 'core/repositories/user_repository.dart';
 import 'core/theme/app_theme.dart';
+import 'core/theme/theme_cubit.dart';
 import 'features/auth_screen/auth_gate_screen.dart';
 
 
@@ -112,15 +113,25 @@ class MyMoneyApp extends StatelessWidget {
               create: (_) => AuthCubit(authRepository,userRepository)
                 ..checkSession(),
             ),
+
+            BlocProvider(
+              create: (_) => ThemeCubit()..loadTheme(),
+            ),
           ],
-      child: MaterialApp(
-        title: 'My Money App',
-        debugShowCheckedModeBanner: false,
-        theme: AppTheme.light,
-        darkTheme: AppTheme.dark,
-        themeMode: ThemeMode.dark,
-        home: const AuthGateScreen(),
-      ),),
+      child: BlocBuilder<ThemeCubit, ThemeMode>(
+        builder: (context, themeMode) {
+          return MaterialApp(
+          title: 'My Money',
+          debugShowCheckedModeBanner: false,
+          theme: AppTheme.light,
+          darkTheme: AppTheme.dark,
+          themeMode: themeMode,
+          home: const AuthGateScreen(),
+          );
+        },
+
+      ),
+        ),
     );
   }
 }

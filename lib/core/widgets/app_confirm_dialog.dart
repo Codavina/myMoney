@@ -24,7 +24,7 @@ class AppConfirmDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
-      backgroundColor: Colors.white,
+      backgroundColor: context.appColors.deleteDialogBackground,
       title: DialogTitleDecoration(
         color: isArchived ? context.appColors.subtitle : context.appColors.error,
         dialogTitle: DialogTitle(title: title),
@@ -32,6 +32,9 @@ class AppConfirmDialog extends StatelessWidget {
       content: Text.rich(
         TextSpan(
           text: '$message (',
+          style: TextStyle(
+            color: context.appColors.deleteDialogContent,
+          ),
           children: [
             TextSpan(
               text: textToAction,
