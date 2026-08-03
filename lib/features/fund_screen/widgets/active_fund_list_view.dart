@@ -82,7 +82,7 @@ class ActiveFundListView extends StatelessWidget {
             final info =
                 currenciesInfo[currency?.currencyCode.toUpperCase()] ??
                 unknownCurrency;
-            debugPrint(state.runtimeType.toString());
+
             return Dismissible(
               key: ValueKey(fund.fundId),
               direction: CurrentUser.value!.isAdmin

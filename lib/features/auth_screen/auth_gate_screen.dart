@@ -16,6 +16,7 @@ class AuthGateScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("AuthGate Screen Build");
     return BlocBuilder<AuthCubit, AuthState>(
       builder: (context, state) {
 

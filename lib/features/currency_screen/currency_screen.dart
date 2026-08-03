@@ -11,6 +11,7 @@ import 'package:my_money/features/currency_screen/widgets/add_currency_dialog.da
 import 'package:my_money/features/currency_screen/widgets/currency_body.dart';
 import '../../core/constants/app_assets.dart';
 import '../../core/theme/app_color_extension.dart';
+import '../../core/widgets/custom_floating_action_button.dart';
 import '../../core/widgets/empty_state.dart';
 
 
@@ -44,6 +45,7 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("Currency Screen Build");
     return Scaffold(
       backgroundColor: context.appColors.background,
       appBar: CustomAppBar(title: 'currencies'.tr()),
@@ -96,11 +98,9 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
         ),
       ),
       floatingActionButton: AdminOnly(
-        child: FloatingActionButton.extended(
-          onPressed: _addCurrency,
-          backgroundColor: const Color(0xff0088cc),
-          icon: const Icon(Icons.add,color:Color(0xffFFFFFF),),
-          label: Text('add_currency'.tr(), style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700,color: Color(0xffFFFFFF))),
+        child: CustomFloatingActionButton(
+          onPressed: () => _addCurrency(),
+          label: 'add_currency'.tr(),
         ),
       ),
     );

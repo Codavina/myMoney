@@ -22,7 +22,7 @@ class AppAssets {
   static const String currency96 = 'assets/images/currency/currency96.png';
 
   ///App Logo
-  static const String logoTransparent = 'assets/images/logo/logo_trns.png';
+  //static const String logoTransparent = 'assets/images/logo/logo_trns.png';
   static const String logo = 'assets/images/logo/logo.png';
   static const String logoAbout = 'assets/images/logo/logo_about.png';
   static const String splashLogo = 'assets/images/logo/splash_logo.png';

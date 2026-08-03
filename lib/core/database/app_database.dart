@@ -27,7 +27,7 @@ class AppDatabase {
     // [onCreate] Called only the FIRST time database is created
     return openDatabase(
       path,
-      version: 2,
+      version: 1,
       onCreate: _createDB,
       onConfigure: _configureDB,
       onUpgrade: _upgradeDB

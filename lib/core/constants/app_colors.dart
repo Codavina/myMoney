@@ -129,6 +129,7 @@ class AppColorPalette {
   final Color deleteDialogBackground;
   final Color deleteDialogContent;
 
+
   const AppColorPalette({
     required this.primary,
     required this.secondary,
@@ -162,7 +163,10 @@ class AppColorPalette {
     required this.deposit,
     required this.balanceCardBackground,
     required this.balanceCardBorder,
-    required this.balanceCardLabel, required this.deleteDialogContent, required this.deleteDialogBackground,
+    required this.balanceCardLabel,
+    required this.deleteDialogContent,
+    required this.deleteDialogBackground,
+
 
   });
 }

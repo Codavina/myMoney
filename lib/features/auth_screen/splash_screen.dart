@@ -12,6 +12,7 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("Splash Screen Build");
     return Scaffold(
       body: Center(
         child: Padding(

@@ -15,6 +15,7 @@ class UsersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("User Screen Build");
     return Scaffold(
      backgroundColor:  context.appColors.background,
       appBar: CustomAppBar(

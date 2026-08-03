@@ -30,7 +30,7 @@ void main() async {
     publishableKey: SupabaseConfig.publishableKey,
   );
 
-  debugPrint('Supabase initialized successfully.');
+
 
   // Create shared repository instances.
   // They are passed to Cubits instead of being created inside widgets.

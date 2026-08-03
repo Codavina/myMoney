@@ -13,6 +13,7 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("Settings Screen Build");
     final email = Supabase.instance.client.auth.currentUser?.email ?? '';
     return Scaffold(
       backgroundColor: context.appColors.background,

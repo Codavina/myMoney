@@ -17,6 +17,7 @@ class AdminDashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("Admin Dashboard Screen Build");
     return Scaffold(
       backgroundColor: context.appColors.background,
       appBar: CustomAppBar(title: 'admin_dashboard'.tr()),

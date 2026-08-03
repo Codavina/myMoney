@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
 import 'package:my_money/core/repositories/transaction_repository.dart';
 import 'package:my_money/core/repositories/user_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -21,7 +20,7 @@ class SyncRepository {
     required CurrencyRepository currencyRepository,
     required FundRepository fundRepository,
     required TransactionRepository transactionRepository,
-    database,
+    required AppDatabase database,
   }) : _userRepository = userRepository,
        _currencyRepository = currencyRepository,
        _fundRepository = fundRepository,
@@ -59,7 +58,7 @@ class SyncRepository {
   }
 
   Future<void> uploadUserUpdateFile(File file, String authId) async {
-    debugPrint('sync_repository => uploadUserUpdateFile beginning');
+
     await Supabase.instance.client.storage
         .from('updates')
         .upload(
@@ -73,7 +72,6 @@ class SyncRepository {
   }
 
   Future<bool> hasUpdate(String authId) async {
-    debugPrint('sync_repository => hasUpdate beginning');
 
     try {
       final files = await Supabase.instance.client.storage
@@ -84,27 +82,25 @@ class SyncRepository {
             (file) => file.name == 'update.json',
       );
 
-      debugPrint('sync_repository => hasUpdate return $exists');
-
       return exists;
     } catch (e) {
-      debugPrint('sync_repository => hasUpdate ERROR: $e');
+
       return false;
     }
   }
 
 
   Future<File> downloadUserUpdateFile(String authId) async {
-    debugPrint('sync_repository => downloadUserUpdateFile beginning');
+
 
     final bytes = await Supabase.instance.client.storage
         .from('updates')
         .download('$authId/update.json');
 
     final directory = await getApplicationDocumentsDirectory();
-    debugPrint('directory: $directory');
+
     final file = File('${directory.path}/update.json');
-    debugPrint('file: $file');
+
     await file.writeAsBytes(bytes);
 
     return file;
@@ -121,7 +117,7 @@ class SyncRepository {
   }
 
   Future<void> importUser(Map<String, dynamic> json) async {
-    debugPrint('========== IMPORT START ==========');
+
 
     final db = await _database.database;
 
@@ -136,7 +132,7 @@ class SyncRepository {
         whereArgs: [1],
       );
 
-      debugPrint('===== Sync Mode ENABLED =====');
+
 
       try {
         // =====================================================
@@ -144,8 +140,6 @@ class SyncRepository {
         // =====================================================
 
         final userMap = json['user'] as Map<String, dynamic>;
-
-        debugPrint('Importing userId = ${userMap['user_id']}');
 
         final userId = userMap['user_id'];
 
@@ -156,20 +150,17 @@ class SyncRepository {
         );
 
         if (existingUser.isEmpty) {
-          debugPrint('Inserting user...');
 
           await txn.insert('Users', userMap);
         } else {
-          debugPrint('Updating user...');
 
-          final rows = await txn.update(
+          await txn.update(
             'Users',
             userMap,
             where: 'user_id = ?',
             whereArgs: [userId],
           );
 
-          debugPrint('User updated rows = $rows');
         }
 
         // =====================================================
@@ -178,7 +169,6 @@ class SyncRepository {
 
         final currencies = json['currencies'] as List<dynamic>;
 
-        debugPrint('Currencies count = ${currencies.length}');
 
         for (final currency in currencies) {
           final map = currency as Map<String, dynamic>;
@@ -192,17 +182,8 @@ class SyncRepository {
           );
 
           if (existing.isEmpty) {
-            debugPrint(
-              'INSERT Currency id=$currencyId '
-              'code=${map['currency_code']}',
-            );
-
             await txn.insert('Currencies', map);
           } else {
-            debugPrint(
-              'UPDATE Currency id=$currencyId '
-              'code=${map['currency_code']}',
-            );
 
             await txn.update(
               'Currencies',
@@ -218,8 +199,6 @@ class SyncRepository {
 
         final funds = json['funds'] as List<dynamic>;
 
-        debugPrint('Funds count = ${funds.length}');
-
         for (final fund in funds) {
           final map = fund as Map<String, dynamic>;
 
@@ -232,17 +211,9 @@ class SyncRepository {
           );
 
           if (existing.isEmpty) {
-            debugPrint(
-              'INSERT Fund id=$fundId '
-              'balance=${map['balance']}',
-            );
 
             await txn.insert('Funds', map);
           } else {
-            debugPrint(
-              'UPDATE Fund id=$fundId '
-              'balance=${map['balance']}',
-            );
 
             await txn.update(
               'Funds',
@@ -266,8 +237,6 @@ class SyncRepository {
           ),
         );
 
-        debugPrint('Transactions count = ${transactions.length}');
-
         for (final map in transactions) {
           final transactionId = map['transaction_id'];
 
@@ -278,15 +247,11 @@ class SyncRepository {
           );
 
           if (existing.isEmpty) {
-            debugPrint('INSERT Transaction id=$transactionId');
 
             await txn.insert('Transactions', map);
-          } else {
-            debugPrint('SKIP Transaction id=$transactionId');
           }
         }
 
-        debugPrint('========== IMPORT FINISHED ==========');
       } finally {
         // ------------------------------------------------------
         // Disable Sync Mode
@@ -298,11 +263,9 @@ class SyncRepository {
           whereArgs: [1],
         );
 
-        debugPrint('===== Sync Mode DISABLED =====');
       }
     });
 
-    debugPrint('===== IMPORT COMPLETED =====');
   }
 
   Future<void> deleteLocalUpdateFile() async {
@@ -312,19 +275,14 @@ class SyncRepository {
 
     if (await file.exists()) {
       await file.delete();
-
-      debugPrint('===== Local update.json deleted =====');
-    } else {
-      debugPrint('===== No local update.json found =====');
     }
   }
 
   Future<void> deleteRemoteUpdateFile(String authId) async {
-    debugPrint('Deleting remote update file...');
+
     await Supabase.instance.client.storage.from('updates').remove([
       '$authId/update.json',
     ]);
 
-    debugPrint('===== Remote update.json deleted =====');
   }
 }

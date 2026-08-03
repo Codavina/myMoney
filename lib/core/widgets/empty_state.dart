@@ -24,7 +24,7 @@ class EmptyState extends StatelessWidget {
     if (!scrollable) {
       return child;
     }
-
+    debugPrint("Empty state LayoutBuilder");
     return LayoutBuilder(
       builder: (context, constraints) {
         return SingleChildScrollView(

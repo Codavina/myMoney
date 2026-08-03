@@ -5,6 +5,7 @@ class ErrorState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("Error state Screen");
     return const Scaffold(
       body: Center(
         child: Text('Error State Screen'),

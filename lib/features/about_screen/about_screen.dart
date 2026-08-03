@@ -24,7 +24,7 @@ class _AboutAppScreenState extends State<AboutAppScreen> {
      try {
        final packageInfo = await PackageInfo.fromPlatform();
 
-       debugPrint('APP VERSION = ${packageInfo.version}');
+
 
        if (!mounted) return;
 
@@ -40,7 +40,7 @@ class _AboutAppScreenState extends State<AboutAppScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-
+    debugPrint("About Screen Build");
     return Scaffold(
       backgroundColor: context.appColors.background,
       appBar: CustomAppBar(title: 'about'.tr()),
@@ -104,7 +104,6 @@ class _AboutAppScreenState extends State<AboutAppScreen> {
 
             const SizedBox(height: 20),
 
-
             // Licenses
             Card(
               elevation: 0,
@@ -153,7 +152,7 @@ class _AboutSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-
+    debugPrint("_AboutSection Build");
     return Card(
       elevation: 0,
       child: Padding(

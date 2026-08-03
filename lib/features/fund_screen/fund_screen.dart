@@ -13,6 +13,7 @@ import '../../core/session/selected_user.dart';
 import '../../core/theme/app_color_extension.dart';
 import '../../core/utils/app_snackbar.dart';
 import '../../core/widgets/app_popup_menu.dart';
+import '../../core/widgets/custom_floating_action_button.dart';
 import '../../core/widgets/empty_state.dart';
 import '../../core/widgets/loading_dialog.dart';
 import 'fund_helper/fund_dialog_helper.dart';
@@ -83,6 +84,7 @@ class _FundScreenState extends State<FundScreen> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("Fund Screen Build");
     return PopScope(
       onPopInvokedWithResult: (didPop, result) {
         SelectedUser.value = null;
@@ -135,20 +137,9 @@ class _FundScreenState extends State<FundScreen> {
           ),
         ),
         floatingActionButton: AdminOnly(
-          child: FloatingActionButton.extended(
-            onPressed: () {
-              _addFund(context);
-            },
-            label:  Text(
-              'add_fund'.tr(),
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w700,
-                color: Color(0xffFFFFFF),
-              ),
-            ),
-            backgroundColor: context.appColors.primary,
-            icon: const Icon(Icons.add, color: Color(0xffFFFFFF)),
+          child: CustomFloatingActionButton(
+            onPressed: () => _addFund(context),
+            label: 'add_fund'.tr(),
           ),
         ),
       ),

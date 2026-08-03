@@ -13,6 +13,7 @@ import '../../core/cubit/transaction/transaction_state.dart';
 import '../../core/models/fund_model.dart';
 import '../../core/theme/app_color_extension.dart';
 import '../../core/utils/app_snackbar.dart';
+import '../../core/widgets/custom_floating_action_button.dart';
 import '../../core/widgets/empty_state.dart';
 import 'widgets/add_transaction_dialog.dart';
 
@@ -51,6 +52,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("Transaction Screen Build");
     return Scaffold(
       backgroundColor:  context.appColors.background,
       appBar: CustomAppBar(title: widget.fund.title.toSimpleTitleCase()),
@@ -101,19 +103,10 @@ class _TransactionScreenState extends State<TransactionScreen> {
       floatingActionButton: widget.readOnly
           ? null
           : AdminOnly(
-            child: FloatingActionButton.extended(
-                onPressed: _addTransaction,
-
-                label:  Text(
-                  'add_transaction'.tr(),
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                    color: Color(0xffFFFFFF),
-                  ),
-                ),
-                icon: const Icon(Icons.add, size: 24),
-              ),
+            child: CustomFloatingActionButton(
+              onPressed: () => _addTransaction(),
+              label: 'add_transaction'.tr(),
+            ),
           ),
     );
   }

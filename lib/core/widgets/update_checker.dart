@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
@@ -99,9 +100,7 @@ class _UpdateCheckerState extends State<UpdateChecker> {
               dialogTitle: const DialogTitle(title: 'New Update'),
               color:context.appColors.primary,
             ),
-            content: const Text(
-              'New Transactions are available.\nPlease update to continue.',
-            ),
+            content: Text('new_update_available'.tr()),
             actions: [
               FilledButton(style:FilledButton.styleFrom(backgroundColor: context.appColors.primary,shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12)

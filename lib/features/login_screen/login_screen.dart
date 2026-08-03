@@ -64,6 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("Login Screen Build");
     return Scaffold(
       body: BlocConsumer<AuthCubit, AuthState>(
         listenWhen: (previous, current) =>
