@@ -84,7 +84,7 @@ class _FundScreenState extends State<FundScreen> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("Fund Screen Build");
+
     return PopScope(
       onPopInvokedWithResult: (didPop, result) {
         SelectedUser.value = null;

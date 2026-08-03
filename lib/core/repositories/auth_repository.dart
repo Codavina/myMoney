@@ -20,9 +20,9 @@ class AuthRepository {
   Future<void> signOut() async {
     try {
       await _client.auth.signOut();
-    } on AuthRetryableFetchException catch (e) {
-      debugPrint(e.toString());
-          }
+    } on AuthRetryableFetchException {
+      rethrow;
+    }
   }
 
 

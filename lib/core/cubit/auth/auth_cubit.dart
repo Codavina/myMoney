@@ -70,7 +70,6 @@ class AuthCubit extends Cubit<AuthState> {
     required String password,
   }) async {
 
-
     emit(
       state.copyWith(
         status: AuthStatus.signingIn,
@@ -194,7 +193,6 @@ class AuthCubit extends Cubit<AuthState> {
         ),
       );
     } catch (e) {
-
 
       emit(
         state.copyWith(

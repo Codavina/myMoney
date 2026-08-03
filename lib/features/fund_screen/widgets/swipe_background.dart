@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_money/core/theme/app_color_extension.dart';
 
 class SwipeBackground extends StatelessWidget {
   const SwipeBackground({
@@ -23,11 +24,11 @@ class SwipeBackground extends StatelessWidget {
       child:  Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, color: Colors.white),
+          Icon(icon, color: context.appColors.surface),
           const SizedBox(height: 10),
           Text(
             text,
-            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            style: TextStyle(color: context.appColors.surface, fontWeight: FontWeight.bold),
           ),
         ],
       ),

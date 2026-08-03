@@ -45,7 +45,7 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("Currency Screen Build");
+
     return Scaffold(
       backgroundColor: context.appColors.background,
       appBar: CustomAppBar(title: 'currencies'.tr()),
@@ -91,7 +91,6 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
                 currencies: state.currencies,
               );
             }
-
 
             return const SizedBox.shrink();
           },

@@ -13,7 +13,7 @@ class CustomFloatingActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("Custom Floating Action Button Build");
+
     return FloatingActionButton.extended(
       onPressed: onPressed,
       backgroundColor: context.appColors.primary,

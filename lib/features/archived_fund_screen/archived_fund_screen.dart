@@ -28,8 +28,7 @@ class _ArchivedFundScreenState extends State<ArchivedFundScreen> {
   }
   @override
   Widget build(BuildContext context) {
-    debugPrint("Archived Fund Screen Build");
-    return Scaffold(
+        return Scaffold(
       backgroundColor: context.appColors.background,
       appBar:CustomAppBar(title: 'archived_funds'.tr()),
       body: SafeArea(

@@ -52,7 +52,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("Transaction Screen Build");
+
     return Scaffold(
       backgroundColor:  context.appColors.background,
       appBar: CustomAppBar(title: widget.fund.title.toSimpleTitleCase()),

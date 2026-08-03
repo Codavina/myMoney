@@ -77,7 +77,14 @@
   "licenses": "Licenses",
   "personal_money_management_app": "Personal money management application",
   "about_my_money_description": "My Money is a personal finance management application designed to help you manage your funds, currencies, and transactions easily.",
-  "new_update_available": "New Transactions are available.\nPlease update to continue."
+  "new_update_available": "New Transactions are available.\nPlease update to continue.",
+  "updating": "Updating...",
+  "updates_imported_successfully": "Updates imported successfully.",
+  "failed_to_update": "Failed to update.",
+  "new_update": "New Update",
+  "no_internet_connection": "No internet connection.",
+  "about_my_money": "About My Money"
+
 
 
 }

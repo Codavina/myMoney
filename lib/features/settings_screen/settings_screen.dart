@@ -13,7 +13,7 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("Settings Screen Build");
+
     final email = Supabase.instance.client.auth.currentUser?.email ?? '';
     return Scaffold(
       backgroundColor: context.appColors.background,
@@ -111,7 +111,7 @@ class SettingsScreen extends StatelessWidget {
               children: [
                 _SettingsTile(
                   icon: Icons.info_outline,
-                  title: 'about My Money'.tr(),
+                  title: 'about_my_money'.tr(),
                   subtitle: 'Version 1.0.0',
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () {

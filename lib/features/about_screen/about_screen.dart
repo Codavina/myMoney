@@ -24,15 +24,17 @@ class _AboutAppScreenState extends State<AboutAppScreen> {
      try {
        final packageInfo = await PackageInfo.fromPlatform();
 
-
-
        if (!mounted) return;
 
        setState(() {
          _version = packageInfo.version;
        });
-     } catch (e) {
-       debugPrint('ERROR LOADING APP VERSION = $e');
+     } catch (_) {
+       if (!mounted) return;
+
+       setState(() {
+         _version = '';
+       });
      }
    }
 
@@ -40,7 +42,7 @@ class _AboutAppScreenState extends State<AboutAppScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    debugPrint("About Screen Build");
+
     return Scaffold(
       backgroundColor: context.appColors.background,
       appBar: CustomAppBar(title: 'about'.tr()),
@@ -152,8 +154,7 @@ class _AboutSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    debugPrint("_AboutSection Build");
-    return Card(
+        return Card(
       elevation: 0,
       child: Padding(
         padding: const EdgeInsets.all(16),

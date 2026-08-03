@@ -59,14 +59,13 @@ class _UpdateCheckerState extends State<UpdateChecker> {
       Navigator.pop(context);
 
       // SHow updating dialog
-      LoadingDialog.show(context, message: 'Updating...');
+      LoadingDialog.show(context, message: 'updating'.tr());
 
       await syncRepository.downloadUserUpdateFile(authId);
 
       final json = await syncRepository.readUpdateFile();
 
       await syncRepository.importUser(json);
-
 
       await fundCubit.getAllActive(CurrentUser.value!.userId!);
 
@@ -76,14 +75,13 @@ class _UpdateCheckerState extends State<UpdateChecker> {
 
       if (!mounted) return;
       LoadingDialog.hide(context);
-      AppSnackBar.success(context, 'Updates imported successfully.');
+      AppSnackBar.success(context, 'updates_imported_successfully'.tr());
     } catch (e) {
-
       if (!mounted) return;
 
       LoadingDialog.hide(context);
 
-      AppSnackBar.error(context, 'Failed to update.');
+      AppSnackBar.error(context, 'failed_to_update'.tr());
     }
   }
 
@@ -97,14 +95,21 @@ class _UpdateCheckerState extends State<UpdateChecker> {
           child: AlertDialog(
             titlePadding: EdgeInsets.zero,
             title: DialogTitleDecoration(
-              dialogTitle: const DialogTitle(title: 'New Update'),
-              color:context.appColors.primary,
+              dialogTitle: DialogTitle(title: 'new_update'.tr()),
+              color: context.appColors.primary,
             ),
             content: Text('new_update_available'.tr()),
             actions: [
-              FilledButton(style:FilledButton.styleFrom(backgroundColor: context.appColors.primary,shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12)
-              )),onPressed: _update, child: const Text('Update'),),
+              FilledButton(
+                style: FilledButton.styleFrom(
+                  backgroundColor: context.appColors.primary,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                onPressed: _update,
+                child: Text('Update'.tr()),
+              ),
             ],
           ),
         );
@@ -125,7 +130,7 @@ class _UpdateCheckerState extends State<UpdateChecker> {
         if (!hasInternet) {
           if (!context.mounted) return;
 
-          AppSnackBar.error(context, 'No internet connection.');
+          AppSnackBar.error(context, 'no_internet_connection'.tr());
           return;
         }
         await _checkForUpdates();
