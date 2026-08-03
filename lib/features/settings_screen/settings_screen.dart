@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/core/widgets/custom_app_bar.dart';
 import 'package:my_money/features/about_screen/about_screen.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import '../../core/session/current_user.dart';
 import '../../core/theme/app_color_extension.dart';
 import '../../core/theme/theme_cubit.dart';
 import '../../core/utils/app_confirm_signout.dart';
@@ -14,7 +14,10 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final email = Supabase.instance.client.auth.currentUser?.email ?? '';
+    //final email = Supabase.instance.client.auth.currentUser?.email ?? '';
+    final userName = CurrentUser.value?.fullName ?? '';
+    final email = CurrentUser.value?.email ?? '';
+    final role = CurrentUser.value?.role ?? '';
     return Scaffold(
       backgroundColor: context.appColors.background,
       appBar: CustomAppBar(title: 'settings'.tr()),
@@ -82,8 +85,9 @@ class SettingsScreen extends StatelessWidget {
               children: [
                 _SettingsTile(
                   icon: Icons.person_outline,
-                  title: 'account'.tr(),
+                  title: userName,
                   subtitle: email,
+                  trailing: Text(role),
                   onTap: null,
                 ),
 

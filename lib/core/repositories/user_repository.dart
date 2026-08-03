@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:sqflite/sqflite.dart';
 import '../database/app_database.dart';
 import '../errors/database_error_handler.dart';
@@ -35,10 +34,6 @@ class UserRepository {
       );
 
 
-      log("USERS COUNT = ${result.length}");
-      log(result.toString());
-
-
       return result.map(UserModel.fromMap).toList();
     } on DatabaseException catch (e) {
       throw DatabaseErrorHandler.handle(e);
@@ -69,14 +64,14 @@ class UserRepository {
   Future<UserModel?> getByAuthId(String authId) async {
     try {
       final db = await _dbProvider.database;
-      log("Searching authId = $authId");
+
       final result = await db.query(
         'Users',
         where: 'auth_id = ?',
         whereArgs: [authId],
         limit: 1,
       );
-      log("Rows found = ${result.length}");
+
       if (result.isEmpty) return null;
 
       return UserModel.fromMap(result.first);

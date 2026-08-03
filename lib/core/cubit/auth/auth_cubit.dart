@@ -155,7 +155,6 @@ class AuthCubit extends Cubit<AuthState> {
 
 
     } catch (e) {
-
       String message = 'Unable to sign in.';
 
       if (e is AuthApiException &&
