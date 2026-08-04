@@ -77,5 +77,11 @@
   "licenses": "Licences",
   "personal_money_management_app": "Application de gestion financière personnelle",
   "about_my_money_description": "My Money est une application de gestion financière personnelle conçue pour vous aider à gérer facilement vos fonds, vos devises et vos transactions.",
-  "new_update_available": "Mise à jour requise pour continuer."
+  "new_update_available": "De nouvelles transactions sont disponibles.\nVeuillez mettre à jour pour continuer.",
+  "updating": "Mise à jour...",
+  "updates_imported_successfully": "Mises à jour importées avec succès.",
+  "failed_to_update": "Échec de la mise à jour.",
+  "new_update": "Nouvelle mise à jour",
+  "no_internet_connection": "Aucune connexion Internet.",
+  "about_my_money": "À propos de My Money"
 }
