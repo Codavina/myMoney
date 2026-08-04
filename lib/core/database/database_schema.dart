@@ -250,13 +250,13 @@ class DatabaseSchema {
   static Future<void> _insertDefaultCurrencies(Database db) async {
     final batch = db.batch();
 
-    batch.insert('Currencies', {'currency_code': 'USD'});
-
-    batch.insert('Currencies', {'currency_code': 'EUR'});
-
     batch.insert('Currencies', {'currency_code': 'DZD'});
-
+    batch.insert('Currencies', {'currency_code': 'EUR'});
+    batch.insert('Currencies', {'currency_code': 'USD'});
     batch.insert('Currencies', {'currency_code': 'TND'});
+    batch.insert('Currencies', {'currency_code': 'SAR'});
+    batch.insert('Currencies', {'currency_code': 'AED'});
+    batch.insert('Currencies', {'currency_code': 'TRY'});
 
     await batch.commit(noResult: true);
   }

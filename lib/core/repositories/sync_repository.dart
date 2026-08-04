@@ -29,6 +29,7 @@ class SyncRepository {
 
   Future<File> createUserUpdateFile(int ownerId) async {
     final user = await _userRepository.getById(ownerId);
+
     if (user == null) {
       throw Exception('User not found.');
     }
@@ -37,94 +38,116 @@ class SyncRepository {
 
     final funds = await _fundRepository.getAll(ownerId);
 
-    final transactions = await _transactionRepository.getAllByOwner(ownerId);
+    final transactions =
+    await _transactionRepository.getAllByOwner(ownerId);
 
     final data = {
       'user': user.toMap(),
-      'currencies': currencies.map((e) => e.toMap()).toList(),
-      'funds': funds.map((e) => e.toMap()).toList(),
-      'transactions': transactions.map((e) => e.toMap()).toList(),
+      'currencies': currencies
+          .map((currency) => currency.toMap())
+          .toList(),
+      'funds': funds
+          .map((fund) => fund.toMap())
+          .toList(),
+      'transactions': transactions
+          .map((transaction) => transaction.toMap())
+          .toList(),
     };
 
     final jsonString = jsonEncode(data);
 
     final directory = await getApplicationDocumentsDirectory();
 
-    final file = File('${directory.path}/update.json');
+    final file = File(
+      '${directory.path}/update.json',
+    );
 
-    await file.writeAsString(jsonString);
+    await file.writeAsString(
+      jsonString,
+      flush: true,
+    );
 
     return file;
   }
 
-  Future<void> uploadUserUpdateFile(File file, String authId) async {
+  Future<void> uploadUserUpdateFile(
+      File file,
+      String authId,
+      ) async {
+    final path = '$authId/update.json';
 
     await Supabase.instance.client.storage
         .from('updates')
         .upload(
-          '$authId/update.json',
-          file,
-          fileOptions: const FileOptions(
-            upsert: true,
-            contentType: 'application/json',
-          ),
-        );
+      path,
+      file,
+      fileOptions: const FileOptions(
+        upsert: true,
+        contentType: 'application/json',
+      ),
+    );
   }
 
   Future<bool> hasUpdate(String authId) async {
-
     try {
       final files = await Supabase.instance.client.storage
           .from('updates')
           .list(path: authId);
 
-      final exists = files.any(
+      return files.any(
             (file) => file.name == 'update.json',
       );
-
-      return exists;
-    } catch (e) {
-
+    } catch (_) {
       return false;
     }
   }
 
-
   Future<File> downloadUserUpdateFile(String authId) async {
-
+    final remotePath = '$authId/update.json';
 
     final bytes = await Supabase.instance.client.storage
         .from('updates')
-        .download('$authId/update.json');
+        .download(remotePath);
 
-    final directory = await getApplicationDocumentsDirectory();
+    final directory =
+    await getApplicationDocumentsDirectory();
 
-    final file = File('${directory.path}/update.json');
+    final file = File(
+      '${directory.path}/update.json',
+    );
 
-    await file.writeAsBytes(bytes);
+    await file.writeAsBytes(
+      bytes,
+      flush: true,
+    );
 
     return file;
   }
 
   Future<Map<String, dynamic>> readUpdateFile() async {
-    final directory = await getApplicationDocumentsDirectory();
+    final directory =
+    await getApplicationDocumentsDirectory();
 
-    final file = File('${directory.path}/update.json');
+    final file = File(
+      '${directory.path}/update.json',
+    );
 
-    final json = await file.readAsString();
+    final jsonString = await file.readAsString();
 
-    return jsonDecode(json) as Map<String, dynamic>;
+    final json =
+    jsonDecode(jsonString) as Map<String, dynamic>;
+
+    return json;
   }
 
   Future<void> importUser(Map<String, dynamic> json) async {
-
-
     final db = await _database.database;
 
     await db.transaction((txn) async {
-      // ------------------------------------------------------
-      // Enable Sync Mode (Disable Triggers)
-      // ------------------------------------------------------
+      // =========================================================
+      // Enable Sync Mode
+      // =========================================================
+
       await txn.update(
         'AppState',
         {'sync_mode': 1},
@@ -132,140 +155,203 @@ class SyncRepository {
         whereArgs: [1],
       );
 
-
-
       try {
-        // =====================================================
-        // 1. Import User
-        // =====================================================
+        // =======================================================
+        // 1. Read JSON
+        // =======================================================
 
-        final userMap = json['user'] as Map<String, dynamic>;
+        final userMap = Map<String, dynamic>.from(
+          json['user'] as Map<String, dynamic>,
+        );
 
-        final userId = userMap['user_id'];
+        final currencies = (json['currencies'] as List<dynamic>)
+            .map(
+              (e) => Map<String, dynamic>.from(
+            e as Map<String, dynamic>,
+          ),
+        )
+            .toList();
+
+        final funds = (json['funds'] as List<dynamic>)
+            .map(
+              (e) => Map<String, dynamic>.from(
+            e as Map<String, dynamic>,
+          ),
+        )
+            .toList();
+
+        final transactions = (json['transactions'] as List<dynamic>)
+            .map(
+              (e) => Map<String, dynamic>.from(
+            e as Map<String, dynamic>,
+          ),
+        )
+            .toList();
+
+        // =======================================================
+        // 2. Identify Local User
+        // =======================================================
+
+        final authId = userMap['auth_id'] as String;
 
         final existingUser = await txn.query(
           'Users',
-          where: 'user_id = ?',
-          whereArgs: [userId],
+          where: 'auth_id = ?',
+          whereArgs: [authId],
+          limit: 1,
         );
 
-        if (existingUser.isEmpty) {
+        int localUserId;
 
-          await txn.insert('Users', userMap);
+        if (existingUser.isEmpty) {
+          // -----------------------------------------------------
+          // User does not exist locally.
+          // -----------------------------------------------------
+
+          await txn.insert(
+            'Users',
+            userMap,
+          );
+
+          localUserId = userMap['user_id'] as int;
         } else {
+          // -----------------------------------------------------
+          // User already exists locally.
+          // Keep the local user_id.
+          // -----------------------------------------------------
+
+          localUserId =
+          existingUser.first['user_id'] as int;
 
           await txn.update(
             'Users',
-            userMap,
+            {
+              'auth_id': userMap['auth_id'],
+              'full_name': userMap['full_name'],
+              'email': userMap['email'],
+              'phone': userMap['phone'],
+              'role': userMap['role'],
+            },
             where: 'user_id = ?',
-            whereArgs: [userId],
+            whereArgs: [localUserId],
           );
-
         }
 
-        // =====================================================
-        // 2. Import Currencies
-        // =====================================================
+        // =======================================================
+        // 3. Read Current Local Funds
+        // =======================================================
 
-        final currencies = json['currencies'] as List<dynamic>;
+        final oldFunds = await txn.query(
+          'Funds',
+          columns: ['fund_id'],
+          where: 'owner_id = ?',
+          whereArgs: [localUserId],
+        );
 
+        // =======================================================
+        // 4. Delete Old Transactions
+        // =======================================================
 
-        for (final currency in currencies) {
-          final map = currency as Map<String, dynamic>;
+        for (final row in oldFunds) {
+          final fundId = row['fund_id'] as int;
 
-          final currencyId = map['currency_id'];
+          await txn.delete(
+            'Transactions',
+            where: 'fund_id = ?',
+            whereArgs: [fundId],
+          );
+        }
+
+        // =======================================================
+        // 5. Delete Old Funds
+        // =======================================================
+
+        await txn.delete(
+          'Funds',
+          where: 'owner_id = ?',
+          whereArgs: [localUserId],
+        );
+
+        // =======================================================
+        // 6. Synchronize Currencies
+        // =======================================================
+
+        for (final map in currencies) {
+          final currencyId = map['currency_id'] as int;
 
           final existing = await txn.query(
             'Currencies',
             where: 'currency_id = ?',
             whereArgs: [currencyId],
+            limit: 1,
           );
 
           if (existing.isEmpty) {
-            await txn.insert('Currencies', map);
+            await txn.insert(
+              'Currencies',
+              map,
+            );
           } else {
-
             await txn.update(
               'Currencies',
-              {'currency_code': map['currency_code']},
+              {
+                'currency_code': map['currency_code'],
+              },
               where: 'currency_id = ?',
               whereArgs: [currencyId],
             );
           }
         }
-        // =====================================================
-        // 3. Import Funds
-        // =====================================================
 
-        final funds = json['funds'] as List<dynamic>;
+        // =======================================================
+        // 7. Insert Funds
+        // =======================================================
 
-        for (final fund in funds) {
-          final map = fund as Map<String, dynamic>;
+        for (final map in funds) {
+          // Admin user_id may differ from Viewer user_id.
+          map['owner_id'] = localUserId;
 
-          final fundId = map['fund_id'];
-
-          final existing = await txn.query(
+          await txn.insert(
             'Funds',
-            where: 'fund_id = ?',
-            whereArgs: [fundId],
+            map,
           );
-
-          if (existing.isEmpty) {
-
-            await txn.insert('Funds', map);
-          } else {
-
-            await txn.update(
-              'Funds',
-              map,
-              where: 'fund_id = ?',
-              whereArgs: [fundId],
-            );
-          }
         }
 
-        // =====================================================
-        // 4. Import Transactions
-        // =====================================================
-
-        final transactions = (json['transactions'] as List<dynamic>)
-            .cast<Map<String, dynamic>>();
+        // =======================================================
+        // 8. Insert Transactions As History
+        // =======================================================
 
         transactions.sort(
-          (a, b) => (a['transaction_id'] as int).compareTo(
-            b['transaction_id'] as int,
-          ),
+              (a, b) {
+            final aId =
+            a['transaction_id'] as int;
+
+            final bId =
+            b['transaction_id'] as int;
+
+            return aId.compareTo(bId);
+          },
         );
 
         for (final map in transactions) {
-          final transactionId = map['transaction_id'];
-
-          final existing = await txn.query(
+          await txn.insert(
             'Transactions',
-            where: 'transaction_id = ?',
-            whereArgs: [transactionId],
+            map,
           );
-
-          if (existing.isEmpty) {
-
-            await txn.insert('Transactions', map);
-          }
         }
-
       } finally {
-        // ------------------------------------------------------
+        // =======================================================
         // Disable Sync Mode
-        // ------------------------------------------------------
+        // =======================================================
+
         await txn.update(
           'AppState',
           {'sync_mode': 0},
           where: 'id = ?',
           whereArgs: [1],
         );
-
       }
     });
-
   }
 
   Future<void> deleteLocalUpdateFile() async {

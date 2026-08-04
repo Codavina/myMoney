@@ -51,37 +51,55 @@ class _UpdateCheckerState extends State<UpdateChecker> {
   Future<void> _update() async {
     try {
       final syncRepository = context.read<SyncRepository>();
+
       final fundCubit = context.read<FundCubit>();
 
       final authId = CurrentUser.value!.authId;
 
-      // Close Dialog "New Update"
+      final userId = CurrentUser.value!.userId!;
+
       Navigator.pop(context);
 
-      // SHow updating dialog
-      LoadingDialog.show(context, message: 'updating'.tr());
+      LoadingDialog.show(
+        context,
+        message: 'updating'.tr(),
+      );
 
+      // 1. Download update
       await syncRepository.downloadUserUpdateFile(authId);
 
+      // 2. Read JSON
       final json = await syncRepository.readUpdateFile();
 
+      // 3. Import data into local database
       await syncRepository.importUser(json);
 
-      await fundCubit.getAllActive(CurrentUser.value!.userId!);
+      // 4. Refresh funds
+      await fundCubit.getAllActive(userId);
 
+      // 5. Delete local update file
       await syncRepository.deleteLocalUpdateFile();
 
+      // 6. Delete remote update file
       await syncRepository.deleteRemoteUpdateFile(authId);
 
       if (!mounted) return;
+
       LoadingDialog.hide(context);
-      AppSnackBar.success(context, 'updates_imported_successfully'.tr());
+
+      AppSnackBar.success(
+        context,
+        'updates_imported_successfully'.tr(),
+      );
     } catch (e) {
       if (!mounted) return;
 
       LoadingDialog.hide(context);
 
-      AppSnackBar.error(context, 'failed_to_update'.tr());
+      AppSnackBar.error(
+        context,
+        'failed_to_update'.tr(),
+      );
     }
   }
 
@@ -108,7 +126,7 @@ class _UpdateCheckerState extends State<UpdateChecker> {
                   ),
                 ),
                 onPressed: _update,
-                child: Text('Update'.tr()),
+                child: Text('update'.tr()),
               ),
             ],
           ),

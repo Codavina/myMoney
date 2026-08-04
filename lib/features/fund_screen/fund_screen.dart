@@ -39,31 +39,59 @@ class _FundScreenState extends State<FundScreen> {
 
   Future<void> _pushUpdates() async {
     try {
-      LoadingDialog.show(context, message: 'uploading_updates'.tr());
+      LoadingDialog.show(
+        context,
+        message: 'uploading_updates'.tr(),
+      );
 
       final syncRepository = context.read<SyncRepository>();
 
-      final file = await syncRepository.createUserUpdateFile(widget.ownerId);
+      // 1. Create JSON file
+      final file = await syncRepository.createUserUpdateFile(
+        widget.ownerId,
+      );
 
+      // 2. Verify JSON locally
+      final json = await syncRepository.readUpdateFile();
+
+      json['currencies'] as List;
+      json['funds'] as List;
+      json['transactions'] as List;
+
+      // 3. Get user
       if (!mounted) return;
-      final user = await context.read<UserRepository>().getById(widget.ownerId);
+
+      final user = await context
+          .read<UserRepository>()
+          .getById(widget.ownerId);
 
       if (user == null) {
-        throw Exception('user_not_found'.tr());
+        throw Exception('User not found.');
       }
 
-      await syncRepository.uploadUserUpdateFile(file, user.authId);
+      // 4. Upload update
+      await syncRepository.uploadUserUpdateFile(
+        file,
+        user.authId,
+      );
 
+      // Success
       if (!mounted) return;
 
       LoadingDialog.hide(context);
 
-      AppSnackBar.success(context, 'updates_pushed_successfully'.tr());
+      AppSnackBar.success(
+        context,
+        'updates_pushed_successfully'.tr(),
+      );
     } catch (e) {
       if (mounted) {
         LoadingDialog.hide(context);
 
-        AppSnackBar.error(context, 'failed_to_push_updates'.tr());
+        AppSnackBar.error(
+          context,
+          'failed_to_push_updates'.tr(),
+        );
       }
 
       rethrow;
