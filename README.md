@@ -1,17 +1,44 @@
-# my_money
+# My Money 💰
 
-A money manager app.
+A personal money management application built with Flutter, designed with an
+offline-first approach for managing funds, currencies, transactions, and users.
 
-## Getting Started
+## ✨ Features
 
-This project is a starting point for a Flutter application.
+- 💰 Funds & balance management
+- 💱 Multi-currency support
+- 🧾 Transaction history
+- 👥 Admin / Viewer roles
+- 🔄 JSON-based user data updates
+- 📦 Offline-first local database
 
-A few resources to get you started if this is your first Flutter project:
+## 🛠️ Technologies & Skills
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+- **Flutter & Dart**
+- **SQLite** — Local data storage
+- **Cubit / BLoC** — State management
+- **Supabase Authentication** — User authentication
+- **Supabase Storage** — Secure update file delivery
+- **SharedPreferences** — Local preferences & settings
+- **JSON** — Data synchronization between Admin and Viewer
+- **Repository Pattern** — Separation of data access logic
+- **SQLite Transactions & Triggers** — Data integrity & balance management
+- **Git & GitHub** — Version control
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 📱 Screenshots
+
+<!-- Add your application screenshots here -->
+
+<p align="center">
+   <img src="screenshots/screens.png" width="250">
+</p>
+
+## 👨‍💻 About
+
+My Money is a personal Flutter project focused on building a reliable,
+offline-first financial management application with local data persistence,
+role-based access, and a lightweight update mechanism.
+
+---
+
+**Developed with Flutter & Dart ❤️**
