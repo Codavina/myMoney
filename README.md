@@ -30,7 +30,7 @@ offline-first approach for managing funds, currencies, transactions, and users.
 <!-- Add your application screenshots here -->
 
 <p align="center">
-   <img src="screenshots/screens.png" width="250">
+   <img src="screenshots/screens.png" width="900">
 </p>
 
 ## 👨‍💻 About
